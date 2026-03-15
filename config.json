@@ -1,0 +1,13 @@
+{
+    "device_id": "emulator-5556",
+    "difficulty_tm": "medium",
+    "daily_sales_buy": true,
+    "alarm_clocks": true,
+    "stars_pieces": false,
+    "pleasing_parfait": false,
+    "support_points": true,
+    "racing_shoes": false,
+    "sashes": true,
+    "use_rp": false,
+    "use_parfait": true
+}
