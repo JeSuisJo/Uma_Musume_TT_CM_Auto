@@ -5,7 +5,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from tools.adb import _screenshot, path
 
 # ---------------- Zone à capturer ----------------
-x1, y1, x2, y2 = 476, 680, 585, 724
+x1, y1, x2, y2 = 631, 890, 663, 928
 OUTPUT = "helper/capture.png"
 # -------------------------------------------------
 
