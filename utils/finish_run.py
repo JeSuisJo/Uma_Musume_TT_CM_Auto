@@ -1,9 +1,10 @@
 import tools.adb as adb
 import time
 import json
-import utils.daily_shop as shop
+import utils.daily_shop as daily_shop
 
 def finish_run():
+    shopped = False
     while not adb.compare_image("img/finish_run.png", (459, 956, 595, 1033), 0.9):
         if adb.compare_image("img/highscore.png", (309, 339, 435, 391), 0.9):
             time.sleep(0.5)
@@ -23,7 +24,7 @@ def finish_run():
         if adb.compare_image("img/shop.png", (489, 679, 573, 728), 0.9):
             time.sleep(0.5)
             if json.load(open("config.json"))["daily_sales_buy"] == True:
-                shop()
+                daily_shop.shop()
                 shopped = True
                 break
 
