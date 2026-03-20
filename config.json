@@ -1,4 +1,6 @@
 {
+    "steam": true,
+    "steam_window_title": "umamusume",
     "device_id": "emulator-5556",
     "difficulty_tm": "medium",
     "daily_sales_buy": true,

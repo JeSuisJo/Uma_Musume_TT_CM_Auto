@@ -1,4 +1,5 @@
-import tools.adb as adb
+import tools as action
+from tools import coords
 import os
 import time
 
@@ -27,7 +28,6 @@ while True:
     run += 1
 
 print("No more RP")
-adb.tap(271, 706)
+action.tap(*coords("no_rp_close")["tap"])
 time.sleep(1)
-adb.tap(534, 1026)
-
+action.tap(*coords("no_rp_confirm")["tap"])

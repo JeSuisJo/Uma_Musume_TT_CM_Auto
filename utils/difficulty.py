@@ -1,21 +1,27 @@
-import tools.adb as adb
+import tools as action
+from tools import coords
 import json
 import time
 
 def dif():
     skip_setup = False
-    while not adb.compare_image("img/in_selection.png", (631, 890, 663, 928), 0.9):
-        if adb.compare_image("img/in_selection_refresh.png", (631, 890, 663, 928), 0.9):
-            break
+    c_sel = coords("in_selection")
+    c_selr = coords("in_selection_refresh")
+    c_ntt = coords("next_tt")
+    c_noq = coords("no_quick_tt")
+    c_q = coords("quick_tt")
 
-        if adb.compare_image("img/next_tt.png", (364, 892, 430, 926), 0.9):
+    while not action.compare_image(c_sel["img"], c_sel["region"], 0.9):
+        if action.compare_image(c_selr["img"], c_selr["region"], 0.9):
+            break
+        if action.compare_image(c_ntt["img"], c_ntt["region"], 0.9):
             print("Run already scheduled")
             break
-        if adb.compare_image("img/no_quick_tt.png", (249, 962, 356, 1030), 0.9):
+        if action.compare_image(c_noq["img"], c_noq["region"], 0.9):
             print("Run already scheduled")
             skip_setup = True
             break
-        if adb.compare_image("img/quick_tt.png", (338, 962, 453, 1033), 0.9):
+        if action.compare_image(c_q["img"], c_q["region"], 0.9):
             print("Run already scheduled")
             skip_setup = True
             break
@@ -23,22 +29,25 @@ def dif():
     if skip_setup:
         return True
 
-    if adb.compare_image("img/in_selection.png", (631, 890, 663, 928), 0.9):
-        print("Difficulty selected")
-        time.sleep(0.5)
-        if json.load(open("config.json")).get("difficulty_tm") == "easy":
-            adb.tap(424, 697)
-        elif json.load(open("config.json")).get("difficulty_tm") == "medium":
-            adb.tap(424, 502)
-        elif json.load(open("config.json")).get("difficulty_tm") == "hard":
-            adb.tap(424, 306)
+    cfg = json.load(open("config.json"))
+    difficulty = cfg.get("difficulty_tm")
 
-    if adb.compare_image("img/in_selection_refresh.png", (631, 890, 663, 928), 0.9):
+    if action.compare_image(c_sel["img"], c_sel["region"], 0.9):
         print("Difficulty selected")
         time.sleep(0.5)
-        if json.load(open("config.json")).get("difficulty_tm") == "easy":
-            adb.tap(424, 697)
-        elif json.load(open("config.json")).get("difficulty_tm") == "medium":
-            adb.tap(424, 502)
-        elif json.load(open("config.json")).get("difficulty_tm") == "hard":
-            adb.tap(424, 306)
+        if difficulty == "easy":
+            action.tap(*coords("dif_easy")["tap"])
+        elif difficulty == "medium":
+            action.tap(*coords("dif_medium")["tap"])
+        elif difficulty == "hard":
+            action.tap(*coords("dif_hard")["tap"])
+
+    if action.compare_image(c_selr["img"], c_selr["region"], 0.9):
+        print("Difficulty selected")
+        time.sleep(0.5)
+        if difficulty == "easy":
+            action.tap(*coords("dif_easy")["tap"])
+        elif difficulty == "medium":
+            action.tap(*coords("dif_medium")["tap"])
+        elif difficulty == "hard":
+            action.tap(*coords("dif_hard")["tap"])

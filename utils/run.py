@@ -1,21 +1,25 @@
-import tools.adb as adb
+import tools as action
+from tools import coords
 import time
 
 def run_trial():
     print("Running trial")
-    while not adb.compare_image("img/quick_tt.png", (338, 962, 453, 1033), 0.9):
-        if adb.compare_image("img/no_quick_tt.png", (249, 962, 356, 1030), 0.9):
+    c_q = coords("quick_tt")
+    c_noq = coords("no_quick_tt")
+    while not action.compare_image(c_q["img"], c_q["region"], 0.9):
+        if action.compare_image(c_noq["img"], c_noq["region"], 0.9):
             print("Quick mode activated")
             time.sleep(0.5)
-            adb.tap(400, 896)
+            action.tap(*coords("quick_mode_tap")["tap"])
 
     time.sleep(0.5)
-    adb.tap(407, 995)
+    action.tap(*coords("run_start")["tap"])
 
-    while not adb.compare_image("img/race_finished.png", (359, 915, 441, 955), 0.9):
+    c_rf = coords("race_finished")
+    while not action.compare_image(c_rf["img"], c_rf["region"], 0.9):
         time.sleep(0.5)
-        adb.tap(747, 979)
+        action.tap(*coords("skip_tap")["tap"])
 
     print("Race finished")
     time.sleep(0.5)
-    adb.tap(359, 915)
+    action.tap(*c_rf["tap"])

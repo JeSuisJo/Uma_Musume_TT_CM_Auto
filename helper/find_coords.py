@@ -3,7 +3,7 @@ import sys
 from PIL import Image
 import matplotlib.pyplot as plt
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from tools.adb import _screenshot, path
+from tools import _screenshot, path
 
 print("Capture in progress...")
 temp = _screenshot()

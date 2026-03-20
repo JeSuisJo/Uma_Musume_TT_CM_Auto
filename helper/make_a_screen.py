@@ -2,7 +2,7 @@ import os
 import sys
 from PIL import Image
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from tools.adb import _screenshot, path
+from tools import _screenshot, path
 
 # ---------------- Zone à capturer ----------------
 x1, y1, x2, y2 = 631, 890, 663, 928

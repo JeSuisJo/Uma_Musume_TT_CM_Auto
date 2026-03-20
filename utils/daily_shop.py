@@ -1,75 +1,82 @@
-import tools.adb as adb
+import tools as action
+from tools import coords
 import time
 import json
 
 def shop():
-    adb.tap(489, 679)
-    adb.wait_for_image("img/in_shop.png", (570, 451, 651, 485), 0.9, 0.5)
-    if json.load(open("config.json"))["stars_pieces"] == True:
-        adb.tap(608, 467)
-        time.sleep(1)
-        adb.tap(527, 775)
-        time.sleep(1)
-        adb.tap(407, 703)
-        time.sleep(1)
-        adb.tap(616, 601)
-        time.sleep(1)
-        adb.tap(527, 775)
-        time.sleep(1)
-        adb.tap(407, 703)
-        time.sleep(1)
+    action.tap(*coords("shop")["tap"])
+    c_is = coords("in_shop")
+    action.wait_for_image(c_is["img"], c_is["region"], 0.9, 0.5)
 
-    if json.load(open("config.json"))["alarm_clocks"] == True:
-        adb.tap(616, 733)
-        time.sleep(1)
-        adb.tap(527, 775)
-        time.sleep(1)
-        adb.tap(407, 703)
-        time.sleep(1)
+    cfg = json.load(open("config.json"))
 
-    if json.load(open("config.json"))["pleasing_parfait"] == True:
-        adb.tap(617, 844)
-        time.sleep(1)
-        adb.tap(527, 775)
-        time.sleep(1)
-        adb.tap(407, 703)
-        time.sleep(1)
+    if cfg["stars_pieces"] == True:
+        action.tap(*coords("stars_pieces_1")["tap"])
+        time.sleep(2)
+        action.tap(*coords("shop_buy")["tap"])
+        time.sleep(2)
+        action.tap(*coords("shop_confirm")["tap"])
+        time.sleep(2)
+        action.tap(*coords("stars_pieces_2")["tap"])
+        time.sleep(2)
+        action.tap(*coords("shop_buy")["tap"])
+        time.sleep(2)
+        action.tap(*coords("shop_confirm")["tap"])
+        time.sleep(2)
+
+    if cfg["alarm_clocks"] == True:
+        action.tap(*coords("alarm_clocks")["tap"])
+        time.sleep(2)
+        action.tap(*coords("shop_buy")["tap"])
+        time.sleep(2)
+        action.tap(*coords("shop_confirm")["tap"])
+        time.sleep(2)
+
+    if cfg["pleasing_parfait"] == True:
+        action.tap(*coords("pleasing_parfait")["tap"])
+        time.sleep(2)
+        action.tap(*coords("shop_buy")["tap"])
+        time.sleep(2)
+        action.tap(*coords("shop_confirm")["tap"])
+        time.sleep(2)
 
     time.sleep(1)
-    adb.tap(688, 842)
-    time.sleep(0.5)
-
-    if json.load(open("config.json"))["racing_shoes"] == True:
-        adb.tap(609, 570)
-        time.sleep(1)
-        adb.tap(527, 775)
-        time.sleep(1)
-        adb.tap(407, 703)
-        time.sleep(1)
-
-    if json.load(open("config.json"))["support_points"] == True:
-        adb.tap(612, 683)
-        time.sleep(1)
-        adb.tap(527, 775)
-        time.sleep(1)
-        adb.tap(407, 703)
-        time.sleep(1)
-
-    if json.load(open("config.json"))["sashes"] == True:
-        adb.tap(622, 798)
-        time.sleep(1)
-        adb.tap(527, 775)
-        time.sleep(1)
-        adb.tap(407, 703)
-        time.sleep(1)
-
-    # ------------------ Ferme le shop ------------------
-    time.sleep(0.5)
-    adb.tap(394, 911)
+    action.tap(*coords("shop_scroll")["tap"])
     time.sleep(1)
-    adb.tap(532, 702)
+    action.tap(*coords("shop_scroll")["tap"])
     time.sleep(1)
-    adb.tap(538, 1023)
-    adb.wait_for_image("img/tt.png", (204, 759, 341, 792), 0.9, 0.5)
-    time.sleep(0.5)
-    adb.tap(204, 759)
+
+    if cfg["racing_shoes"] == True:
+        action.tap(*coords("racing_shoes")["tap"])
+        time.sleep(2)
+        action.tap(*coords("shop_buy")["tap"])
+        time.sleep(2)
+        action.tap(*coords("shop_confirm")["tap"])
+        time.sleep(2)
+
+    if cfg["support_points"] == True:
+        action.tap(*coords("support_points")["tap"])
+        time.sleep(2)
+        action.tap(*coords("shop_buy")["tap"])
+        time.sleep(2)
+        action.tap(*coords("shop_confirm")["tap"])
+        time.sleep(2)
+
+    if cfg["sashes"] == True:
+        action.tap(*coords("sashes")["tap"])
+        time.sleep(2)
+        action.tap(*coords("shop_buy")["tap"])
+        time.sleep(2)
+        action.tap(*coords("shop_confirm")["tap"])
+        time.sleep(2)
+
+    time.sleep(1)
+    action.tap(*coords("shop_close")["tap"])
+    time.sleep(2)
+    action.tap(*coords("shop_close_confirm")["tap"])
+    time.sleep(2)
+    action.tap(*coords("shop_back")["tap"])
+    c_tt = coords("tt_button")
+    action.wait_for_image(c_tt["img"], c_tt["region"], 0.9, 0.5)
+    time.sleep(1)
+    action.tap(*c_tt["tap"])

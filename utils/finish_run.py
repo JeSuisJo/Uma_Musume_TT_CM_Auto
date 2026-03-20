@@ -1,45 +1,51 @@
-import tools.adb as adb
+import tools as action
+from tools import coords
 import time
 import json
 import utils.daily_shop as daily_shop
 
 def finish_run():
     shopped = False
-    while not adb.compare_image("img/finish_run.png", (459, 956, 595, 1033), 0.9):
-        if adb.compare_image("img/highscore.png", (309, 339, 435, 391), 0.9):
+    c_fr = coords("finish_run")
+    c_hs = coords("highscore")
+    c_gtr = coords("next_go_to_reward")
+    c_nr = coords("next_reward")
+    c_sh = coords("shop")
+
+    while not action.compare_image(c_fr["img"], c_fr["region"], 0.9):
+        if action.compare_image(c_hs["img"], c_hs["region"], 0.9):
             time.sleep(0.5)
-            adb.tap(309, 339)
+            action.tap(*c_hs["tap"])
             shopped = False
 
-        if adb.compare_image("img/next_go_to_reward.png", (354, 992, 439, 1033), 0.9):
+        if action.compare_image(c_gtr["img"], c_gtr["region"], 0.9):
             time.sleep(0.5)
-            adb.tap(354, 992)
+            action.tap(*c_gtr["tap"])
             shopped = False
 
-        if adb.compare_image("img/next_reward.png", (353, 972, 453, 1016), 0.9):
+        if action.compare_image(c_nr["img"], c_nr["region"], 0.9):
             time.sleep(0.5)
-            adb.tap(353, 972)
+            action.tap(*c_nr["tap"])
             shopped = False
 
-        if adb.compare_image("img/shop.png", (489, 679, 573, 728), 0.9):
+        if action.compare_image(c_sh["img"], c_sh["region"], 0.9):
             time.sleep(0.5)
             if json.load(open("config.json"))["daily_sales_buy"] == True:
                 daily_shop.shop()
                 shopped = True
                 break
-
             else:
-                adb.tap(489, 679)
+                action.tap(*c_sh["tap"])
                 time.sleep(1)
                 shopped = False
 
-        if adb.compare_image("img/finish_run.png", (459, 956, 595, 1033), 0.9):
+        if action.compare_image(c_fr["img"], c_fr["region"], 0.9):
             shopped = False
             break
-        
+
     if shopped == True:
         return
     else:
         print("Go back to the trial menu")
         time.sleep(0.8)
-        adb.tap(459, 956)
+        action.tap(*c_fr["tap"])

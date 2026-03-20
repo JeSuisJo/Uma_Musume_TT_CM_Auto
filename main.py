@@ -1,5 +1,7 @@
 import os
-import tools.adb as adb
+import tools as action
+from tools import coords
+
 valid_choices = ["1", "2", "0"]
 
 while True:
@@ -17,11 +19,13 @@ while True:
         choice = input("Enter your choice: ")
 
     if choice == "1":
-        adb.wait_for_image("img/tt.png", (204, 759, 341, 792), 0.9, 0.5)
-        adb.tap(204, 759)
+        c = coords("tt_button")
+        action.wait_for_image(c["img"], c["region"], 0.9, 0.5)
+        action.tap(*c["tap"])
         exec(open("modes/tt.py").read())
     elif choice == "2":
-        adb.wait_for_image("img/cm.png", (452, 764, 586, 792), 0.9, 0.5)
-        adb.tap(452, 764)
+        c = coords("cm_button")
+        action.wait_for_image(c["img"], c["region"], 0.9, 0.5)
+        action.tap(*c["tap"])
     elif choice == "0":
         exit()
