@@ -39,21 +39,21 @@ Make sure the game is on the **Race Menu** screen before launching the bot:
 
 ### `config.json`
 
-| Key | Type | Description |
-|-----|------|-------------|
-| `steam` | bool | `true` for Steam PC mode, `false` for ADB mode |
-| `steam_window_title` | string | Steam window title (e.g. `"umamusume"`) |
-| `device_id` | string | ADB device ID (e.g. `"emulator-5556"`) |
-| `difficulty_tm` | string | Team Trials difficulty: `"easy"`, `"medium"` or `"hard"` |
-| `daily_sales_buy` | bool | Auto-buy from the daily shop |
-| `alarm_clocks` | bool | Buy alarm clocks |
-| `stars_pieces` | bool | Buy star pieces |
-| `pleasing_parfait` | bool | Buy pleasing parfaits |
-| `support_points` | bool | Buy support points |
-| `racing_shoes` | bool | Buy racing shoes |
-| `sashes` | bool | Buy sashes |
-| `use_rp` | bool | Use RP (not implemented yet)|
-| `use_parfait` | bool | Use a parfait before each run |
+| Key | Description |
+|-----|-------------|
+| `steam` | `true` for Steam PC mode, `false` for ADB mode |
+| `steam_window_title` | Steam window title (e.g. `"umamusume"`) |
+| `device_id` | ADB device ID (e.g. `"emulator-5556"`) |
+| `difficulty_tm` | Team Trials difficulty: `"easy"`, `"medium"` or `"hard"` |
+| `daily_sales_buy` | Auto-buy from the daily shop |
+| `alarm_clocks` | Buy alarm clocks |
+| `stars_pieces` | Buy star pieces |
+| `pleasing_parfait` | Buy pleasing parfaits |
+| `support_points` | Buy support points |
+| `racing_shoes` | Buy racing shoes |
+| `sashes` | Buy sashes |
+| `use_rp` | Use RP (not implemented yet)|
+| `use_parfait` | Use a parfait before each run |
 
 ## Usage
 
