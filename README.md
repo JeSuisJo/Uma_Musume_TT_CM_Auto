@@ -33,7 +33,7 @@ pip install Pillow pyautogui pygetwindow matplotlib
 
 Make sure the game is on the **Race Menu** screen before launching the bot:
 
-![Race Menu](readme.png)
+![Race Menu](img/readme.png)
 
 ## Configuration
 
