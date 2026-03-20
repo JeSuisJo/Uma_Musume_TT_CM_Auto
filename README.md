@@ -6,10 +6,8 @@ Automation bot for **Team Trials** and **Champions Meeting** in Uma Musume Prett
 
 - Automatic Team Trials loop
 - Difficulty selection (easy / medium / hard)
-- Automatic quick mode
 - Automatic daily shop purchases (configurable per item)
 - Automatic parfait usage
-- RP depletion detection
 - Dual platform support: Android emulator via ADB or Steam PC
 
 ## Prerequisites
