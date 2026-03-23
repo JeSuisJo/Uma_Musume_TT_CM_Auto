@@ -1,5 +1,5 @@
 {
-    "steam": true,
+    "steam": false,
     "steam_window_title": "umamusume",
     "device_id": "emulator-5556",
     "difficulty_tm": "medium",

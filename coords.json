@@ -21,7 +21,7 @@
     },
     "next_mondays": {
         "adb": { "tap": [476, 680], "region": [476, 680, 585, 724], "img": "img/android/next_mondays.png" },
-        "steam": { "tap": [476, 680], "region": [476, 680, 585, 724], "img": "img/steam/next_mondays.png" }
+        "steam": { "tap": [510, 890], "region": [510, 890, 595, 928], "img": "img/steam/next_mondays.png" }
     },
     "launch_tt_tap": {
         "adb": { "tap": [407, 681] },
