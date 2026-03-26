@@ -1,7 +1,7 @@
 {
     "tt_button": {
         "adb": { "tap": [204, 759], "region": [204, 759, 341, 792], "img": "img/android/tt.png" },
-        "steam": { "tap": [355, 761], "region": [355, 761, 494, 794], "img": "img/steam/tt.png" }
+        "steam": { "tap": [362, 764], "region": [362, 764, 490, 785], "img": "img/steam/tt.png" }
     },
     "cm_button": {
         "adb": { "tap": [452, 764], "region": [452, 764, 586, 792], "img": "img/android/cm.png" },
