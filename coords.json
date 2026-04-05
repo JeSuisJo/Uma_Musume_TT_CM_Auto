@@ -162,5 +162,101 @@
     "shop_back": {
         "adb": { "tap": [538, 1023] },
         "steam": { "tap": [691, 1027] }
+    },
+    "go_to_cm": {
+        "adb": { "tap": [166, 824], "region": [166, 824, 380, 857], "img": "img/android/meeting.png" },
+        "steam": { "tap": [321, 829], "region": [321, 829, 531, 857], "img": "img/steam/meeting.png" }
+    },
+    "cm_popup_close": {
+        "adb": { "tap": [771, 20] },
+        "steam": { "tap": [904, 41] }
+    },
+    "in_cm": {
+        "adb": { "region": [659, 885, 769, 922], "img": "img/android/in_cm.png" },
+        "steam": { "region": [821, 892, 928, 920], "img": "img/steam/in_cm.png" }
+    },
+    "free_cm": {
+        "adb": { "region": [319, 689, 482, 713], "img": "img/android/free_cm.png" },
+        "steam": { "region": [778, 888, 815, 928], "img": "img/steam/free_cm.png" }
+    },
+    "cm_launch": {
+        "adb": { "tap": [397, 779]},
+        "steam": { "tap": [551, 795]}
+    },
+    "cm_ok_freerun": {
+        "adb": { "tap": [499, 686], "region": [499, 686,558, 719], "img": "img/android/cm_ok_freerun.png" },
+        "steam": { "tap": [657, 684], "region": [657, 684, 712, 718], "img": "img/steam/cm_ok_freerun.png" }
+    },
+    "cm_auto_team": {
+        "adb": { "tap": [505, 798], "region": [505, 798, 627, 821], "img": "img/android/cm_auto_team.png" },
+        "steam": { "tap": [658, 798], "region": [658, 798, 773, 823], "img": "img/steam/cm_auto_team.png" }
+    },
+    "cm_auto_team_ok": {
+        "adb": { "tap": [501, 683], "region": [501, 683, 560, 721], "img": "img/android/cm_auto_team_ok.png" },
+        "steam": { "tap": [653, 685], "region": [653, 685, 711, 717], "img": "img/steam/cm_auto_team_ok.png" }
+    },
+    "cm_team_selected": {
+        "adb": { "tap": [397, 907]},
+        "steam": { "tap": [555, 909]}
+    },
+    "cm_confirm_registration": {
+        "adb": { "tap": [532, 701]},
+        "steam": { "tap": [684, 702]}
+    },
+    "race_begin": {
+    "adb": { "tap": [337, 906], "region": [337, 906, 452, 956], "img": "img/android/race_begin.png" },
+    "steam": { "tap": [492, 903], "region": [492, 903, 606, 955], "img": "img/steam/race_begin.png" }
+    },
+    "next_in_game": {
+        "adb": { "tap": [359, 973], "region": [359, 973, 438, 1005], "img": "img/android/next_in_game.png" },
+        "steam": { "tap": [514, 971], "region": [514, 971, 586, 1004], "img": "img/steam/next_in_game.png" }
+    },
+    "race": {
+        "adb": { "tap": [359, 973], "region": [359, 973, 438, 1005], "img": "img/android/race.png" },
+        "steam": { "tap": [514, 971], "region": [514, 971, 586, 1004], "img": "img/steam/race.png" }
+    },
+    "skip_race": {
+        "adb": { "tap": [664, 1024]},
+        "steam": { "tap": [820, 1025]}
+    },
+    "cm_race_finished": {
+        "adb": { "tap": [494, 974], "region": [494, 974, 567, 1010], "img": "img/android/cm_race_finished.png" },
+        "steam": { "tap": [649, 976], "region": [649, 976, 716, 1007], "img": "img/steam/cm_race_finished.png" }
+    },
+    "claim_reward": {
+        "adb": { "tap": [337, 906], "region": [351, 932, 443, 950], "img": "img/android/claim_reward.png" },
+        "steam": { "tap": [503, 933], "region": [503, 933, 595, 949], "img": "img/steam/claim_reward.png" }
+    },
+    "reward_next": {
+        "adb": { "tap": [397, 980]},
+        "steam": { "tap": [551, 991]}
+    },
+    "ticket": {
+        "adb": { "tap": [743, 709]},
+        "steam": { "tap": [902, 708]}
+    },
+    "ticket_collect": {
+        "adb": { "tap": [551, 767]},
+        "steam": { "tap": [703, 768]}
+    },
+    "ticket_close": { 
+        "adb": { "tap": [400, 699]},
+        "steam": { "tap": [555, 699]}
+    },
+    "back_to_cm": {
+        "adb": { "tap": [277, 773]},
+        "steam": { "tap": [420, 770]}
+    },
+    "cm_finish": {
+        "adb": { "tap": [535, 1025]},
+        "steam": { "tap": [694, 1034]}
+    },
+    "rank_up_cm": {
+        "adb": { "tap": [745, 479]},
+        "steam": { "tap": [900, 472]}
+    },
+    "story_unlocked": {
+        "adb": { "tap": [337, 906], "region": [351, 932, 443, 950], "img": "img/android/story_unlocked.png" },
+        "steam": { "tap": [510, 684], "region": [510, 684, 585, 716], "img": "img/steam/story_unlocked.png" }
     }
 }

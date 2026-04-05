@@ -1,15 +1,14 @@
 {
     "steam": false,
     "steam_window_title": "umamusume",
-    "device_id": "emulator-5556",
+    "device_id": "emulator-5554",
     "difficulty_tm": "medium",
     "daily_sales_buy": true,
     "alarm_clocks": true,
-    "stars_pieces": false,
+    "stars_pieces": true,
     "pleasing_parfait": true,
     "support_points": true,
     "racing_shoes": false,
     "sashes": true,
-    "use_rp": false,
-    "use_parfait": true
+    "use_parfait": false
 }

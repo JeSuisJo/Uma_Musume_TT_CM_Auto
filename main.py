@@ -27,5 +27,6 @@ while True:
         c = coords("cm_button")
         action.wait_for_image(c["img"], c["region"], 0.9, 0.5)
         action.tap(*c["tap"])
+        exec(open("modes/cm.py").read())
     elif choice == "0":
         exit()
