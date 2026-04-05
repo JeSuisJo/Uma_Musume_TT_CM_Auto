@@ -52,7 +52,6 @@ Make sure the game is on the **Race Menu** screen before launching the bot:
 | `support_points` | Buy support points |
 | `racing_shoes` | Buy racing shoes |
 | `sashes` | Buy sashes |
-| `use_rp` | Use RP (not implemented yet)|
 | `use_parfait` | Use a parfait before each run |
 
 ## Usage

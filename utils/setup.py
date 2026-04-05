@@ -5,9 +5,8 @@ import time
 
 def setup_trial():
     print("Starting trial")
-    c_ntt = coords("next_tt")
-    action.wait_for_image(c_ntt["img"], c_ntt["region"], 0.9, 0.5)
-    action.tap(*c_ntt["tap"])
+    action.wait_for_image(coords("next_tt")["img"], coords("next_tt")["region"], 0.9, 0.5)
+    action.tap(*coords("next_tt")["tap"])
     if json.load(open("config.json")).get("use_parfait") == True:
         time.sleep(1)
         print("Using parfait")
