@@ -8,7 +8,7 @@ def run_cm():
         print(f"Races number: {r}")
         reward_found = False
         while not reward_found:
-            if action.compare_image(coords("race_begin")["img"], coords("race_begin")["region"], 0.95):
+            if action.compare_image(coords("race_begin")["img"], coords("race_begin")["region"], 0.90):
                 break
             if action.compare_image(coords("claim_reward")["img"], coords("claim_reward")["region"], 0.95):
                 reward_found = True
@@ -17,7 +17,7 @@ def run_cm():
 
         if reward_found:
             break
-
+        
         action.tap(*coords("race_begin")["tap"])
         action.wait_for_image(coords("next_in_game")["img"], coords("next_in_game")["region"], 0.9, 0.5)
         print("Race found")

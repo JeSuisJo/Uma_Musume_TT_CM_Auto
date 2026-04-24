@@ -10,5 +10,7 @@
     "support_points": true,
     "racing_shoes": false,
     "sashes": true,
-    "use_parfait": false
+    "use_parfait": false,
+    "cm_extra_run": true,
+    "make_your_own_team": false
 }

@@ -7,16 +7,16 @@ def setup_team(team):
     if not action.compare_image(coords("cm_auto_team")["img"], coords("cm_auto_team")["region"], 0.9):
         return
 
-    if team == "1":
-        input("Click enter when you have made your team")
-    else:
-        time.sleep(1)
-        action.wait_for_image(coords("cm_auto_team")["img"], coords("cm_auto_team")["region"], 0.9, 0.5)
-        action.tap(*coords("cm_auto_team")["tap"])
-        time.sleep(1)
-        action.wait_for_image(coords("cm_auto_team_ok")["img"], coords("cm_auto_team_ok")["region"], 0.9, 0.5)
-        action.tap(*coords("cm_auto_team_ok")["tap"])
-        time.sleep(1)
+    if action.compare_image(coords("no_uma_in_cm")["img"], coords("no_uma_in_cm")["region"], 0.9):
+        if team == "1":
+            input("Click enter when you have made your team")
+        else:
+            time.sleep(1)
+            action.tap(*coords("cm_auto_team")["tap"])
+            time.sleep(1)
+            action.wait_for_image(coords("cm_auto_team_ok")["img"], coords("cm_auto_team_ok")["region"], 0.9, 0.5)
+            action.tap(*coords("cm_auto_team_ok")["tap"])
+            time.sleep(1)
 
     action.tap(*coords("cm_team_selected")["tap"])
     time.sleep(1)

@@ -177,7 +177,7 @@
     },
     "free_cm": {
         "adb": { "region": [319, 689, 482, 713], "img": "img/android/free_cm.png" },
-        "steam": { "region": [778, 888, 815, 928], "img": "img/steam/free_cm.png" }
+        "steam": { "region": [459, 686, 642, 713], "img": "img/steam/free_cm.png" }
     },
     "cm_launch": {
         "adb": { "tap": [397, 779]},
@@ -204,8 +204,8 @@
         "steam": { "tap": [684, 702]}
     },
     "race_begin": {
-    "adb": { "tap": [337, 906], "region": [337, 906, 452, 956], "img": "img/android/race_begin.png" },
-    "steam": { "tap": [492, 903], "region": [492, 903, 606, 955], "img": "img/steam/race_begin.png" }
+    "adb": { "tap": [337, 906], "region": [350, 934, 445, 955], "img": "img/android/race_begin.png" },
+    "steam": { "tap": [492, 903], "region": [501, 934, 596, 956], "img": "img/steam/race_begin.png" }
     },
     "next_in_game": {
         "adb": { "tap": [359, 973], "region": [359, 973, 438, 1005], "img": "img/android/next_in_game.png" },
@@ -258,5 +258,9 @@
     "story_unlocked": {
         "adb": { "tap": [337, 906], "region": [351, 932, 443, 950], "img": "img/android/story_unlocked.png" },
         "steam": { "tap": [510, 684], "region": [510, 684, 585, 716], "img": "img/steam/story_unlocked.png" }
+    },
+    "no_uma_in_cm": {
+        "adb" : {"region": [127, 437, 221, 783], "img": "img/android/no_uma.png"},
+        "steam" : {"region": [279, 436, 379, 780], "img": "img/steam/no_uma.png"}
     }
 }
