@@ -9,8 +9,41 @@ from PIL import Image, ImageChops
 ROOT   = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ADB    = os.path.join(ROOT, "platform-tools", "adb.exe")
 
-with open(os.path.join(ROOT, "config.json"), encoding="utf-8") as f:
-    DEVICE = json.load(f).get("device_id")
+def _detect_device():
+    config_path = os.path.join(ROOT, "config.json")
+    configured = None
+    try:
+        with open(config_path, encoding="utf-8") as f:
+            configured = json.load(f).get("device_id")
+    except Exception:
+        pass
+
+    def _list():
+        r = subprocess.run([ADB, "devices"], capture_output=True, text=True, timeout=10)
+        lines = [l for l in r.stdout.strip().split("\n")[1:] if "\tdevice" in l]
+        return [l.split("\t")[0] for l in lines]
+
+    devices = _list()
+    if configured and configured in devices:
+        return configured
+    if devices:
+        return devices[0]
+
+    # ADB server lost connection — restart and retry
+    subprocess.run([ADB, "kill-server"], capture_output=True, timeout=10)
+    time.sleep(1)
+    subprocess.run([ADB, "start-server"], capture_output=True, timeout=15)
+    time.sleep(2)
+
+    devices = _list()
+    if configured and configured in devices:
+        return configured
+    if devices:
+        return devices[0]
+
+    return configured  # fallback to config value even if not visible
+
+DEVICE = _detect_device()
 
 # Chemin absolu depuis la racine du projet
 def path(p):
