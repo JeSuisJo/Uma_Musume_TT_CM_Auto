@@ -22,9 +22,9 @@ def menu():
     print("Uma Musume Champions Meeting Auto")
     print("="*50)
 
-menu()
-how_many = int(input("How many runs have you already done?: "))
-menu()
+c = coords("cm_button")
+action.wait_for_image(c["img"], c["region"], 0.9, 0.5)
+action.tap(*c["tap"])
 
 launch_cm()
 

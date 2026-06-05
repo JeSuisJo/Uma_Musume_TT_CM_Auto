@@ -21,7 +21,7 @@
     },
     "next_mondays": {
         "adb": { "tap": [366, 890], "region": [366, 890, 432, 924], "img": "img/android/next_mondays.png" },
-        "steam": { "tap": [510, 890], "region": [510, 890, 595, 928], "img": "img/steam/next_mondays.png" }
+        "steam": { "tap": [514, 890], "region": [514, 890, 590, 925], "img": "img/steam/next_mondays.png" }
     },
     "launch_tt_tap": {
         "adb": { "tap": [407, 681] },
@@ -257,7 +257,7 @@
     },
     "story_unlocked": {
         "adb": { "tap": [337, 906], "region": [351, 932, 443, 950], "img": "img/android/story_unlocked.png" },
-        "steam": { "tap": [510, 684], "region": [510, 684, 585, 716], "img": "img/steam/story_unlocked.png" }
+        "steam": { "tap": [510, 684], "region": [513, 684, 594, 717], "img": "img/steam/story_unlocked.png" }
     },
     "no_uma_in_cm": {
         "adb" : {"region": [127, 437, 221, 783], "img": "img/android/no_uma.png"},
