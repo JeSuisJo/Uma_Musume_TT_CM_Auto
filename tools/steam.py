@@ -2,6 +2,8 @@ import os
 import json
 import time
 import math
+import win32gui
+import win32con
 import pyautogui
 import pygetwindow as gw
 from PIL import Image, ImageChops, ImageGrab
@@ -30,10 +32,16 @@ def _get_window():
 
 def _focus_window():
     win = _get_window()
-    if not win.isActive:
-        win.activate()
-        time.sleep(0.3)
+    hwnd = win._hWnd
+    win32gui.ShowWindow(hwnd, win32con.SW_RESTORE)
+    win32gui.SetWindowPos(hwnd, win32con.HWND_TOP, 0, 0, 0, 0,
+                          win32con.SWP_NOMOVE | win32con.SWP_NOSIZE | win32con.SWP_SHOWWINDOW)
+    win32gui.SetForegroundWindow(hwnd)
+    time.sleep(0.5)
     return win
+
+def focus():
+    _focus_window()
 
 def _window_offset():
     win = _get_window()
@@ -58,33 +66,27 @@ def _similarity(img1, img2):
 
 # ---------------- Actions ----------------
 def tap(x, y):
-    _focus_window()
     ox, oy = _window_offset()
     pyautogui.click(ox + x, oy + y)
 
 def hold(x, y, ms=500):
-    _focus_window()
     ox, oy = _window_offset()
     pyautogui.mouseDown(ox + x, oy + y)
     time.sleep(ms / 1000)
     pyautogui.mouseUp()
 
 def swipe(x1, y1, x2, y2, ms=300):
-    _focus_window()
     ox, oy = _window_offset()
     pyautogui.moveTo(ox + x1, oy + y1)
     pyautogui.drag(x2 - x1, y2 - y1, duration=ms / 1000)
 
 def write(text):
-    _focus_window()
     pyautogui.typewrite(text, interval=0.02)
 
 def enter():
-    _focus_window()
     pyautogui.press("enter")
 
 def delete():
-    _focus_window()
     pyautogui.press("backspace")
 
 def stop(msg="Script stopped"):

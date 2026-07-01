@@ -96,6 +96,9 @@ def delete():
 def stop(msg="Script stopped"):
     raise StopScriptException(msg)
 
+def focus():
+    pass  # ADB envoie les commandes directement, pas besoin de focus
+
 # ---------------- Image ----------------
 def compare_image(reference_path, region, threshold=0.95):
     temp = _screenshot()

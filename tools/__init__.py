@@ -18,7 +18,7 @@ def coords(name):
 if _use_steam:
     from .steam import (
         path, StopScriptException,
-        tap, hold, swipe, write, enter, delete, stop,
+        tap, hold, swipe, write, enter, delete, stop, focus,
         compare_image, wait_for_image,
         get_color, is_color, wait_for_color,
         _screenshot,
@@ -26,7 +26,7 @@ if _use_steam:
 else:
     from .adb import (
         path, StopScriptException,
-        tap, hold, swipe, write, enter, delete, stop,
+        tap, hold, swipe, write, enter, delete, stop, focus,
         compare_image, wait_for_image,
         get_color, is_color, wait_for_color,
         _screenshot,

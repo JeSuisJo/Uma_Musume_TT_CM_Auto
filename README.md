@@ -26,7 +26,7 @@ Automation bot for **Team Trials** and **Champions Meeting** in Uma Musume Prett
 ### Python Dependencies
 
 ```bash
-pip install Pillow pyautogui pygetwindow matplotlib
+pip install Pillow pyautogui pygetwindow matplotlib pywin32
 ```
 
 ## Before Starting

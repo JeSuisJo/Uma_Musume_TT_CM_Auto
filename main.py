@@ -19,12 +19,14 @@ while True:
         choice = input("Enter your choice: ")
 
     if choice == "1":
+        action.focus()
         c = coords("tt_button")
         action.wait_for_image(c["img"], c["region"], 0.9, 0.5)
         action.tap(*c["tap"])
         exec(open("modes/tt.py").read())
     elif choice == "2":
         how_many = int(input("How many runs have you already done?: "))
+        action.focus()
         exec(open("modes/cm.py").read())
     elif choice == "0":
         exit()
