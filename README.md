@@ -56,15 +56,20 @@ Make sure the game is on the **Race Menu** screen before launching the bot:
 
 ## Usage
 
-1. Set up `config.json` with your platform and preferences
-2. Make sure the game is on the **Race Menu** (see screenshot above)
-3. Run the bot:
+1. Make sure the game is on the **Race Menu** (see screenshot above)
+2. Run the bot:
 
 ```bash
 python main.py
+# or, as a package:
+python -m umauto
 ```
 
-4. Choose a mode:
+On the **first run**, if `config.json` is missing, a short wizard asks for your
+platform and preferences and generates it for you. You can also copy
+`config.example.json` to `config.json` and edit it by hand.
+
+3. Choose a mode:
    - `[1]` Team Trials
    - `[2]` Champions Meeting
    - `[0]` Exit
@@ -73,5 +78,5 @@ python main.py
 To check connected ADB devices:
 
 ```bash
-python check_id.py
+python check_device.py
 ```

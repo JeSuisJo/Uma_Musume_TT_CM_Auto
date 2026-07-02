@@ -2,3 +2,13 @@ helper/
 __pycache__/
 *.pyc
 temp.png
+
+# User configuration (generated on first run)
+config.json
+
+# Packaging / tooling
+build/
+dist/
+*.egg-info/
+.ruff_cache/
+.venv/
