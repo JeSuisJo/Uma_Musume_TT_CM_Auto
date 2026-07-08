@@ -4,13 +4,10 @@
   "device_id": "emulator-5554",
   "difficulty_tm": "medium",
   "daily_sales_buy": true,
-  "alarm_clocks": true,
-  "stars_pieces": true,
-  "pleasing_parfait": true,
-  "support_points": true,
-  "racing_shoes": false,
-  "sashes": true,
   "use_parfait": false,
   "cm_extra_run": true,
-  "make_your_own_team": false
+  "make_your_own_team": false,
+  "daily_race_difficulty": "very_hard",
+  "daily_race_reward": "money",
+  "daily_legends_champion": "Special Week"
 }

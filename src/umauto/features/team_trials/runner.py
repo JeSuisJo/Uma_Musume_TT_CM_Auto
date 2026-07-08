@@ -12,7 +12,7 @@ from .setup import setup_trial
 
 
 def run():
-    screen.wait("tt_button")
+    screen.wait_from_home("tt_button")
     screen.tap("tt_button")
 
     run_number = 1

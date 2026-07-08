@@ -4,9 +4,14 @@ import time
 
 from ... import screen
 from ...config import config
-from .shop import run_shop
+from ..common import buy_all_sales
 
 _POPUPS = ("highscore", "story_unlocked", "next_go_to_reward", "next_reward")
+
+
+def _back_to_trial_menu():
+    screen.wait("tt_button")
+    screen.tap("tt_button")
 
 
 def finish_run():
@@ -21,10 +26,10 @@ def finish_run():
         if screen.see("shop"):
             time.sleep(0.5)
             if config.get("daily_sales_buy"):
-                run_shop()
+                buy_all_sales(then=_back_to_trial_menu)
                 shopped = True
                 break
-            screen.tap("shop")
+            screen.tap("shop_cancel")
             time.sleep(1)
 
     if shopped:

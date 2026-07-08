@@ -1,4 +1,16 @@
 {
+  "home": {
+    "adb": {
+      "tap": [537, 1033],
+      "region": [204, 904, 234, 948],
+      "img": "img/android/home.png"
+    },
+    "steam": {
+      "tap": [690, 1034],
+      "region": [356, 911, 385, 946],
+      "img": "img/steam/home.png"
+    }
+  },
   "tt_button": {
     "adb": {
       "tap": [204, 759],
@@ -209,66 +221,38 @@
       "img": "img/android/shop.png"
     },
     "steam": {
-      "tap": [641, 683],
-      "region": [641, 683, 726, 719],
+      "tap": [647, 684],
+      "region": [647, 684, 722, 720],
       "img": "img/steam/shop.png"
     }
   },
+  "shop_cancel": {
+    "adb": { "tap": [267, 704] },
+    "steam": { "tap": [423, 702] }
+  },
   "in_shop": {
-    "adb": { "region": [571, 444, 648, 468], "img": "img/android/in_shop.png" },
-    "steam": { "region": [726, 445, 801, 470], "img": "img/steam/in_shop.png" }
+    "adb": { "region": [586, 786, 675, 812], "img": "img/android/in_shop.png" },
+    "steam": { "region": [743, 791, 830, 809], "img": "img/steam/in_shop.png" }
   },
-  "stars_pieces_1": {
-    "adb": { "tap": [608, 467] },
-    "steam": { "tap": [763, 467] }
-  },
-  "stars_pieces_2": {
-    "adb": { "tap": [616, 601] },
-    "steam": { "tap": [762, 594] }
+  "buy_all": {
+    "adb": { "tap": [631, 796] },
+    "steam": { "tap": [786, 796] }
   },
   "shop_buy": {
-    "adb": { "tap": [527, 775] },
-    "steam": { "tap": [699, 774] }
+    "adb": { "tap": [399, 913] },
+    "steam": { "tap": [680, 994] }
   },
   "shop_confirm": {
-    "adb": { "tap": [407, 703] },
-    "steam": { "tap": [549, 701] }
+    "adb": { "tap": [538, 998] },
+    "steam": { "tap": [547, 909] }
   },
-  "alarm_clocks": {
-    "adb": { "tap": [616, 733] },
-    "steam": { "tap": [773, 734] }
+  "shop_close_1": {
+    "adb": { "tap": [401, 992] },
+    "steam": { "tap": [550, 991] }
   },
-  "pleasing_parfait": {
-    "adb": { "tap": [617, 844] },
-    "steam": { "tap": [765, 847] }
-  },
-  "shop_scroll": {
-    "adb": { "tap": [688, 842] },
-    "steam": { "tap": [840, 843] }
-  },
-  "racing_shoes": {
-    "adb": { "tap": [609, 570] },
-    "steam": { "tap": [766, 565] }
-  },
-  "support_points": {
-    "adb": { "tap": [612, 683] },
-    "steam": { "tap": [768, 679] }
-  },
-  "sashes": {
-    "adb": { "tap": [622, 798] },
-    "steam": { "tap": [763, 800] }
-  },
-  "shop_close": {
-    "adb": { "tap": [394, 911] },
-    "steam": { "tap": [556, 906] }
-  },
-  "shop_close_confirm": {
-    "adb": { "tap": [532, 702] },
-    "steam": { "tap": [686, 701] }
-  },
-  "shop_back": {
-    "adb": { "tap": [538, 1023] },
-    "steam": { "tap": [691, 1027] }
+  "back_to_race": {
+    "adb": { "tap": [0, 0] },
+    "steam": { "tap": [687, 1025] }
   },
   "go_to_cm": {
     "adb": {
@@ -449,5 +433,257 @@
   "no_uma_in_cm": {
     "adb": { "region": [127, 437, 221, 783], "img": "img/android/no_uma.png" },
     "steam": { "region": [279, 436, 379, 780], "img": "img/steam/no_uma.png" }
+  },
+  "daily_program_enter": {
+    "adb": {
+      "tap": [202, 904],
+      "region": [202, 904, 348, 922],
+      "img": "img/android/daily_program_enter.png"
+    },
+    "steam": {
+      "tap": [432, 873],
+      "region": [351, 903, 503, 923],
+      "img": "img/steam/daily_program_enter.png"
+    }
+  },
+  "daily_race_enter": {
+    "adb": { "tap": [277, 769] },
+    "steam": { "tap": [426, 772] }
+  },
+  "dr_scroll": {
+    "adb": { "swipe": [396, 768, 395, 142, 300] },
+    "steam": { "swipe": [565, 796, 565, 238, 300] }
+  },
+  "dr_scroll_up": {
+    "adb": { "swipe": [399, 404, 394, 835, 300] },
+    "steam": { "swipe": [556, 396, 570, 860, 300] }
+  },
+  "dr_dif_easy": {
+    "adb": { "tap": [401, 818] },
+    "steam": { "tap": [541, 832] }
+  },
+  "dr_dif_normal": {
+    "adb": { "tap": [401, 818] },
+    "steam": { "tap": [541, 832] }
+  },
+  "dr_dif_hard": {
+    "adb": { "tap": [405, 690] },
+    "steam": { "tap": [541, 710] }
+  },
+  "dr_dif_very_hard": {
+    "adb": { "tap": [402, 592] },
+    "steam": { "tap": [541, 578] }
+  },
+  "dr_money": {
+    "adb": {
+      "tap": [166, 550],
+      "region": [166, 550, 213, 601],
+      "img": "img/android/dr_money.png"
+    },
+    "steam": {
+      "tap": [319, 558],
+      "region": [319, 558, 361, 593],
+      "img": "img/steam/dr_money.png"
+    }
+  },
+  "dr_support": {
+    "adb": {
+      "tap": [188, 672],
+      "region": [188, 672, 217, 721],
+      "img": "img/android/dr_support.png"
+    },
+    "steam": {
+      "tap": [347, 676],
+      "region": [347, 676, 380, 723],
+      "img": "img/steam/dr_support.png"
+    }
+  },
+  "dr_multi_race": {
+    "adb": {
+      "tap": [425, 908],
+      "rgb": [136, 206, 4]
+    },
+    "steam": {
+      "tap": [559, 908],
+      "rgb": [159, 220, 8]
+    }
+  },
+  "daily_race_start": {
+    "adb": {
+      "tap": [499, 981],
+      "region": [499, 981, 561, 1009],
+      "img": "img/android/daily_race_start.png"
+    },
+    "steam": {
+      "tap": [649, 982],
+      "region": [649, 982, 717, 1008],
+      "img": "img/steam/daily_race_start.png"
+    }
+  },
+  "daily_race_confirm_runner": {
+    "adb": {
+      "tap": [352, 897],
+      "region": [352, 897, 442, 922],
+      "img": "img/android/daily_race_confirm_runner.png"
+    },
+    "steam": {
+      "tap": [505, 896],
+      "region": [505, 896, 595, 920],
+      "img": "img/steam/daily_race_confirm_runner.png"
+    }
+  },
+  "dr_race_start": {
+    "adb": { "tap": [534, 698] },
+    "steam": { "tap": [693, 698] }
+  },
+  "daily_race_close": {
+    "adb": {
+      "tap": [365, 985],
+      "region": [365, 985, 432, 1010],
+      "img": "img/android/daily_race_close.png"
+    },
+    "steam": {
+      "tap": [518, 981],
+      "region": [518, 981, 585, 1009],
+      "img": "img/steam/daily_race_close.png"
+    }
+  },
+  "daily_legends_enter": {
+    "adb": { "tap": [520, 771] },
+    "steam": { "tap": [675, 773] }
+  },
+  "in_daily_legends": {
+    "adb": {
+      "region": [472, 63, 591, 211],
+      "img": "img/android/in_daily_legends.png"
+    },
+    "steam": {
+      "region": [563, 52, 786, 227],
+      "img": "img/steam/in_daily_legends.png"
+    }
+  },
+  "daily_legends_start": {
+    "adb": { "tap": [405, 586] },
+    "steam": { "tap": [561, 581] }
+  },
+  "daily_legends_finish": {
+    "adb": {
+      "tap": [498, 978],
+      "region": [498, 978, 563, 1005],
+      "img": "img/android/daily_legends_finish.png"
+    },
+    "steam": {
+      "tap": [649, 978],
+      "region": [649, 978, 716, 1008],
+      "img": "img/steam/daily_legends_finish.png"
+    }
+  },
+  "dl_run_race": {
+    "adb": { "tap": [517, 766] },
+    "steam": { "tap": [686, 767] }
+  },
+  "dl_race": {
+    "adb": {
+      "tap": [367, 976],
+      "region": [367, 976, 430, 1002],
+      "img": "img/android/dl_race.png"
+    },
+    "steam": {
+      "tap": [517, 973],
+      "region": [517, 973, 583, 1003],
+      "img": "img/steam/dl_race.png"
+    }
+  },
+  "dl_view_results": {
+    "adb": {
+      "tap": [237, 974],
+      "region": [237, 974, 376, 1005],
+      "img": "img/android/dl_view_results.png"
+    },
+    "steam": {
+      "tap": [392, 971],
+      "region": [392, 971, 529, 1006],
+      "img": "img/steam/dl_view_results.png"
+    }
+  },
+  "dl_reward": {
+    "adb": {
+      "tap": [368, 977],
+      "region": [368, 977, 429, 1006],
+      "img": "img/android/dl_reward.png"
+    },
+    "steam": {
+      "tap": [518, 977],
+      "region": [518, 977, 582, 1008],
+      "img": "img/steam/dl_reward.png"
+    }
+  },
+  "dl_next_not_found": {
+    "adb": { "tap": [391, 72] },
+    "steam": { "tap": [551, 81] }
+  },
+  "legend_el_condor_pasa": {
+    "adb": { "tap": [222, 467] },
+    "steam": { "tap": [360, 466] }
+  },
+  "legend_special_week": {
+    "adb": { "tap": [391, 465] },
+    "steam": { "tap": [557, 463] }
+  },
+  "legend_symboli_rudolf": {
+    "adb": { "tap": [600, 461] },
+    "steam": { "tap": [742, 461] }
+  },
+  "legend_king_halo": {
+    "adb": { "tap": [210, 599] },
+    "steam": { "tap": [363, 600] }
+  },
+  "legend_taiki_shuttle": {
+    "adb": { "tap": [386, 607] },
+    "steam": { "tap": [550, 597] }
+  },
+  "legend_sakura_bakushin_o": {
+    "adb": { "tap": [594, 599] },
+    "steam": { "tap": [747, 596] }
+  },
+  "legend_winning_ticket": {
+    "adb": { "tap": [212, 744] },
+    "steam": { "tap": [361, 746] }
+  },
+  "legend_vodka": {
+    "adb": { "tap": [391, 739] },
+    "steam": { "tap": [544, 740] }
+  },
+  "legend_tokai_teio": {
+    "adb": { "tap": [591, 742] },
+    "steam": { "tap": [738, 741] }
+  },
+  "legend_mayano_top_gun": {
+    "adb": { "tap": [204, 490] },
+    "steam": { "tap": [367, 493] }
+  },
+  "legend_mejiro_mcqueen": {
+    "adb": { "tap": [400, 490] },
+    "steam": { "tap": [554, 493] }
+  },
+  "legend_tm_opera_o": {
+    "adb": { "tap": [591, 493] },
+    "steam": { "tap": [751, 486] }
+  },
+  "legend_super_creek": {
+    "adb": { "tap": [203, 633] },
+    "steam": { "tap": [367, 635] }
+  },
+  "legend_mejiro_ryan": {
+    "adb": { "tap": [390, 634] },
+    "steam": { "tap": [554, 635] }
+  },
+  "legend_silence_suzuka": {
+    "adb": { "tap": [575, 634] },
+    "steam": { "tap": [758, 637] }
+  },
+  "legend_gold_ship": {
+    "adb": { "tap": [206, 779] },
+    "steam": { "tap": [363, 780] }
   }
 }

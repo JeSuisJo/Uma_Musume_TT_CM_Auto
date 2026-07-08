@@ -23,7 +23,7 @@ def run(already_done):
     extra_run = 1 if config.get("cm_extra_run", False) else 0
     make_own_team = config.get("make_your_own_team", False)
 
-    screen.wait("cm_button")
+    screen.wait_from_home("cm_button")
     screen.tap("cm_button")
 
     launch_cm()

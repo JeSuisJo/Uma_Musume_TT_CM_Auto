@@ -19,25 +19,33 @@ DEFAULTS = {
     "device_id": "emulator-5554",
     "difficulty_tm": "medium",
     "daily_sales_buy": True,
-    "alarm_clocks": True,
-    "stars_pieces": True,
-    "pleasing_parfait": True,
-    "support_points": True,
-    "racing_shoes": False,
-    "sashes": True,
     "use_parfait": False,
     "cm_extra_run": True,
     "make_your_own_team": False,
+    "daily_race_difficulty": "very_hard",
+    "daily_race_reward": "money",
+    "daily_legends_champion": "Special Week",
 }
 
-# Daily-shop items asked only when shopping is enabled.
-_SHOP_ITEMS = [
-    ("stars_pieces", "Buy star pieces"),
-    ("alarm_clocks", "Buy alarm clocks"),
-    ("pleasing_parfait", "Buy pleasing parfaits"),
-    ("support_points", "Buy support points"),
-    ("racing_shoes", "Buy racing shoes"),
-    ("sashes", "Buy sashes"),
+
+# Champions offered in the Daily Legends Race (display names).
+_DAILY_CHAMPIONS = [
+    "El Condor Pasa",
+    "Special Week",
+    "Symboli Rudolf",
+    "King Halo",
+    "Taiki Shuttle",
+    "Sakura Bakushin O",
+    "Winning Ticket",
+    "Vodka",
+    "Tokai Teio",
+    "Mayano Top Gun",
+    "Mejiro McQueen",
+    "TM Opera O",
+    "Super Creek",
+    "Mejiro Ryan",
+    "Silence Suzuka",
+    "Gold Ship",
 ]
 
 
@@ -70,6 +78,20 @@ def _ask_choice(prompt, options, default):
         if answer in options:
             return answer
         print(f"  Please choose one of: {joined}.")
+
+
+def _ask_from_list(prompt, options, default):
+    default_index = options.index(default) + 1 if default in options else 1
+    while True:
+        print(prompt)
+        for i, option in enumerate(options, 1):
+            print(f"  [{i}] {option}")
+        answer = input(f"Choice [{default_index}]: ").strip()
+        if not answer:
+            return options[default_index - 1]
+        if answer.isdigit() and 1 <= int(answer) <= len(options):
+            return options[int(answer) - 1]
+        print(f"  Please enter a number between 1 and {len(options)}.")
 
 
 def _prompt_config():
@@ -107,11 +129,25 @@ def _prompt_config():
 
     # --- Daily shop ---
     config["daily_sales_buy"] = _ask_bool(
-        "Buy daily-sale items after Team Trials?", DEFAULTS["daily_sales_buy"]
+        "Buy all daily-sale items after Team Trials?", DEFAULTS["daily_sales_buy"]
     )
-    if config["daily_sales_buy"]:
-        for key, prompt in _SHOP_ITEMS:
-            config[key] = _ask_bool(f"  {prompt}?", DEFAULTS[key])
+
+    # --- Daily Races ---
+    config["daily_race_difficulty"] = _ask_choice(
+        "Daily Races difficulty",
+        ["easy", "normal", "hard", "very_hard"],
+        DEFAULTS["daily_race_difficulty"],
+    )
+    config["daily_race_reward"] = _ask_choice(
+        "Daily Races reward", ["money", "support"], DEFAULTS["daily_race_reward"]
+    )
+
+    # --- Daily Legends Race ---
+    config["daily_legends_champion"] = _ask_from_list(
+        "Daily Legends Race champion:",
+        _DAILY_CHAMPIONS,
+        DEFAULTS["daily_legends_champion"],
+    )
 
     return config
 
