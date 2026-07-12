@@ -1,10 +1,12 @@
+"""Close the race result, handle the shop prompt, and return home."""
+
 import time
 
 from ... import screen
-from ..common import handle_daily_sales
+from ..shop import handle_daily_sales
 
 
-def race():
+def collect_rewards():
     screen.wait("daily_race_close")
     screen.tap("daily_race_close")
     time.sleep(2.5)

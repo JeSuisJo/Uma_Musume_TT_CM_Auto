@@ -1,0 +1,100 @@
+{
+  "daily_race_enter": {
+    "adb": {
+      "tap": [277, 769],
+      "region": [210, 832, 337, 857],
+      "img": "img/android/daily_race_enter.png"
+    },
+    "steam": {
+      "tap": [426, 772],
+      "region": [363, 834, 489, 855],
+      "img": "img/steam/daily_race_enter.png"
+    }
+  },
+  "dr_dif_easy": {
+    "adb": {
+      "tap": [401, 818]
+    },
+    "steam": {
+      "tap": [541, 832]
+    }
+  },
+  "dr_dif_normal": {
+    "adb": {
+      "tap": [401, 818]
+    },
+    "steam": {
+      "tap": [541, 832]
+    }
+  },
+  "dr_dif_hard": {
+    "adb": {
+      "tap": [405, 690]
+    },
+    "steam": {
+      "tap": [541, 710]
+    }
+  },
+  "dr_dif_very_hard": {
+    "adb": {
+      "tap": [402, 592]
+    },
+    "steam": {
+      "tap": [541, 578]
+    }
+  },
+  "dr_money": {
+    "adb": {
+      "tap": [166, 550],
+      "region": [166, 550, 213, 601],
+      "img": "img/android/dr_money.png"
+    },
+    "steam": {
+      "tap": [319, 558],
+      "region": [319, 558, 361, 593],
+      "img": "img/steam/dr_money.png"
+    }
+  },
+  "dr_support": {
+    "adb": {
+      "tap": [188, 672],
+      "region": [188, 672, 217, 721],
+      "img": "img/android/dr_support.png"
+    },
+    "steam": {
+      "tap": [347, 676],
+      "region": [347, 676, 380, 723],
+      "img": "img/steam/dr_support.png"
+    }
+  },
+  "dr_multi_race": {
+    "adb": {
+      "tap": [425, 908],
+      "rgb": [136, 206, 4]
+    },
+    "steam": {
+      "tap": [559, 908],
+      "rgb": [159, 220, 8]
+    }
+  },
+  "dr_race_start": {
+    "adb": {
+      "tap": [534, 698]
+    },
+    "steam": {
+      "tap": [693, 698]
+    }
+  },
+  "daily_race_close": {
+    "adb": {
+      "tap": [365, 985],
+      "region": [365, 985, 432, 1010],
+      "img": "img/android/daily_race_close.png"
+    },
+    "steam": {
+      "tap": [518, 981],
+      "region": [518, 981, 585, 1009],
+      "img": "img/steam/daily_race_close.png"
+    }
+  }
+}

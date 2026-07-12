@@ -1,0 +1,250 @@
+{
+  "tt_button": {
+    "adb": {
+      "tap": [204, 759],
+      "region": [204, 759, 341, 792],
+      "img": "img/android/tt.png"
+    },
+    "steam": {
+      "tap": [362, 764],
+      "region": [362, 764, 490, 785],
+      "img": "img/steam/tt.png"
+    }
+  },
+  "no_rp_close": {
+    "adb": {
+      "tap": [271, 706]
+    },
+    "steam": {
+      "tap": [418, 701]
+    }
+  },
+  "no_rp_confirm": {
+    "adb": {
+      "tap": [534, 1026]
+    },
+    "steam": {
+      "tap": [688, 1030]
+    }
+  },
+  "in_trial": {
+    "adb": {
+      "region": [557, 893, 677, 931],
+      "img": "img/android/in_trial.png"
+    },
+    "steam": {
+      "region": [706, 893, 832, 934],
+      "img": "img/steam/in_trial.png"
+    }
+  },
+  "next_mondays": {
+    "adb": {
+      "tap": [366, 890],
+      "region": [366, 890, 432, 924],
+      "img": "img/android/next_mondays.png"
+    },
+    "steam": {
+      "tap": [514, 890],
+      "region": [514, 890, 590, 925],
+      "img": "img/steam/next_mondays.png"
+    }
+  },
+  "launch_tt_tap": {
+    "adb": {
+      "tap": [407, 681]
+    },
+    "steam": {
+      "tap": [562, 679]
+    }
+  },
+  "no_rp": {
+    "adb": {
+      "region": [476, 680, 585, 724],
+      "img": "img/android/no_rp.png"
+    },
+    "steam": {
+      "region": [634, 685, 740, 721],
+      "img": "img/steam/no_rp.png"
+    }
+  },
+  "in_selection": {
+    "adb": {
+      "region": [631, 890, 663, 928],
+      "img": "img/android/in_selection.png"
+    },
+    "steam": {
+      "region": [778, 888, 815, 928],
+      "img": "img/steam/in_selection.png"
+    }
+  },
+  "in_selection_refresh": {
+    "adb": {
+      "region": [631, 890, 663, 928],
+      "img": "img/android/in_selection_refresh.png"
+    },
+    "steam": {
+      "region": [778, 888, 815, 928],
+      "img": "img/steam/in_selection_refresh.png"
+    }
+  },
+  "next_tt": {
+    "adb": {
+      "tap": [364, 892],
+      "region": [364, 892, 430, 926],
+      "img": "img/android/next_tt.png"
+    },
+    "steam": {
+      "tap": [511, 890],
+      "region": [511, 890, 596, 928],
+      "img": "img/steam/next_tt.png"
+    }
+  },
+  "no_quick_tt": {
+    "adb": {
+      "region": [249, 962, 356, 1030],
+      "img": "img/android/no_quick_tt.png"
+    },
+    "steam": {
+      "region": [409, 955, 513, 1036],
+      "img": "img/steam/no_quick_tt.png"
+    }
+  },
+  "quick_tt": {
+    "adb": {
+      "region": [338, 962, 453, 1033],
+      "img": "img/android/quick_tt.png"
+    },
+    "steam": {
+      "region": [486, 957, 602, 1037],
+      "img": "img/steam/quick_tt.png"
+    }
+  },
+  "dif_easy": {
+    "adb": {
+      "tap": [424, 697]
+    },
+    "steam": {
+      "tap": [575, 757]
+    }
+  },
+  "dif_medium": {
+    "adb": {
+      "tap": [424, 502]
+    },
+    "steam": {
+      "tap": [575, 513]
+    }
+  },
+  "dif_hard": {
+    "adb": {
+      "tap": [424, 306]
+    },
+    "steam": {
+      "tap": [575, 270]
+    }
+  },
+  "setup_confirm": {
+    "adb": {
+      "tap": [526, 768]
+    },
+    "steam": {
+      "tap": [684, 767]
+    }
+  },
+  "quick_mode_tap": {
+    "adb": {
+      "tap": [400, 896]
+    },
+    "steam": {
+      "tap": [558, 895]
+    }
+  },
+  "run_start": {
+    "adb": {
+      "tap": [407, 995]
+    },
+    "steam": {
+      "tap": [547, 983]
+    }
+  },
+  "race_finished": {
+    "adb": {
+      "tap": [359, 915],
+      "region": [359, 915, 441, 955],
+      "img": "img/android/race_finished.png"
+    },
+    "steam": {
+      "tap": [513, 916],
+      "region": [513, 916, 593, 954],
+      "img": "img/steam/race_finished.png"
+    }
+  },
+  "skip_tap": {
+    "adb": {
+      "tap": [747, 979]
+    },
+    "steam": {
+      "tap": [909, 975]
+    }
+  },
+  "finish_run": {
+    "adb": {
+      "tap": [459, 956],
+      "region": [459, 956, 595, 1033],
+      "img": "img/android/finish_run.png"
+    },
+    "steam": {
+      "tap": [612, 954],
+      "region": [612, 954, 740, 1034],
+      "img": "img/steam/finish_run.png"
+    }
+  },
+  "highscore": {
+    "adb": {
+      "tap": [309, 339],
+      "region": [309, 339, 435, 391],
+      "img": "img/android/highscore.png"
+    },
+    "steam": {
+      "tap": [463, 338],
+      "region": [463, 338, 583, 390],
+      "img": "img/steam/highscore.png"
+    }
+  },
+  "next_go_to_reward": {
+    "adb": {
+      "tap": [354, 992],
+      "region": [354, 992, 439, 1033],
+      "img": "img/android/next_go_to_reward.png"
+    },
+    "steam": {
+      "tap": [480, 954],
+      "region": [480, 954, 611, 1033],
+      "img": "img/steam/next_go_to_reward.png"
+    }
+  },
+  "next_reward": {
+    "adb": {
+      "tap": [353, 972],
+      "region": [353, 972, 453, 1016],
+      "img": "img/android/next_reward.png"
+    },
+    "steam": {
+      "tap": [516, 970],
+      "region": [516, 970, 589, 1008],
+      "img": "img/steam/next_reward.png"
+    }
+  },
+  "story_unlocked": {
+    "adb": {
+      "tap": [337, 906],
+      "region": [351, 932, 443, 950],
+      "img": "img/android/story_unlocked.png"
+    },
+    "steam": {
+      "tap": [510, 684],
+      "region": [513, 684, 594, 717],
+      "img": "img/steam/story_unlocked.png"
+    }
+  }
+}

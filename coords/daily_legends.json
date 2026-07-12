@@ -1,0 +1,264 @@
+{
+  "dr_scroll_up": {
+    "adb": {
+      "swipe": [399, 404, 394, 835, 300]
+    },
+    "steam": {
+      "swipe": [556, 396, 570, 860, 300]
+    }
+  },
+  "daily_legends_enter": {
+    "adb": {
+      "tap": [520, 771],
+      "region": [418, 832, 631, 860],
+      "img": "img/android/daily_legends_enter.png"
+    },
+    "steam": {
+      "tap": [675, 773],
+      "region": [571, 831, 782, 859],
+      "img": "img/steam/daily_legends_enter.png"
+    }
+  },
+  "in_daily_legends": {
+    "adb": {
+      "region": [472, 63, 591, 211],
+      "img": "img/android/in_daily_legends.png"
+    },
+    "steam": {
+      "region": [563, 52, 786, 227],
+      "img": "img/steam/in_daily_legends.png"
+    }
+  },
+  "daily_legends_start": {
+    "adb": {
+      "tap": [405, 586]
+    },
+    "steam": {
+      "tap": [561, 581]
+    }
+  },
+  "daily_legends_finish": {
+    "adb": {
+      "tap": [498, 978],
+      "region": [498, 978, 563, 1005],
+      "img": "img/android/daily_legends_finish.png"
+    },
+    "steam": {
+      "tap": [649, 978],
+      "region": [649, 978, 716, 1008],
+      "img": "img/steam/daily_legends_finish.png"
+    }
+  },
+  "dl_run_race": {
+    "adb": {
+      "tap": [517, 766]
+    },
+    "steam": {
+      "tap": [686, 767]
+    }
+  },
+  "dl_race": {
+    "adb": {
+      "tap": [367, 976],
+      "region": [367, 976, 430, 1002],
+      "img": "img/android/dl_race.png"
+    },
+    "steam": {
+      "tap": [517, 973],
+      "region": [517, 973, 583, 1003],
+      "img": "img/steam/dl_race.png"
+    }
+  },
+  "dl_view_results": {
+    "adb": {
+      "tap": [237, 974],
+      "region": [237, 974, 376, 1005],
+      "img": "img/android/dl_view_results.png"
+    },
+    "steam": {
+      "tap": [392, 971],
+      "region": [392, 971, 529, 1006],
+      "img": "img/steam/dl_view_results.png"
+    }
+  },
+  "dl_reward": {
+    "adb": {
+      "tap": [368, 977],
+      "region": [368, 977, 429, 1006],
+      "img": "img/android/dl_reward.png"
+    },
+    "steam": {
+      "tap": [518, 977],
+      "region": [518, 977, 582, 1008],
+      "img": "img/steam/dl_reward.png"
+    }
+  },
+  "dl_next_not_found": {
+    "adb": {
+      "tap": [391, 72]
+    },
+    "steam": {
+      "tap": [551, 81]
+    }
+  },
+  "legend_el_condor_pasa": {
+    "adb": {
+      "region": [99, 389, 692, 868],
+      "img": "img/android/el_condor_pasa.png"
+    },
+    "steam": {
+      "region": [251, 389, 846, 868],
+      "img": "img/steam/el_condor_pasa.png"
+    }
+  },
+  "legend_special_week": {
+    "adb": {
+      "region": [99, 389, 692, 868],
+      "img": "img/android/special_week.png"
+    },
+    "steam": {
+      "region": [251, 389, 846, 868],
+      "img": "img/steam/special_week.png"
+    }
+  },
+  "legend_symboli_rudolf": {
+    "adb": {
+      "region": [99, 389, 692, 868],
+      "img": "img/android/symboli_rudolf.png"
+    },
+    "steam": {
+      "region": [251, 389, 846, 868],
+      "img": "img/steam/symboli_rudolf.png"
+    }
+  },
+  "legend_king_halo": {
+    "adb": {
+      "region": [99, 389, 692, 868],
+      "img": "img/android/king_halo.png"
+    },
+    "steam": {
+      "region": [251, 389, 846, 868],
+      "img": "img/steam/king_halo.png"
+    }
+  },
+  "legend_taiki_shuttle": {
+    "adb": {
+      "region": [99, 389, 692, 868],
+      "img": "img/android/taiki_shuttle.png"
+    },
+    "steam": {
+      "region": [251, 389, 846, 868],
+      "img": "img/steam/taiki_shuttle.png"
+    }
+  },
+  "legend_sakura_bakushin_o": {
+    "adb": {
+      "region": [99, 389, 692, 868],
+      "img": "img/android/sakura_bakushin_o.png"
+    },
+    "steam": {
+      "region": [251, 389, 846, 868],
+      "img": "img/steam/sakura_bakushin_o.png"
+    }
+  },
+  "legend_winning_ticket": {
+    "adb": {
+      "region": [99, 389, 692, 868],
+      "img": "img/android/winning_ticket.png"
+    },
+    "steam": {
+      "region": [251, 389, 846, 868],
+      "img": "img/steam/winning_ticket.png"
+    }
+  },
+  "legend_vodka": {
+    "adb": {
+      "region": [99, 389, 692, 868],
+      "img": "img/android/vodka.png"
+    },
+    "steam": {
+      "region": [251, 389, 846, 868],
+      "img": "img/steam/vodka.png"
+    }
+  },
+  "legend_tokai_teio": {
+    "adb": {
+      "region": [99, 389, 692, 868],
+      "img": "img/android/tokai_teio.png"
+    },
+    "steam": {
+      "region": [251, 389, 846, 868],
+      "img": "img/steam/tokai_teio.png"
+    }
+  },
+  "legend_mayano_top_gun": {
+    "adb": {
+      "region": [99, 389, 692, 868],
+      "img": "img/android/mayano_top_gun.png"
+    },
+    "steam": {
+      "region": [251, 389, 846, 868],
+      "img": "img/steam/mayano_top_gun.png"
+    }
+  },
+  "legend_mejiro_mcqueen": {
+    "adb": {
+      "region": [99, 389, 692, 868],
+      "img": "img/android/mejiro_mcqueen.png"
+    },
+    "steam": {
+      "region": [251, 389, 846, 868],
+      "img": "img/steam/mejiro_mcqueen.png"
+    }
+  },
+  "legend_tm_opera_o": {
+    "adb": {
+      "region": [99, 389, 692, 868],
+      "img": "img/android/tm_opera_o.png"
+    },
+    "steam": {
+      "region": [251, 389, 846, 868],
+      "img": "img/steam/tm_opera_o.png"
+    }
+  },
+  "legend_super_creek": {
+    "adb": {
+      "region": [99, 389, 692, 868],
+      "img": "img/android/super_creek.png"
+    },
+    "steam": {
+      "region": [251, 389, 846, 868],
+      "img": "img/steam/super_creek.png"
+    }
+  },
+  "legend_mejiro_ryan": {
+    "adb": {
+      "region": [99, 389, 692, 868],
+      "img": "img/android/mejiro_ryan.png"
+    },
+    "steam": {
+      "region": [251, 389, 846, 868],
+      "img": "img/steam/mejiro_ryan.png"
+    }
+  },
+  "legend_silence_suzuka": {
+    "adb": {
+      "region": [99, 389, 692, 868],
+      "img": "img/android/silence_suzuka.png"
+    },
+    "steam": {
+      "region": [251, 389, 846, 868],
+      "img": "img/steam/silence_suzuka.png"
+    }
+  },
+  "legend_gold_ship": {
+    "adb": {
+      "region": [99, 389, 692, 868],
+      "img": "img/android/gold_ship.png"
+    },
+    "steam": {
+      "region": [251, 389, 846, 868],
+      "img": "img/steam/gold_ship.png"
+    }
+  }
+}

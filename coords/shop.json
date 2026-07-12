@@ -1,0 +1,194 @@
+{
+  "in_shop": {
+    "adb": {
+      "region": [586, 786, 675, 812],
+      "img": "img/android/in_shop.png"
+    },
+    "steam": {
+      "region": [743, 791, 830, 809],
+      "img": "img/steam/in_shop.png"
+    }
+  },
+  "buy_all": {
+    "adb": {
+      "tap": [631, 796]
+    },
+    "steam": {
+      "tap": [786, 796]
+    }
+  },
+  "shop_buy": {
+    "adb": {
+      "tap": [478, 981],
+      "region": [478, 981, 585, 1013],
+      "img": "img/android/shop_buy.png"
+    },
+    "steam": {
+      "tap": [628, 981],
+      "region": [628, 981, 740, 1009],
+      "img": "img/steam/shop_buy.png"
+    }
+  },
+  "shop_confirm": {
+    "adb": {
+      "tap": [349, 895],
+      "region": [349, 895, 440, 930],
+      "img": "img/android/shop_confirm.png"
+    },
+    "steam": {
+      "tap": [498, 892],
+      "region": [498, 892, 603, 927],
+      "img": "img/steam/shop_confirm.png"
+    }
+  },
+  "shop_close_1": {
+    "adb": {
+      "tap": [361, 980],
+      "region": [361, 980, 432, 1011],
+      "img": "img/android/shop_close_1.png"
+    },
+    "steam": {
+      "tap": [518, 981],
+      "region": [518, 981, 586, 1010],
+      "img": "img/steam/shop_close_1.png"
+    }
+  },
+  "shop_scroll": {
+    "adb": {
+      "swipe": [402, 772, 402, 307, 500]
+    },
+    "steam": {
+      "swipe": [559, 773, 559, 268, 1000]
+    }
+  },
+  "shop_buy_offset": {
+    "adb": {
+      "dx": 405,
+      "dy": 0
+    },
+    "steam": {
+      "dx": 405,
+      "dy": 0
+    }
+  },
+  "shop_star_piece": {
+    "adb": {
+      "region": [102, 396, 218, 776],
+      "img": "img/android/star_piece.png"
+    },
+    "steam": {
+      "region": [257, 392, 370, 773],
+      "img": "img/steam/star_piece.png"
+    }
+  },
+  "shop_alarm_clock": {
+    "adb": {
+      "region": [102, 396, 218, 776],
+      "img": "img/android/alarm_clock.png"
+    },
+    "steam": {
+      "region": [257, 392, 370, 773],
+      "img": "img/steam/alarm_clock.png"
+    }
+  },
+  "shop_pleasing_parfait": {
+    "adb": {
+      "region": [102, 396, 218, 776],
+      "img": "img/android/pleasing_parfait.png"
+    },
+    "steam": {
+      "region": [257, 392, 370, 773],
+      "img": "img/steam/pleasing_parfait.png"
+    }
+  },
+  "shop_sprint_shoes": {
+    "adb": {
+      "region": [102, 396, 218, 776],
+      "img": "img/android/sprint_shoes.png"
+    },
+    "steam": {
+      "region": [257, 392, 370, 773],
+      "img": "img/steam/sprint_shoes.png"
+    }
+  },
+  "shop_mile_shoes": {
+    "adb": {
+      "region": [102, 396, 218, 776],
+      "img": "img/android/mile_shoes.png"
+    },
+    "steam": {
+      "region": [257, 392, 370, 773],
+      "img": "img/steam/mile_shoes.png"
+    }
+  },
+  "shop_medium_shoes": {
+    "adb": {
+      "region": [102, 396, 218, 776],
+      "img": "img/android/medium_shoes.png"
+    },
+    "steam": {
+      "region": [257, 392, 370, 773],
+      "img": "img/steam/medium_shoes.png"
+    }
+  },
+  "shop_long_shoes": {
+    "adb": {
+      "region": [102, 396, 218, 776],
+      "img": "img/android/long_shoes.png"
+    },
+    "steam": {
+      "region": [257, 392, 370, 773],
+      "img": "img/steam/long_shoes.png"
+    }
+  },
+  "shop_dirt_shoes": {
+    "adb": {
+      "region": [102, 396, 218, 776],
+      "img": "img/android/dirt_shoes.png"
+    },
+    "steam": {
+      "region": [257, 392, 370, 773],
+      "img": "img/steam/dirt_shoes.png"
+    }
+  },
+  "shop_support_points": {
+    "adb": {
+      "region": [102, 396, 218, 776],
+      "img": "img/android/support_points.png"
+    },
+    "steam": {
+      "region": [257, 392, 370, 773],
+      "img": "img/steam/support_points.png"
+    }
+  },
+  "shop_sash": {
+    "adb": {
+      "region": [102, 396, 218, 776],
+      "img": "img/android/sash.png"
+    },
+    "steam": {
+      "region": [257, 392, 370, 773],
+      "img": "img/steam/sash.png"
+    }
+  },
+  "shop_already_buy": {
+    "adb": {
+      "region": [456, 750],
+      "rgb": [176, 174, 190]
+    },
+    "steam": {
+      "region": [599, 741],
+      "rgb": [176, 174, 190]
+    }
+  },
+  "shop_buy_but_not_finish": {
+    "adb": {
+      "region": [608, 742],
+      "rgb": [119, 204, 34]
+    },
+    "steam": {
+      "region": [759, 744],
+      "rgb": [124, 203, 34]
+    }
+  }
+}

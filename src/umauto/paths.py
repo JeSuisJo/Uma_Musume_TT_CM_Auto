@@ -1,6 +1,6 @@
 """Filesystem paths anchored at the project root.
 
-Data files (config.json, coords.json, img/, platform-tools/) live at the repo
+Data files (config.json, coords/, img/, platform-tools/) live at the repo
 root, next to the ``src`` folder, so everything is resolved from there.
 """
 

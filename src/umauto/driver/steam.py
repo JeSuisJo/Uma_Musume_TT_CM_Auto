@@ -18,7 +18,6 @@ class SteamDriver(Driver):
     def __init__(self):
         self.window_title = config.get("steam_window_title", "Umamusume")
 
-    # --- window ---
     def _window(self):
         windows = gw.getWindowsWithTitle(self.window_title)
         if not windows:
@@ -82,7 +81,6 @@ class SteamDriver(Driver):
         image.save(dest)
         return dest
 
-    # --- primitives ---
     def tap(self, x, y):
         ox, oy = self._offset()
         pyautogui.click(ox + x, oy + y)
@@ -97,6 +95,15 @@ class SteamDriver(Driver):
         ox, oy = self._offset()
         pyautogui.moveTo(ox + x1, oy + y1)
         pyautogui.drag(x2 - x1, y2 - y1, duration=ms / 1000)
+
+    def drag_hold(self, x1, y1, x2, y2, move_ms=300, hold_ms=800):
+        ox, oy = self._offset()
+        pyautogui.moveTo(ox + x1, oy + y1)
+        pyautogui.mouseDown()
+        pyautogui.moveTo(ox + x2, oy + y2, duration=move_ms / 1000)
+        # Hold at the destination so the release velocity is zero (no fling).
+        time.sleep(hold_ms / 1000)
+        pyautogui.mouseUp()
 
     def write(self, text):
         pyautogui.typewrite(text, interval=0.02)

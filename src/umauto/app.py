@@ -4,7 +4,7 @@
 first thing on a fresh install is the configuration wizard.
 """
 
-from .setup_config import ensure_config
+from .setup import ensure_config
 
 
 def run():

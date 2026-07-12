@@ -2,7 +2,7 @@
 
 import os
 
-from .driver import driver
+from .driver import StopScript, driver
 from .features import (
     champions_meeting,
     daily_full,
@@ -38,21 +38,26 @@ def main():
         print(_MENU)
         choice = input("Enter your choice: ").strip()
 
-        if choice == "1":
-            driver.focus()
-            daily_full.run()
-        elif choice == "2":
-            driver.focus()
-            team_trials.run()
-        elif choice == "3":
-            already_done = _ask_int("How many runs have you already done?: ")
-            driver.focus()
-            champions_meeting.run(already_done)
-        elif choice == "4":
-            driver.focus()
-            daily_races.run()
-        elif choice == "5":
-            driver.focus()
-            daily_legends.run()
-        elif choice == "0":
+        if choice == "0":
             return
+
+        try:
+            if choice == "1":
+                driver.focus()
+                daily_full.run()
+            elif choice == "2":
+                driver.focus()
+                team_trials.run()
+            elif choice == "3":
+                already_done = _ask_int("How many runs have you already done?: ")
+                driver.focus()
+                champions_meeting.run(already_done)
+            elif choice == "4":
+                driver.focus()
+                daily_races.run()
+            elif choice == "5":
+                driver.focus()
+                daily_legends.run()
+        except StopScript as exc:
+            print(f"\n{exc}")
+            input("\nPress Enter to return to the menu...")

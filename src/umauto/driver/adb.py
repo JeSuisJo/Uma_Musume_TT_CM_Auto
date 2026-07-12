@@ -14,7 +14,6 @@ class AdbDriver(Driver):
     def __init__(self):
         self.device = self._detect_device()
 
-    # --- device discovery ---
     @staticmethod
     def _list_devices():
         result = subprocess.run(
@@ -49,7 +48,6 @@ class AdbDriver(Driver):
         # Fall back to the configured value even if it is not visible yet.
         return configured
 
-    # --- internals ---
     def _run(self, args):
         base = [_ADB, "-s", self.device] if self.device else [_ADB]
         result = subprocess.run(
@@ -64,7 +62,6 @@ class AdbDriver(Driver):
         self._run(["shell", "rm", "/sdcard/tmp.png"])
         return dest
 
-    # --- primitives ---
     def tap(self, x, y):
         self._run(["shell", "input", "tap", str(x), str(y)])
 
@@ -75,6 +72,22 @@ class AdbDriver(Driver):
         self._run(
             ["shell", "input", "swipe", str(x1), str(y1), str(x2), str(y2), str(ms)]
         )
+
+    def drag_hold(self, x1, y1, x2, y2, move_ms=300, hold_ms=500):
+        def motion(action, x, y):
+            self._run(["shell", "input", "motionevent", action, str(x), str(y)])
+
+        steps = 8
+        motion("DOWN", x1, y1)
+        for i in range(1, steps + 1):
+            mx = int(x1 + (x2 - x1) * i / steps)
+            my = int(y1 + (y2 - y1) * i / steps)
+            motion("MOVE", mx, my)
+            time.sleep(move_ms / 1000 / steps)
+        # Hold at the destination so the release velocity is zero (no fling).
+        time.sleep(hold_ms / 1000)
+        motion("MOVE", x2, y2)
+        motion("UP", x2, y2)
 
     def write(self, text):
         escaped = text.replace(" ", "\\ ").replace("&", "\\&")

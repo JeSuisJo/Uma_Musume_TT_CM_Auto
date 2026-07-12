@@ -1,0 +1,94 @@
+{
+  "home": {
+    "adb": {
+      "tap": [537, 1033],
+      "region": [204, 904, 234, 948],
+      "img": "img/android/home.png"
+    },
+    "steam": {
+      "tap": [690, 1034],
+      "region": [356, 911, 385, 946],
+      "img": "img/steam/home.png"
+    }
+  },
+  "use_parfait": {
+    "adb": {
+      "tap": [165, 486]
+    },
+    "steam": {
+      "tap": [317, 485]
+    }
+  },
+  "shop": {
+    "adb": {
+      "tap": [489, 679],
+      "region": [489, 679, 573, 728],
+      "img": "img/android/shop.png"
+    },
+    "steam": {
+      "tap": [647, 684],
+      "region": [647, 684, 722, 720],
+      "img": "img/steam/shop.png"
+    }
+  },
+  "shop_cancel": {
+    "adb": {
+      "tap": [267, 704]
+    },
+    "steam": {
+      "tap": [423, 702]
+    }
+  },
+  "back_to_race": {
+    "adb": {
+      "tap": [0, 0]
+    },
+    "steam": {
+      "tap": [687, 1025]
+    }
+  },
+  "daily_program_enter": {
+    "adb": {
+      "tap": [202, 904],
+      "region": [202, 904, 348, 922],
+      "img": "img/android/daily_program_enter.png"
+    },
+    "steam": {
+      "tap": [432, 873],
+      "region": [351, 903, 503, 923],
+      "img": "img/steam/daily_program_enter.png"
+    }
+  },
+  "dr_scroll": {
+    "adb": {
+      "swipe": [397, 533, 402, 406, 300]
+    },
+    "steam": {
+      "swipe": [546, 530, 556, 401, 300]
+    }
+  },
+  "daily_race_start": {
+    "adb": {
+      "tap": [499, 981],
+      "region": [499, 981, 561, 1009],
+      "img": "img/android/daily_race_start.png"
+    },
+    "steam": {
+      "tap": [649, 982],
+      "region": [649, 982, 717, 1008],
+      "img": "img/steam/daily_race_start.png"
+    }
+  },
+  "daily_race_confirm_runner": {
+    "adb": {
+      "tap": [352, 897],
+      "region": [352, 897, 442, 922],
+      "img": "img/android/daily_race_confirm_runner.png"
+    },
+    "steam": {
+      "tap": [505, 896],
+      "region": [505, 896, 595, 920],
+      "img": "img/steam/daily_race_confirm_runner.png"
+    }
+  }
+}
