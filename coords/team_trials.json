@@ -199,6 +199,18 @@
       "img": "img/steam/finish_run.png"
     }
   },
+  "race_again": {
+    "adb": {
+      "tap": [187, 1000],
+      "region": [187, 1000, 342, 1025],
+      "img": "img/android/race_again.png"
+    },
+    "steam": {
+      "tap": [336, 1001],
+      "region": [336, 1001, 493, 1027],
+      "img": "img/steam/race_again.png"
+    }
+  },
   "highscore": {
     "adb": {
       "tap": [309, 339],
