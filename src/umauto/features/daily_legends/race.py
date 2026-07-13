@@ -39,7 +39,9 @@ def run_race():
     screen.wait("dl_reward")
     screen.tap("dl_reward")
     time.sleep(2.5)
-    handle_daily_sales()
-
-    screen.wait_any("in_daily_legends", "daily_legends_enter")
-    screen.tap("home")
+    # When the shop prompt appears, handle_daily_sales already goes home, so
+    # skip the wait -- otherwise wait_any would block forever on the daily
+    # legends menu that we've already left.
+    if not handle_daily_sales():
+        screen.wait_any("in_daily_legends", "daily_legends_enter")
+        screen.tap("home")

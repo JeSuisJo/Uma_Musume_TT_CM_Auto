@@ -30,11 +30,17 @@ def handle_daily_sales():
 
     Detects the shop itself, so callers can invoke it unconditionally: if no
     shop prompt is on screen it does nothing.
+
+    Returns True if a shop prompt was handled -- which always leaves the game on
+    the home screen (both the buy flows and the dismiss branch tap "home"). In
+    that case the caller must NOT wait to be back on the race menu. Returns False
+    when no shop prompt was present, leaving the game where it was.
     """
     if not screen.see("shop"):
-        return
+        return False
 
     if not buy_sales():
         screen.tap("shop_cancel")
         time.sleep(1)
         screen.tap("home")
+    return True
