@@ -12,3 +12,6 @@ dist/
 *.egg-info/
 .ruff_cache/
 .venv/
+
+# Launcher shortcut (machine-specific absolute paths; created by setup.bat)
+Uma Auto.lnk

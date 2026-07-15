@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Uma Auto</title>
+<style>
+  @font-face { font-family: 'M PLUS Rounded 1c'; src: url('fonts/MPLUSRounded1c-400.woff2') format('woff2'); font-weight: 400; font-display: swap; }
+  @font-face { font-family: 'M PLUS Rounded 1c'; src: url('fonts/MPLUSRounded1c-700.woff2') format('woff2'); font-weight: 700; font-display: swap; }
+  @font-face { font-family: 'M PLUS Rounded 1c'; src: url('fonts/MPLUSRounded1c-800.woff2') format('woff2'); font-weight: 800; font-display: swap; }
+  @font-face { font-family: 'Mochiy Pop One'; src: url('fonts/MochiyPopOne-400.woff2') format('woff2'); font-weight: 400; font-display: swap; }
+  @font-face { font-family: 'Space Mono'; src: url('fonts/SpaceMono-400.woff2') format('woff2'); font-weight: 400; font-display: swap; }
+  @font-face { font-family: 'Space Mono'; src: url('fonts/SpaceMono-700.woff2') format('woff2'); font-weight: 700; font-display: swap; }
+  @font-face { font-family: 'Archivo'; src: url('fonts/Archivo.woff2') format('woff2'); font-weight: 100 900; font-display: swap; }
+
+  
+  
+  
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;}
+main,.modal{-webkit-user-select:text;user-select:text;}
+.board-body{cursor:text;}
+@keyframes spin{to{transform:rotate(360deg);}}
+@keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+@keyframes umazoom{from{background-position:0 0}to{background-position:-35.31px 0}}
+@keyframes pulse{0%,100%{opacity:1;transform:translateY(-50%) scale(1)}50%{opacity:.3;transform:translateY(-50%) scale(.7)}}
+:root{
+ --ink:#2a2140;--txt:#3a3357;--muted:#8b83a8;--line:#efe6f5;
+ --green:#ff3d97;--green2:#7c4ddb;--pink:#ff4d97;--purple:#8b5cf6;--teal:#1ec8b6;--amber:#ffc21f;--sky:#4aa8ff;--red:#ff5c72;
+ --disp:'Mochiy Pop One','M PLUS Rounded 1c',system-ui,sans-serif;--sans:'M PLUS Rounded 1c','Archivo',system-ui,sans-serif;--round:'Mochiy Pop One','M PLUS Rounded 1c',system-ui,sans-serif;--mono:'Space Mono',ui-monospace,monospace;}
+body{font-family:var(--sans);color:var(--txt);background:#fdf2f8;overflow:hidden;-webkit-font-smoothing:antialiased;}
+::selection{background:var(--pink);color:#fff;}
+::-webkit-scrollbar{width:12px;height:12px;}::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:#f0c6dd;border:3px solid #fdf2f8;border-radius:10px;}
+.board ::-webkit-scrollbar-thumb{background:#e0d3f0;border-color:#fbf7ff;}
+.app{position:relative;height:100vh;display:flex;flex-direction:column;background:linear-gradient(160deg,#daeeff 0%,#eaf1ff 40%,#f3ecff 72%,#fdeaf5 100%);}
+.scan{position:absolute;inset:0;pointer-events:none;z-index:0;background:radial-gradient(circle at 14% 14%,rgba(74,168,255,.20),transparent 44%),radial-gradient(circle at 86% 26%,rgba(255,61,151,.13),transparent 42%),radial-gradient(circle at 78% 84%,rgba(124,77,219,.14),transparent 46%);}
+.checker{position:relative;z-index:1;height:6px;background:linear-gradient(90deg,var(--pink),var(--purple),var(--sky),var(--amber),var(--pink));}
+.mast{position:relative;z-index:2;display:flex;align-items:center;gap:14px;padding:16px 26px;background:linear-gradient(102deg,var(--sky) 0%,#7cc0ff 30%,var(--purple) 62%,var(--pink) 100%);border-bottom:2px solid rgba(255,255,255,.6);overflow:hidden;}
+.mast::before{content:'';position:absolute;inset:0;pointer-events:none;opacity:.18;background:repeating-linear-gradient(115deg,#fff 0 3px,transparent 3px 16px);background-size:auto;animation:umazoom 1.6s linear infinite;}
+.mast>*{position:relative;z-index:1;}
+.logo{width:46px;height:46px;border-radius:16px;display:grid;place-items:center;flex:none;background:#fff;box-shadow:0 4px 12px rgba(0,0,0,.18);}
+.logo svg{width:28px;height:28px;}.logo svg path{fill:var(--pink)!important;}
+.title h1{font-family:var(--disp);font-weight:400;font-size:28px;line-height:1;letter-spacing:.5px;text-transform:uppercase;color:#fff;text-shadow:0 2px 4px rgba(0,0,0,.18);}
+.title p{margin-top:4px;font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.85);}
+.tabs{margin-left:auto;display:flex;gap:6px;background:#fff;padding:5px;border-radius:14px;box-shadow:0 3px 10px rgba(139,92,246,.12);}
+.tab{border:none;background:transparent;color:var(--muted);padding:8px 20px;cursor:pointer;font-family:var(--sans);font-weight:700;font-size:12px;letter-spacing:1px;text-transform:uppercase;border-radius:10px;transition:.15s;}
+.tab:hover{color:var(--purple);}
+.tab.active{background:linear-gradient(135deg,var(--pink),var(--purple));color:#fff;box-shadow:0 3px 10px rgba(255,61,151,.4);}
+main.stage{position:relative;z-index:1;flex:1;overflow-y:auto;padding:28px 26px 46px;}
+.view{display:none;}.view.active{display:block;}
+.wrap-modes{max-width:960px;margin:0 auto;}.wrap-config{max-width:740px;margin:0 auto;}
+.rail{display:flex;align-items:center;gap:12px;margin-bottom:18px;}
+.rail .cap{font-family:var(--disp);font-weight:700;font-size:22px;letter-spacing:1px;text-transform:uppercase;color:var(--ink);}
+.rail .bar{flex:1;height:3px;border-radius:3px;background:linear-gradient(90deg,var(--sky),var(--pink),transparent);}
+.runbar{position:relative;display:none;align-items:center;gap:14px;margin-bottom:18px;padding:16px 22px;background:linear-gradient(135deg,var(--pink),#ff6fae);border:none;border-radius:18px;box-shadow:0 10px 26px rgba(255,61,151,.35);overflow:hidden;color:#fff;}
+.runbar.on{display:flex;}
+.runbar::before{content:'';position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(135deg,rgba(255,255,255,.14) 0 12px,transparent 12px 24px);}
+.spinner{position:relative;z-index:1;order:1;width:24px;height:24px;flex:none;animation:spin .9s linear infinite;}.spinner path{fill:#fff!important;}
+.runbar .rl{position:relative;z-index:1;order:3;font-family:var(--disp);font-weight:800;font-size:24px;text-transform:uppercase;letter-spacing:.5px;color:#fff;line-height:1;text-shadow:0 1px 2px rgba(0,0,0,.14);}
+.runbar .tag{position:relative;z-index:1;order:2;display:inline-flex;align-items:center;font-family:var(--mono);font-size:10px;letter-spacing:2px;color:#fff;text-transform:uppercase;background:rgba(255,255,255,.24);padding:5px 12px;border-radius:999px;}
+.btn-stop{position:relative;z-index:1;order:4;margin-left:auto;border:none;background:#fff;color:var(--pink);cursor:pointer;font-family:var(--sans);font-weight:800;font-size:12px;letter-spacing:1px;text-transform:uppercase;padding:9px 20px;border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,.16);transition:.15s;}
+.btn-stop::before{content:'';display:inline-block;width:9px;height:9px;background:var(--red);border-radius:2px;margin-right:8px;vertical-align:middle;}
+.btn-stop:hover{transform:translateY(-1px);}
+.grid-wrap{transition:.2s;}.grid-wrap.dim{opacity:1;filter:saturate(.3) opacity(.55);pointer-events:none;}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.card{position:relative;text-align:left;border:none;background:#fff;color:#fff;cursor:pointer;display:flex;align-items:center;font-family:var(--sans);border-radius:20px;overflow:hidden;box-shadow:0 6px 16px rgba(42,33,64,.14);transition:transform .15s,box-shadow .15s;}
+.card:hover{transform:translateY(-3px);box-shadow:0 14px 30px rgba(42,33,64,.22);}
+.card::before{content:'';position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(135deg,rgba(255,255,255,.12) 0 11px,transparent 11px 22px);}
+.card .num,.card .body{position:relative;z-index:1;}
+.card .num{width:64px;height:64px;margin:14px 4px 14px 16px;border-radius:50%;background:#fff!important;color:var(--ink)!important;display:grid;place-items:center;flex:none;font-family:var(--round);font-weight:800;font-size:30px;border-right:none;box-shadow:0 3px 8px rgba(0,0,0,.18);}
+.card .body{flex:1;padding:15px 18px 15px 8px;display:flex;flex-direction:column;justify-content:center;}
+.card .kicker{font-family:var(--mono);font-size:9px;letter-spacing:2px;color:rgba(255,255,255,.8);text-transform:uppercase;}
+.card .name{font-family:var(--sans);font-size:22px;font-weight:800;line-height:1.1;text-transform:uppercase;margin-top:4px;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.12);}
+.card:hover .body::after{background:#fff;transform:translateX(2px);}
+.grid .card:nth-child(5n+1){background:linear-gradient(135deg,var(--pink),#ff86bd)!important;}.grid .card:nth-child(5n+1) .num{color:#ff2f8e!important;}
+.grid .card:nth-child(5n+2){background:linear-gradient(135deg,var(--purple),#a78bfa)!important;}.grid .card:nth-child(5n+2) .num{color:#7c4ddb!important;}
+.grid .card:nth-child(5n+3){background:linear-gradient(135deg,var(--sky),#7cc0ff)!important;}.grid .card:nth-child(5n+3) .num{color:#2b8be6!important;}
+.grid .card:nth-child(5n+4){background:linear-gradient(135deg,var(--amber),#ffd766)!important;}.grid .card:nth-child(5n+4) .num{color:#e0930a!important;}
+.grid .card:nth-child(5n+5){background:linear-gradient(135deg,var(--teal),#5ad9cb)!important;}.grid .card:nth-child(5n+5) .num{color:#12a394!important;}
+.empty-state{display:none;text-align:center;padding:50px 28px;background:#fff;border:2px dashed #f3cfe3;border-radius:20px;}
+.empty-state.on{display:block;}
+.empty-state .big{font-family:var(--disp);font-size:30px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--ink);}
+.empty-state .txt{font-family:var(--sans);font-size:14px;color:var(--muted);max-width:420px;margin:10px auto 22px;line-height:1.6;}
+.empty-state button{border:none;cursor:pointer;font-family:var(--sans);font-weight:700;font-size:13px;letter-spacing:1px;text-transform:uppercase;color:#fff;background:linear-gradient(135deg,var(--pink),var(--purple));padding:12px 24px;border-radius:12px;box-shadow:0 5px 14px rgba(255,61,151,.4);}
+.empty-state button:hover{filter:brightness(1.05);}
+.board{margin-top:24px;border:none;border-radius:20px;overflow:hidden;box-shadow:0 6px 18px rgba(42,33,64,.12);}
+.board-head{display:flex;align-items:center;gap:12px;padding:12px 18px;background:linear-gradient(102deg,var(--sky),var(--purple) 65%,var(--pink));position:relative;overflow:hidden;}
+.board-head::before{content:'';position:absolute;inset:0;pointer-events:none;opacity:.16;background:repeating-linear-gradient(115deg,#fff 0 3px,transparent 3px 16px);animation:umazoom 1.6s linear infinite;}
+.board-head .strip{position:relative;z-index:1;flex:1;height:0;}
+.board-head .lbl{position:relative;z-index:1;font-family:var(--sans);font-size:12px;font-weight:800;letter-spacing:2px;color:#fff;text-transform:uppercase;}
+.board-body{height:280px;overflow-y:auto;padding:18px 20px;background:#fbf7ff;font-family:var(--mono);font-size:12.5px;line-height:1.7;white-space:pre-wrap;color:#4a4270;}
+.board-body .waiting{color:#b0a8cc;}
+.log-sep{height:2px;margin:12px 0;border-radius:2px;background:linear-gradient(90deg,var(--pink),var(--purple),transparent);opacity:.5;}
+.log-title{font-family:var(--disp);font-weight:400;font-size:17px;line-height:1.2;letter-spacing:.5px;text-transform:uppercase;color:var(--purple);margin:6px 0;}
+.log-run{font-weight:800;letter-spacing:.5px;color:var(--pink);}
+.log-line{color:#4a4270;}
+.card-fields{border:2px solid #fff;background:#fff;border-radius:20px;overflow:hidden;box-shadow:0 6px 18px rgba(139,92,246,.10);}
+.field{display:flex;align-items:center;gap:18px;padding:17px 20px;border-bottom:1px solid var(--line);}
+.field:last-child{border-bottom:none;}.field .info{flex:1;}
+.field .flabel{font-weight:700;font-size:15px;color:var(--ink);}
+.field .help{font-family:var(--mono);font-size:10px;letter-spacing:.5px;text-transform:none;color:var(--muted);margin-top:4px;}
+.field .control{flex:none;}
+.toggle{position:relative;width:48px;height:27px;border:none;border-radius:999px;cursor:pointer;transition:.18s;display:inline-block;background:#e6dcf2;}
+.toggle.on{background:linear-gradient(135deg,var(--green),var(--green2));}
+.toggle .knob{position:absolute;width:21px;height:21px;top:3px;left:3px;background:#fff;border-radius:50%;transition:.18s;box-shadow:0 2px 5px rgba(0,0,0,.2);}
+.toggle.on .knob{transform:translateX(21px);}
+input.text{background:#faf6ff;color:var(--ink);border:2px solid var(--line);border-radius:12px;padding:9px 13px;font-size:14px;font-family:var(--sans);min-width:220px;}
+input.text:focus{outline:none;border-color:var(--purple);}
+.infoval{font-family:var(--mono);font-size:13px;color:var(--purple);letter-spacing:.3px;font-weight:700;}
+select.select{background:#faf6ff;color:var(--ink);border:2px solid var(--line);border-radius:12px;padding:9px 30px 9px 13px;font-size:13px;font-family:var(--sans);font-weight:700;text-transform:uppercase;letter-spacing:.5px;min-width:190px;cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238b5cf6' stroke-width='3'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;}
+select.select:focus{outline:none;border-color:var(--purple);}
+.chips{display:flex;flex-wrap:wrap;gap:8px;max-width:400px;justify-content:flex-end;}
+.chip{padding:7px 14px;border:2px solid var(--line);border-radius:999px;cursor:pointer;font-family:var(--sans);font-size:12px;font-weight:700;letter-spacing:.3px;text-transform:uppercase;user-select:none;transition:.15s;background:#fff;color:var(--muted);}
+.chip:hover{border-color:var(--purple);color:var(--purple);}
+.chip.on{background:linear-gradient(135deg,var(--green),var(--green2));color:#fff;border-color:transparent;}
+.foot{display:none;align-items:center;gap:18px;padding:14px 26px;background:rgba(255,255,255,.8);backdrop-filter:blur(8px);border-top:2px solid #fff;position:relative;z-index:2;}
+.foot.on{display:flex;}
+.btn-save{border:none;cursor:pointer;font-family:var(--disp);font-weight:800;color:#fff;font-size:20px;letter-spacing:1px;text-transform:uppercase;background:linear-gradient(135deg,var(--pink),var(--purple));padding:11px 32px;border-radius:14px;box-shadow:0 6px 16px rgba(255,61,151,.4);transition:.12s;}
+.btn-save:hover{filter:brightness(1.05);}.btn-save:active{transform:translateY(2px);}
+.saved{color:var(--green2);font-family:var(--sans);font-weight:700;font-size:13px;letter-spacing:.5px;text-transform:uppercase;opacity:0;transition:.2s;}
+.saved.show{opacity:1;}
+.note{font-family:var(--mono);font-size:10px;letter-spacing:.5px;text-transform:uppercase;color:var(--muted);}
+.overlay{position:fixed;inset:0;background:rgba(42,33,64,.4);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;z-index:50;}
+.overlay.on{display:flex;}
+.modal{background:#fff;border:2px solid #fff;border-radius:22px;padding:28px;width:min(440px,90vw);box-shadow:0 24px 60px rgba(42,33,64,.3);}
+.modal h3{font-family:var(--disp);font-weight:800;font-size:24px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px;color:var(--ink);}
+.modal p{font-family:var(--sans);color:var(--muted);font-size:13px;line-height:1.6;margin-bottom:16px;white-space:pre-wrap;}
+.modal input{width:100%;background:#faf6ff;color:var(--ink);border:2px solid var(--line);border-radius:12px;padding:12px 14px;font-size:14px;font-family:var(--sans);margin-bottom:18px;}
+.modal input:focus{outline:none;border-color:var(--purple);}
+.modal .row{display:flex;justify-content:flex-end;}
+.btn-submit{border:none;cursor:pointer;font-family:var(--sans);font-weight:700;font-size:13px;letter-spacing:1px;text-transform:uppercase;color:#fff;background:linear-gradient(135deg,var(--pink),var(--purple));padding:12px 24px;border-radius:12px;}
+.btn-submit:hover{filter:brightness(1.05);}
+
+@media (max-width:760px){
+ .mast{flex-wrap:wrap;gap:12px;} .tabs{width:100%;margin-left:0;} .tab{flex:1;text-align:center;}
+ .grid{grid-template-columns:1fr;}
+ .field{flex-direction:column;align-items:stretch;gap:10px;} .field .control{width:100%;}
+ input.text,select.select{width:100%;min-width:0;} .chips{max-width:none;justify-content:flex-start;}
+ .foot{flex-wrap:wrap;} .note{width:100%;order:3;}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="scan"></div>
+
+  <!-- Masthead -->
+  <header class="mast">
+    <div class="logo">
+      <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><path fill="#F1EBDD" d="M 236.00 511.37 C202.98,508.27 175.55,501.45 150.19,490.03 C42.12,441.37 -6.33,321.99 24.16,179.50 C31.10,147.08 42.78,113.37 56.69,85.62 C59.69,79.64 61.77,74.41 61.32,74.00 C60.87,73.58 56.13,71.35 50.80,69.03 C43.66,65.94 40.06,63.71 37.20,60.60 C28.21,50.85 27.78,41.03 35.55,23.50 C41.43,10.25 45.91,4.93 53.63,2.04 C60.40,-0.50 65.15,-0.54 72.09,1.88 C80.13,4.68 123.86,23.75 128.66,26.55 C138.16,32.09 146.37,43.52 149.01,54.89 C151.53,65.70 149.52,75.18 140.72,94.00 C131.91,112.84 122.31,143.33 118.06,166.00 C108.55,216.73 111.55,266.40 126.46,305.03 C142.40,346.33 172.79,376.61 211.09,389.36 C226.74,394.57 237.90,396.29 256.00,396.29 C274.10,396.29 285.26,394.57 300.91,389.36 C339.21,376.61 369.60,346.33 385.54,305.03 C400.45,266.40 403.45,216.73 393.94,166.00 C389.69,143.33 380.09,112.84 371.28,94.00 C362.48,75.18 360.47,65.70 362.99,54.89 C365.63,43.52 373.84,32.09 383.34,26.55 C388.14,23.75 431.87,4.68 439.91,1.88 C446.85,-0.54 451.60,-0.50 458.37,2.04 C466.09,4.93 470.57,10.25 476.45,23.50 C484.22,41.03 483.79,50.85 474.80,60.60 C471.94,63.71 468.34,65.94 461.20,69.03 C455.87,71.35 451.13,73.58 450.68,74.00 C450.23,74.41 452.31,79.64 455.31,85.62 C489.33,153.48 503.82,238.23 493.42,308.50 C477.12,418.55 401.21,494.68 293.00,509.50 C281.87,511.03 245.15,512.23 236.00,511.37 Z"></path></svg>
+    </div>
+    <div class="title">
+      <h1>Uma&nbsp;Auto</h1>
+      <p>Team Trials / Champions / Daily</p>
+    </div>
+    <div class="tabs">
+      <button class="tab active" data-view="modes">Modes</button>
+      <button class="tab" data-view="config">Config</button>
+    </div>
+  </header>
+  <div class="checker"></div>
+
+  <main class="stage">
+    <!-- MODES -->
+    <section id="view-modes" class="view active">
+      <div class="wrap-modes">
+        <div id="runbar" class="runbar">
+          <svg class="spinner" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><path fill="#DC3C28" d="M 236.00 511.37 C202.98,508.27 175.55,501.45 150.19,490.03 C42.12,441.37 -6.33,321.99 24.16,179.50 C31.10,147.08 42.78,113.37 56.69,85.62 C59.69,79.64 61.77,74.41 61.32,74.00 C60.87,73.58 56.13,71.35 50.80,69.03 C43.66,65.94 40.06,63.71 37.20,60.60 C28.21,50.85 27.78,41.03 35.55,23.50 C41.43,10.25 45.91,4.93 53.63,2.04 C60.40,-0.50 65.15,-0.54 72.09,1.88 C80.13,4.68 123.86,23.75 128.66,26.55 C138.16,32.09 146.37,43.52 149.01,54.89 C151.53,65.70 149.52,75.18 140.72,94.00 C131.91,112.84 122.31,143.33 118.06,166.00 C108.55,216.73 111.55,266.40 126.46,305.03 C142.40,346.33 172.79,376.61 211.09,389.36 C226.74,394.57 237.90,396.29 256.00,396.29 C274.10,396.29 285.26,394.57 300.91,389.36 C339.21,376.61 369.60,346.33 385.54,305.03 C400.45,266.40 403.45,216.73 393.94,166.00 C389.69,143.33 380.09,112.84 371.28,94.00 C362.48,75.18 360.47,65.70 362.99,54.89 C365.63,43.52 373.84,32.09 383.34,26.55 C388.14,23.75 431.87,4.68 439.91,1.88 C446.85,-0.54 451.60,-0.50 458.37,2.04 C466.09,4.93 470.57,10.25 476.45,23.50 C484.22,41.03 483.79,50.85 474.80,60.60 C471.94,63.71 468.34,65.94 461.20,69.03 C455.87,71.35 451.13,73.58 450.68,74.00 C450.23,74.41 452.31,79.64 455.31,85.62 C489.33,153.48 503.82,238.23 493.42,308.50 C477.12,418.55 401.21,494.68 293.00,509.50 C281.87,511.03 245.15,512.23 236.00,511.37 Z"></path></svg>
+          <div class="rl" id="runLabel">Automation</div>
+          <div class="tag">running</div>
+          <button class="btn-stop" onclick="stopRun()">Stop</button>
+        </div>
+
+        <div id="emptyState" class="empty-state">
+          <div class="big">Ready to race?</div>
+          <div class="txt">Set up the app in the Config tab, then come back to launch a mode.</div>
+          <button onclick="showView('config')">Open Config</button>
+        </div>
+
+        <div id="gridWrap" class="grid-wrap">
+          <div class="rail"><div class="cap">Starting Grid</div><div class="bar"></div></div>
+          <div id="grid" class="grid"></div>
+        </div>
+
+        <div class="board">
+          <div class="board-head">
+            <div class="strip"></div>
+            <div class="lbl">RACE&nbsp;LOG</div>
+          </div>
+          <div id="console" class="board-body"><span class="waiting">— waiting for the gate —</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONFIG -->
+    <section id="view-config" class="view">
+      <div class="wrap-config">
+        <div class="rail"><div class="cap">Race Card</div><div class="bar"></div></div>
+        <div id="fields" class="card-fields"></div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer: config actions, only shown on the Config tab -->
+  <footer id="foot" class="foot">
+    <button class="btn-save" onclick="saveConfig()">Save</button>
+    <span id="saved" class="saved">Saved</span>
+    <span class="note">Switching Steam ⇄ ADB restarts the app automatically.</span>
+  </footer>
+</div>
+
+<!-- Prompt modal -->
+<div id="overlay" class="overlay">
+  <div class="modal">
+    <h3>Input required</h3>
+    <p id="promptMsg"></p>
+    <input id="promptInput" type="text" autocomplete="off">
+    <div class="row"><button class="btn-submit" onclick="submitPrompt()">Submit</button></div>
+  </div>
+</div>
+<script>
+const ACCENTS = ['#DC3C28', '#1E6B4F', '#1B1712', '#C68A2E'];
+let SCHEMA = null, CONFIG = {}, promptOpen = false, modesReady = false, wasRunning = false;
+
+function api() { return window.pywebview.api; }
+
+/* tabs */
+document.querySelectorAll('.tab').forEach(t => t.onclick = () => showView(t.dataset.view));
+function showView(name) {
+  document.querySelectorAll('.tab').forEach(x => x.classList.toggle('active', x.dataset.view === name));
+  document.getElementById('view-modes').classList.toggle('active', name === 'modes');
+  document.getElementById('view-config').classList.toggle('active', name === 'config');
+  document.getElementById('foot').classList.toggle('on', name === 'config');
+}
+
+/* init — robust boot: pywebview may fire 'pywebviewready' before this script
+   attaches its listener, so we also poll for the API and retry on failure.
+   Without this, a missed event leaves both tabs blank. */
+let booted = false;
+async function boot() {
+  if (booted) return;
+  if (!(window.pywebview && window.pywebview.api)) return;
+  booted = true;
+  try {
+    await init();
+  } catch (e) {
+    booted = false;              // transient failure: try again shortly
+    setTimeout(boot, 300);
+  }
+}
+window.addEventListener('pywebviewready', boot);
+document.addEventListener('DOMContentLoaded', boot);
+window.addEventListener('load', boot);
+boot();
+setTimeout(boot, 400);
+setTimeout(boot, 1200);
+setTimeout(boot, 2500);
+
+async function init() {
+  const s = await api().get_schema();
+  SCHEMA = s.fields; CONFIG = s.config;
+  renderFields();
+  if (!s.config_exists) showView('config');
+  pollLoop();  // self-scheduling: never overlaps, never piles up
+}
+
+/* One poll cycle at a time. Reschedules itself only after finishing, so a
+   slow call can never stack up and lock the UI. */
+async function pollLoop() {
+  try {
+    await poll();
+    if (!modesReady) await refreshModes();
+  } catch (e) { /* keep the loop alive on any transient error */ }
+  setTimeout(pollLoop, 250);
+}
+
+/* modes */
+async function refreshModes() {
+  const r = await api().list_features();
+  const grid = document.getElementById('grid');
+  const empty = document.getElementById('emptyState');
+  const gridWrap = document.getElementById('gridWrap');
+  const big = empty.querySelector('.big');
+  const txt = empty.querySelector('.txt');
+  const btn = empty.querySelector('button');
+
+  // Backend still importing / building the driver in the background.
+  if (r.loading) {
+    gridWrap.style.display = 'none';
+    empty.classList.add('on');
+    big.textContent = 'Warming up…';
+    txt.textContent = 'Loading the automation engine, one moment.';
+    btn.style.display = 'none';
+    return;  // stay not-ready so pollLoop keeps checking
+  }
+
+  modesReady = true;  // resolved (ready, error, or unconfigured): stop auto-refetch
+
+  if (r.error) {
+    gridWrap.style.display = 'none';
+    empty.classList.add('on');
+    big.textContent = 'Engine error';
+    txt.textContent = r.error;
+    btn.style.display = 'none';
+    return;
+  }
+
+  if (!r.features.length) {
+    gridWrap.style.display = 'none';
+    empty.classList.add('on');
+    big.textContent = 'Ready to race?';
+    txt.textContent = 'Set up the app in the Config tab, then come back to launch a mode.';
+    btn.style.display = '';
+    return;
+  }
+
+  empty.classList.remove('on');
+  gridWrap.style.display = '';
+  grid.innerHTML = '';
+  r.features.forEach((f, i) => {
+    const b = document.createElement('button');
+    b.className = 'card';
+    b.innerHTML =
+      `<div class="num" style="background:${ACCENTS[i % 4]}">${String(i + 1).padStart(2, '0')}</div>` +
+      `<div class="body"><div class="kicker">Run mode</div><div class="name">${f.label}</div></div>`;
+    b.onclick = () => runFeature(f.key, f.label);
+    grid.appendChild(b);
+  });
+}
+
+async function runFeature(key, label) {
+  const r = await api().run_feature(key);
+  if (r.started) {
+    document.getElementById('console').innerHTML = '';
+    document.getElementById('runLabel').textContent = label;
+    setRunning(true);
+  }
+}
+async function stopRun() { await api().stop_feature(); }
+
+function setRunning(on) {
+  document.getElementById('runbar').classList.toggle('on', on);
+  document.getElementById('gridWrap').classList.toggle('dim', on);
+}
+
+/* polling */
+async function poll() {
+  if (!window.pywebview) return;
+  const r = await api().poll();
+  setRunning(r.running);
+  // Mode just finished/stopped: put the window back to its pre-run size/place.
+  if (wasRunning && !r.running) api().restore_window();
+  wasRunning = r.running;
+  const cons = document.getElementById('console');
+  if (r.log && r.log.length) {
+    r.log.forEach(line => renderLogLine(cons, line));
+    cons.scrollTop = cons.scrollHeight;
+  }
+  if (r.prompt && !promptOpen) openPrompt(r.prompt);
+}
+
+/* Turn one raw log line into a styled element:
+   - a run of '=' becomes a gold rule
+   - "Uma Musume <Mode> Auto" becomes the gold mode title (kept short)
+   - "Run: X" gets emphasised
+   - everything else stays a plain action line */
+function renderLogLine(cons, line) {
+  if (line === '\x00clear') { cons.innerHTML = ''; return; }
+  if (/^=+$/.test(line.trim()) && line.trim().length >= 3) {
+    // Skip a separator at the very top: the RACE LOG header strip is already
+    // right above it, so it would be a redundant double rule.
+    if (cons.childNodes.length === 0) return;
+    const hr = document.createElement('div');
+    hr.className = 'log-sep';
+    cons.appendChild(hr);
+    return;
+  }
+  const el = document.createElement('div');
+  el.className = 'log-line';
+  const title = line.match(/^Uma Musume (.+?) Auto$/);
+  if (title) { el.classList.add('log-title'); el.textContent = title[1]; }
+  else if (/^Run:\s*\S/.test(line)) { el.classList.add('log-run'); el.textContent = line; }
+  else if (line === '') { el.innerHTML = '&nbsp;'; }
+  else { el.textContent = line; }
+  cons.appendChild(el);
+}
+
+function openPrompt(msg) {
+  promptOpen = true;
+  document.getElementById('promptMsg').textContent = msg;
+  const inp = document.getElementById('promptInput');
+  inp.value = '';
+  document.getElementById('overlay').classList.add('on');
+  inp.focus();
+}
+async function submitPrompt() {
+  const val = document.getElementById('promptInput').value;
+  document.getElementById('overlay').classList.remove('on');
+  promptOpen = false;
+  await api().submit_prompt(val);
+}
+document.getElementById('promptInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter') submitPrompt();
+});
+
+/* config form */
+function visible(field) {
+  if (!field.when) return true;
+  return Object.entries(field.when).every(([k, v]) => CONFIG[k] === v);
+}
+
+function renderFields() {
+  const box = document.getElementById('fields');
+  box.innerHTML = '';
+  SCHEMA.forEach(f => {
+    if (!visible(f)) return;
+    const row = document.createElement('div');
+    row.className = 'field';
+    const info = document.createElement('div');
+    info.className = 'info';
+    info.innerHTML = `<div class="flabel">${f.label}</div>` +
+      (f.help ? `<div class="help">${f.help}</div>` : '');
+    const control = document.createElement('div');
+    control.className = 'control';
+    control.appendChild(buildControl(f));
+    row.appendChild(info);
+    row.appendChild(control);
+    box.appendChild(row);
+  });
+}
+
+function buildControl(f) {
+  const val = CONFIG[f.key];
+  if (f.type === 'info') {
+    const span = document.createElement('span');
+    span.className = 'infoval';
+    span.textContent = val || '—';
+    return span;
+  }
+  if (f.type === 'bool') {
+    const t = document.createElement('span');
+    t.className = 'toggle' + (val ? ' on' : '');
+    t.innerHTML = '<span class="knob"></span>';
+    t.onclick = () => { CONFIG[f.key] = !CONFIG[f.key]; t.classList.toggle('on', CONFIG[f.key]); renderFields(); };
+    return t;
+  }
+  if (f.type === 'text') {
+    const inp = document.createElement('input');
+    inp.className = 'text'; inp.type = 'text'; inp.value = val || '';
+    inp.oninput = () => CONFIG[f.key] = inp.value;
+    return inp;
+  }
+  if (f.type === 'choice') {
+    const sel = document.createElement('select');
+    sel.className = 'select';
+    f.options.forEach(opt => {
+      const o = document.createElement('option');
+      o.value = opt; o.textContent = (f.option_labels && f.option_labels[opt]) || opt;
+      if (opt === val) o.selected = true;
+      sel.appendChild(o);
+    });
+    sel.onchange = () => { CONFIG[f.key] = sel.value; renderFields(); };
+    return sel;
+  }
+  if (f.type === 'multichoice') {
+    const wrap = document.createElement('div'); wrap.className = 'chips';
+    const current = Array.isArray(val) ? val.slice() : [];
+    f.options.forEach(opt => {
+      const chip = document.createElement('span');
+      chip.className = 'chip' + (current.includes(opt) ? ' on' : '');
+      chip.textContent = opt;
+      chip.onclick = () => {
+        const arr = CONFIG[f.key] = (CONFIG[f.key] || []).slice();
+        const i = arr.indexOf(opt);
+        if (i >= 0) arr.splice(i, 1); else arr.push(opt);
+        chip.classList.toggle('on');
+      };
+      wrap.appendChild(chip);
+    });
+    return wrap;
+  }
+  return document.createTextNode('');
+}
+
+async function saveConfig() {
+  const res = await api().save_config(CONFIG);
+  const s = document.getElementById('saved');
+  s.textContent = (res && res.restarting) ? 'Restarting…' : 'Saved';
+  s.classList.add('show');
+  setTimeout(() => s.classList.remove('show'), 1600);
+  modesReady = false;  // let the poll loop re-sync the modes list
+}
+</script>
+</body>
+</html>

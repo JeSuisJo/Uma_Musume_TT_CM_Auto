@@ -62,11 +62,9 @@ _QUESTIONS = [
         lambda c: ask_str("Steam window title", DEFAULTS["steam_window_title"]),
         when=lambda c: c.get("steam"),
     ),
-    _Question(
-        "device_id",
-        lambda c: ask_str("ADB device id", DEFAULTS["device_id"]),
-        when=lambda c: not c.get("steam"),
-    ),
+    # device_id is not asked: it is detected (and saved) automatically at run
+    # start by the ADB driver -- see AdbDriver.ensure_ready. The default from
+    # DEFAULTS lands in config.json as the initial cached value.
     _Question(
         "difficulty_tm",
         lambda c: ask_choice(

@@ -260,5 +260,135 @@
       "region": [251, 389, 846, 868],
       "img": "img/steam/gold_ship.png"
     }
+  },
+  "legend_curren_chan": {
+    "adb": {
+      "region": [99, 389, 692, 868],
+      "img": "img/android/legend_curren_chan.png"
+    },
+    "steam": {
+      "region": [251, 389, 846, 868],
+      "img": "img/steam/legend_curren_chan.png"
+    }
+  },
+  "legend_maruzensky": {
+    "adb": {
+      "region": [99, 389, 692, 868],
+      "img": "img/android/legend_maruzensky.png"
+    },
+    "steam": {
+      "region": [251, 389, 846, 868],
+      "img": "img/steam/legend_maruzensky.png"
+    }
+  },
+  "legend_fuji_kiseki": {
+    "adb": {
+      "region": [99, 389, 692, 868],
+      "img": "img/android/legend_fuji_kiseki.png"
+    },
+    "steam": {
+      "region": [251, 389, 846, 868],
+      "img": "img/steam/legend_fuji_kiseki.png"
+    }
+  },
+  "legend_mihono_bourbon": {
+    "adb": {
+      "region": [99, 389, 692, 868],
+      "img": "img/android/legend_mihono_bourbon.png"
+    },
+    "steam": {
+      "region": [251, 389, 846, 868],
+      "img": "img/steam/legend_mihono_bourbon.png"
+    }
+  },
+  "legend_matikane_fukukitaru": {
+    "adb": {
+      "region": [99, 389, 692, 868],
+      "img": "img/android/legend_matikane_fukukitaru.png"
+    },
+    "steam": {
+      "region": [251, 389, 846, 868],
+      "img": "img/steam/legend_matikane_fukukitaru.png"
+    }
+  },
+  "legend_seiun_sky": {
+    "adb": {
+      "region": [99, 389, 692, 868],
+      "img": "img/android/legend_seiun_sky.png"
+    },
+    "steam": {
+      "region": [251, 389, 846, 868],
+      "img": "img/steam/legend_seiun_sky.png"
+    }
+  },
+  "legend_biwa_hayahide": {
+    "adb": {
+      "region": [99, 389, 692, 868],
+      "img": "img/android/legend_biwa_hayahide.png"
+    },
+    "steam": {
+      "region": [251, 389, 846, 868],
+      "img": "img/steam/legend_biwa_hayahide.png"
+    }
+  },
+  "legend_air_groove": {
+    "adb": {
+      "region": [99, 389, 692, 868],
+      "img": "img/android/legend_air_groove.png"
+    },
+    "steam": {
+      "region": [251, 389, 846, 868],
+      "img": "img/steam/legend_air_groove.png"
+    }
+  },
+  "legend_eishin_flash": {
+    "adb": {
+      "region": [99, 389, 692, 868],
+      "img": "img/android/legend_eishin_flash.png"
+    },
+    "steam": {
+      "region": [251, 389, 846, 868],
+      "img": "img/steam/legend_eishin_flash.png"
+    }
+  },
+  "legend_agnes_digital": {
+    "adb": {
+      "region": [99, 389, 692, 868],
+      "img": "img/android/legend_agnes_digital.png"
+    },
+    "steam": {
+      "region": [251, 389, 846, 868],
+      "img": "img/steam/legend_agnes_digital.png"
+    }
+  },
+  "legend_nice_nature": {
+    "adb": {
+      "region": [99, 389, 692, 868],
+      "img": "img/android/legend_nice_nature.png"
+    },
+    "steam": {
+      "region": [251, 389, 846, 868],
+      "img": "img/steam/legend_nice_nature.png"
+    }
+  },
+  "legend_grass_wonder": {
+    "adb": {
+      "region": [99, 389, 692, 868],
+      "img": "img/android/legend_grass_wonder.png"
+    },
+    "steam": {
+      "region": [251, 389, 846, 868],
+      "img": "img/steam/legend_grass_wonder.png"
+    }
+  },
+  "legend_oguri_cap": {
+    "adb": {
+      "region": [99, 389, 692, 868],
+      "img": "img/android/legend_oguri_cap.png"
+    },
+    "steam": {
+      "region": [251, 389, 846, 868],
+      "img": "img/steam/legend_oguri_cap.png"
+    }
   }
 }

@@ -109,8 +109,13 @@ def tap_template(name, threshold=0.9, scales=None):
 
 
 def see_any(*names, threshold=0.9):
-    """Return True if any of the named elements is currently on screen."""
-    return any(see(name, threshold) for name in names)
+    """Return True if any of the named elements is currently on screen.
+
+    All the names are tested against a single capture rather than one each:
+    they describe the same instant, and nothing is tapped in between.
+    """
+    with driver.frozen():
+        return any(see(name, threshold) for name in names)
 
 
 def wait_any(*names, threshold=0.9, poll=0.5):

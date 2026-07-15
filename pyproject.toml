@@ -15,9 +15,11 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = ["pytest"]
+gui = ["pywebview"]
 
 [project.scripts]
 umauto = "umauto.app:run"
+umauto-gui = "umauto.gui.app:run"
 
 [build-system]
 requires = ["setuptools>=61"]
@@ -25,6 +27,9 @@ build-backend = "setuptools.build_meta"
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.setuptools.package-data]
+"umauto.gui" = ["web/*.html", "web/fonts/*.woff2"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

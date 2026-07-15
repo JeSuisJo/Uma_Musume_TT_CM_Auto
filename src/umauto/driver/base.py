@@ -42,8 +42,57 @@ def _iou(a, b):
 class Driver:
     """Base driver with shared image and colour helpers."""
 
+    # Set while a ``frozen()`` block is active; see :meth:`_capture`.
+    _freeze_active = False
+    _frozen_path = None
+
     def _screenshot(self, dest="temp.png"):
         raise NotImplementedError
+
+    @contextlib.contextmanager
+    def frozen(self):
+        """Reuse a single capture for every check made inside the block.
+
+        Each image/colour helper normally grabs its own screenshot, which costs
+        a full round-trip to the device. When several checks read the *same*
+        static view -- e.g. hunting ten shop icons in one list -- they can all
+        run against one frame instead of ten.
+
+        Only wrap code that does not act on the screen: a tap inside the block
+        would leave the later checks reading a pre-tap frame. Wrap the detection
+        phase, then act on its result once the block has exited. Waiting loops
+        must never be frozen -- they poll for a *change*, so they need a fresh
+        frame every time.
+        """
+        if self._freeze_active:
+            yield  # already frozen by an outer block: reuse its frame
+            return
+        self._freeze_active = True
+        self._frozen_path = None
+        try:
+            yield
+        finally:
+            if self._frozen_path:
+                _silent_remove(self._frozen_path)
+            self._frozen_path = None
+            self._freeze_active = False
+
+    def _capture(self):
+        """Return a path to a current capture, honouring :meth:`frozen`.
+
+        Every image/colour helper goes through here rather than calling
+        ``_screenshot`` directly, so freezing works for all of them at once.
+        """
+        if not self._freeze_active:
+            return self._screenshot()
+        if self._frozen_path is None:
+            self._frozen_path = self._screenshot()
+        return self._frozen_path
+
+    def _release(self, path):
+        """Discard a capture, unless it is the frozen frame still in use."""
+        if not (self._freeze_active and path == self._frozen_path):
+            _silent_remove(path)
 
     def tap(self, x, y):
         raise NotImplementedError
@@ -75,6 +124,9 @@ class Driver:
     def focus(self):
         """Bring the game to the foreground (no-op when not needed)."""
 
+    def ensure_ready(self):
+        """Resolve/validate the target device before a run (no-op by default)."""
+
     def stop(self, message="Script stopped"):
         raise StopScript(message)
 
@@ -94,11 +146,11 @@ class Driver:
         return max(0.0, min(1.0, 1.0 - rms / 255.0))
 
     def compare_image(self, reference_path, region, threshold=0.95):
-        temp = self._screenshot()
+        temp = self._capture()
         shot = Image.open(temp).crop(region).convert("RGB")
         reference = Image.open(resolve(reference_path)).convert("RGB")
         matched = self._similarity(shot, reference) >= threshold
-        _silent_remove(temp)
+        self._release(temp)
         return matched
 
     def wait_for_image(self, reference_path, region, threshold=0.9, poll=0.5):
@@ -124,9 +176,9 @@ class Driver:
         if scales is None:
             scales = (1.0, 0.9, 0.8, 0.7, 0.6, 0.5)
 
-        temp = self._screenshot()
+        temp = self._capture()
         shot = Image.open(temp).crop(region).convert("RGB")
-        _silent_remove(temp)
+        self._release(temp)
         haystack = cv2.cvtColor(np.array(shot), cv2.COLOR_RGB2BGR)
         ref = cv2.cvtColor(
             np.array(Image.open(resolve(reference_path)).convert("RGB")),
@@ -182,9 +234,9 @@ class Driver:
         if scales is None:
             scales = (1.0, 0.9, 0.8, 0.7, 0.6, 0.5)
 
-        temp = self._screenshot()
+        temp = self._capture()
         shot = Image.open(temp).crop(region).convert("RGB")
-        _silent_remove(temp)
+        self._release(temp)
         haystack = cv2.cvtColor(np.array(shot), cv2.COLOR_RGB2BGR)
         ref = cv2.cvtColor(
             np.array(Image.open(resolve(reference_path)).convert("RGB")),
@@ -230,9 +282,9 @@ class Driver:
             time.sleep(poll)
 
     def get_color(self, x, y):
-        temp = self._screenshot()
+        temp = self._capture()
         color = Image.open(temp).convert("RGB").getpixel((x, y))
-        _silent_remove(temp)
+        self._release(temp)
         return color
 
     def is_color(self, x, y, target, tolerance=10):

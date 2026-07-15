@@ -22,6 +22,19 @@ CHAMPIONS = [
     ("Mejiro Ryan", "legend_mejiro_ryan"),
     ("Silence Suzuka", "legend_silence_suzuka"),
     ("Gold Ship", "legend_gold_ship"),
+    ("Curren Chan", "legend_curren_chan"),
+    ("Maruzensky", "legend_maruzensky"),
+    ("Fuji Kiseki", "legend_fuji_kiseki"),
+    ("Mihono Bourbon", "legend_mihono_bourbon"),
+    ("Matikane Fukukitaru", "legend_matikane_fukukitaru"),
+    ("Seiun Sky", "legend_seiun_sky"),
+    ("Biwa Hayahide", "legend_biwa_hayahide"),
+    ("Air Groove", "legend_air_groove"),
+    ("Eishin Flash", "legend_eishin_flash"),
+    ("Agnes Digital", "legend_agnes_digital"),
+    ("Nice Nature", "legend_nice_nature"),
+    ("Grass Wonder", "legend_grass_wonder"),
+    ("Oguri Cap", "legend_oguri_cap"),
 ]
 
 NAMES = [name for name, _ in CHAMPIONS]

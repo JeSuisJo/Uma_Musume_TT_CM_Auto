@@ -23,6 +23,10 @@ _ITEM_THRESHOLD = 0.9
 # selected items get re-detected, lower it if available items get skipped.
 _ITEM_COLOR_THRESHOLD = 0.85
 
+# Seconds to wait before buying the items visible in the list. Raise it if
+# items get tapped at the wrong spot.
+_DELAY = 0.8
+
 
 def buy_specific_sales():
     """Buy only the items listed in the ``shop_items`` config, then go home.
@@ -49,9 +53,11 @@ def buy_specific_sales():
     for pass_i in range(_MAX_SCROLLS + 1):
         _buy_visible(targets)
         if pass_i < _MAX_SCROLLS:
-            if _color_at("shop_already_buy") and not _color_at(
-                "shop_buy_but_not_finish"
-            ):
+            with driver.frozen():
+                done = _color_at("shop_already_buy") and not _color_at(
+                    "shop_buy_but_not_finish"
+                )
+            if done:
                 break
             time.sleep(0.6)
             screen.drag_hold_to("shop_scroll")
@@ -79,19 +85,30 @@ def _buy_visible(targets):
 
     Items are never marked done, so the same name is re-checked on each pass:
     a shop that lists an item twice gets it bought each time it comes into view.
+
+    Every item is located against one frozen capture before anything is tapped,
+    so the whole view costs a single screenshot instead of one per item.
     """
-    count = 0
     off = coords("shop_buy_offset")
-    for name in targets:
-        for loc in screen.find_all(
-            COORD_BY_NAME[name],
-            threshold=_ITEM_THRESHOLD,
-            color_threshold=_ITEM_COLOR_THRESHOLD,
-        ):
-            driver.tap(loc[0] + off["dx"], loc[1] + off["dy"])
-            time.sleep(0.8)
-            count += 1
-    return count
+    # Let the list settle before the capture: the taps below aim at coordinates
+    # read from that one frame, so it must show the view at rest. Waiting after
+    # the capture instead would only make those coordinates staler.
+    time.sleep(_DELAY)
+    with driver.frozen():
+        found = [
+            loc
+            for name in targets
+            for loc in screen.find_all(
+                COORD_BY_NAME[name],
+                threshold=_ITEM_THRESHOLD,
+                color_threshold=_ITEM_COLOR_THRESHOLD,
+            )
+        ]
+
+    for loc in found:
+        driver.tap(loc[0] + off["dx"], loc[1] + off["dy"])
+        time.sleep(0.8)
+    return len(found)
 
 
 def _confirm_purchase():

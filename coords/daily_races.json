@@ -93,7 +93,7 @@
     },
     "steam": {
       "tap": [518, 981],
-      "region": [518, 981, 585, 1009],
+      "region": [519, 981, 586, 1008],
       "img": "img/steam/daily_race_close.png"
     }
   }

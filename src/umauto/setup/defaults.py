@@ -43,6 +43,19 @@ DAILY_CHAMPIONS = [
     "Mejiro Ryan",
     "Silence Suzuka",
     "Gold Ship",
+    "Curren Chan",
+    "Maruzensky",
+    "Fuji Kiseki",
+    "Mihono Bourbon",
+    "Matikane Fukukitaru",
+    "Seiun Sky",
+    "Biwa Hayahide",
+    "Air Groove",
+    "Eishin Flash",
+    "Agnes Digital",
+    "Nice Nature",
+    "Grass Wonder",
+    "Oguri Cap",
 ]
 
 # Shop items offered in the "specific" daily-sale buying mode (display names).

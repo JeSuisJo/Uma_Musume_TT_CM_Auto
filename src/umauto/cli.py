@@ -3,61 +3,38 @@
 import os
 
 from .driver import StopScript, driver
-from .features import (
-    champions_meeting,
-    daily_full,
-    daily_legends,
-    daily_races,
-    team_trials,
-)
+from .features.registry import FEATURES
 
-_MENU = """\
-==================================================
-Uma Musume TT CM Auto
-==================================================
-[1] Full Daily (Daily Races + Daily Legends + Team Trials)
-[2] Team Trials
-[3] Champions Meeting
-[4] Daily Races
-[5] Daily Legends Race
-[0] Exit
-"""
+_TITLE = "Uma Musume TT CM Auto"
+_SEP = "=" * 50
 
 
-def _ask_int(prompt):
-    while True:
-        value = input(prompt).strip()
-        if value.isdigit():
-            return int(value)
-        print("Please enter a number.")
+def _render_menu():
+    lines = [_SEP, _TITLE, _SEP]
+    for key, feature in FEATURES.items():
+        lines.append(f"[{key}] {feature.label}")
+    lines.append("[0] Exit")
+    return "\n".join(lines) + "\n"
 
 
 def main():
     while True:
         os.system("cls")
-        print(_MENU)
+        print(_render_menu())
         choice = input("Enter your choice: ").strip()
 
         if choice == "0":
             return
 
+        feature = FEATURES.get(choice)
+        if feature is None:
+            continue
+
         try:
-            if choice == "1":
-                driver.focus()
-                daily_full.run()
-            elif choice == "2":
-                driver.focus()
-                team_trials.run()
-            elif choice == "3":
-                already_done = _ask_int("How many runs have you already done?: ")
-                driver.focus()
-                champions_meeting.run(already_done)
-            elif choice == "4":
-                driver.focus()
-                daily_races.run()
-            elif choice == "5":
-                driver.focus()
-                daily_legends.run()
+            driver.ensure_ready()
+            args = feature.prepare() if feature.prepare else ()
+            driver.focus()
+            feature.run(*args)
         except StopScript as exc:
             print(f"\n{exc}")
             input("\nPress Enter to return to the menu...")

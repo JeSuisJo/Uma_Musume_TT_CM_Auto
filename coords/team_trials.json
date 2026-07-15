@@ -249,8 +249,8 @@
   },
   "story_unlocked": {
     "adb": {
-      "tap": [337, 906],
-      "region": [351, 932, 443, 950],
+      "tap": [363, 688],
+      "region": [363, 688, 435, 716],
       "img": "img/android/story_unlocked.png"
     },
     "steam": {
