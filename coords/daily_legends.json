@@ -1,10 +1,10 @@
 {
   "dr_scroll_up": {
     "adb": {
-      "swipe": [399, 404, 394, 835, 300]
+      "tap": [685, 408]
     },
     "steam": {
-      "swipe": [556, 396, 570, 860, 300]
+      "tap": [838, 409]
     }
   },
   "daily_legends_enter": {

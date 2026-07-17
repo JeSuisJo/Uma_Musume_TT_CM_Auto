@@ -12,9 +12,16 @@ def run_cm():
 
         reward_found = False
         while True:
-            if screen.see("race_begin", 0.90):
+            with screen.driver.frozen():
+                matching = screen.see("matching", 0.90)
+                begin = screen.see("race_begin", 0.90)
+                reward = screen.see("claim_reward", 0.95)
+            if matching:
+                screen.tap("race_begin")
+                continue
+            if begin:
                 break
-            if screen.see("claim_reward", 0.95):
+            if reward:
                 reward_found = True
                 break
             time.sleep(0.5)
@@ -26,21 +33,10 @@ def run_cm():
         screen.wait("next_in_game")
         print("Race found")
         screen.tap("next_in_game")
-        time.sleep(2)
-        screen.tap("next_in_game")
-        screen.wait("race")
-        print("Starting race")
-        screen.tap("race")
-        time.sleep(2)
-
-        print("Skipping race")
-        screen.tap("skip_race")
-        time.sleep(1.5)
-        screen.tap("skip_race")
-        time.sleep(3.7)
-        screen.tap("skip_race")
-        time.sleep(1.5)
-        screen.tap("skip_race")
+        screen.wait_template("view_result_cm")
+        print("Skip Race")
+        time.sleep(1)
+        screen.tap_template("view_result_cm")
 
         while not screen.see("cm_race_finished"):
             screen.tap("rank_up_cm")

@@ -5,24 +5,11 @@ a corner the bot never reads or clicks. Steam mode requires a 1920x1080 screen,
 so the geometry is a hardcoded pixel rect (measured with helper/place_window.py).
 """
 
-import json
 import os
-
-from ..paths import resolve
-
-_CONFIG_PATH = resolve("config.json")
 
 # Overlay geometry while a mode runs. Fixed because Steam mode is always played
 # at 1920x1080 -- measured with helper/place_window.py; paste its four numbers.
 _PLACEMENT_PIXELS = {"x": 967, "y": 7, "width": 947, "height": 1026}
-
-
-def _read_json(path, default):
-    try:
-        with open(path, encoding="utf-8") as f:
-            return json.load(f)
-    except (OSError, ValueError):
-        return default
 
 
 def _placement():
@@ -42,7 +29,6 @@ def run():
         "--disable-gpu --disable-gpu-compositing",
     )
 
-    config = _read_json(_CONFIG_PATH, {})
     api = Api()
     html_path = os.path.join(os.path.dirname(__file__), "web", "index.html")
 
@@ -57,7 +43,6 @@ def run():
         height=760,
         min_size=(380, 520),
         background_color="#fdf2f8",
-        on_top=bool(config.get("window_on_top", False)),
     )
     api._window = window
 

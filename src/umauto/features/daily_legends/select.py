@@ -11,7 +11,7 @@ from ...driver import driver
 from .champions import COORD_BY_NAME, DEFAULT
 
 # How many times to scroll the list while hunting for the champion.
-_MAX_SCROLLS = 4
+_MAX_SCROLLS = 7
 
 
 def select_champion(champion):
@@ -19,9 +19,13 @@ def select_champion(champion):
     champion_coord = COORD_BY_NAME.get(champion, COORD_BY_NAME[DEFAULT])
 
     print(f"Selecting {champion}")
+    time.sleep(1)
     if not screen.see_template(champion_coord, threshold=0.8):
-        screen.swipe_to("dr_scroll_up")
+        screen.tap("dr_scroll_up")
         time.sleep(0.5)
+        screen.tap("dr_scroll_up")
+        time.sleep(0.5)
+        screen.tap("dr_scroll_up")
         for _ in range(_MAX_SCROLLS):
             if screen.see_template(champion_coord, threshold=0.8):
                 break

@@ -105,9 +105,16 @@ FIELDS = [
     {
         "key": "window_on_top",
         "type": "bool",
-        "label": "Keep the app window on top",
-        "help": "Floats over the game. Park it on an empty corner (letterbox bar).",
+        "label": "Keep the app window on top while a mode runs",
+        "help": "Floats over the game once a mode is launched, on an empty corner"
+                " (letterbox bar). Outside a run the window behaves normally.",
         "when": {"steam": True},
+    },
+    {
+        "key": "dark_mode",
+        "type": "bool",
+        "label": "Dark mode",
+        "help": "Switch the app to the dark arcade theme.",
     },
 ]
 
@@ -117,6 +124,7 @@ FIELDS = [
 # (The overlay window geometry is predefined in umauto.gui.app, not a form field.)
 _GUI_DEFAULTS = {
     "window_on_top": False,  # opt-in: don't force always-on-top on anyone
+    "dark_mode": False,  # UI-only theme toggle; the automation ignores it
 }
 
 

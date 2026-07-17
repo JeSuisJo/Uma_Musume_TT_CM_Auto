@@ -2,24 +2,22 @@
   "cm_button": {
     "adb": {
       "tap": [452, 764],
-      "region": [452, 764, 586, 792],
+      "region": [455, 765, 589, 789],
       "img": "img/android/cm.png"
     },
     "steam": {
       "tap": [599, 761],
-      "region": [599, 761, 742, 796],
+      "region": [611, 766, 736, 789],
       "img": "img/steam/cm.png"
     }
   },
   "go_to_cm": {
     "adb": {
-      "tap": [166, 824],
-      "region": [166, 824, 380, 857],
+      "region": [0, 666, 795, 869],
       "img": "img/android/meeting.png"
     },
     "steam": {
-      "tap": [321, 829],
-      "region": [321, 829, 531, 857],
+      "region": [163, 680, 953, 871],
       "img": "img/steam/meeting.png"
     }
   },
@@ -33,11 +31,11 @@
   },
   "in_cm": {
     "adb": {
-      "region": [659, 885, 769, 922],
+      "region": [697, 905, 774, 924],
       "img": "img/android/in_cm.png"
     },
     "steam": {
-      "region": [821, 892, 928, 920],
+      "region": [851, 906, 929, 923],
       "img": "img/steam/in_cm.png"
     }
   },
@@ -62,12 +60,12 @@
   "cm_ok_freerun": {
     "adb": {
       "tap": [499, 686],
-      "region": [499, 686, 558, 719],
+      "region": [507, 691, 553, 715],
       "img": "img/android/cm_ok_freerun.png"
     },
     "steam": {
       "tap": [657, 684],
-      "region": [657, 684, 712, 718],
+      "region": [661, 690, 709, 715],
       "img": "img/steam/cm_ok_freerun.png"
     }
   },
@@ -114,13 +112,23 @@
   "race_begin": {
     "adb": {
       "tap": [337, 906],
-      "region": [350, 934, 445, 955],
+      "region": [351, 932, 448, 954],
       "img": "img/android/race_begin.png"
     },
     "steam": {
       "tap": [492, 903],
       "region": [501, 934, 596, 956],
       "img": "img/steam/race_begin.png"
+    }
+  },
+  "matching": {
+    "adb": {
+      "region": [335, 931, 463, 953],
+      "img": "img/android/matching.png"
+    },
+    "steam": {
+      "region": [487, 932, 617, 956],
+      "img": "img/steam/matching.png"
     }
   },
   "next_in_game": {
@@ -133,6 +141,16 @@
       "tap": [514, 971],
       "region": [514, 971, 586, 1004],
       "img": "img/steam/next_in_game.png"
+    }
+  },
+  "view_result_cm": {
+    "adb": {
+      "region": [241, 974, 377, 1002],
+      "img": "img/android/view_result_cm.png"
+    },
+    "steam": {
+      "region": [395, 977, 530, 1004],
+      "img": "img/steam/view_result_cm.png"
     }
   },
   "race": {
@@ -170,21 +188,25 @@
   "claim_reward": {
     "adb": {
       "tap": [337, 906],
-      "region": [351, 932, 443, 950],
+      "region": [354, 932, 441, 947],
       "img": "img/android/claim_reward.png"
     },
     "steam": {
       "tap": [503, 933],
-      "region": [503, 933, 595, 949],
+      "region": [508, 936, 596, 950],
       "img": "img/steam/claim_reward.png"
     }
   },
   "reward_next": {
     "adb": {
-      "tap": [397, 980]
+      "tap": [369, 979],
+      "region": [369, 979, 430, 1003],
+      "img": "img/android/reward_next.png"
     },
     "steam": {
-      "tap": [551, 991]
+      "tap": [521, 980],
+      "region": [521, 980, 584, 1005],
+      "img": "img/steam/reward_next.png"
     }
   },
   "ticket": {

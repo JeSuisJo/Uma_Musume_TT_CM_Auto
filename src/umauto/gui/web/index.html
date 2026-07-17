@@ -132,6 +132,36 @@ select.select:focus{outline:none;border-color:var(--purple);}
 .btn-submit{border:none;cursor:pointer;font-family:var(--sans);font-weight:700;font-size:13px;letter-spacing:1px;text-transform:uppercase;color:#fff;background:linear-gradient(135deg,var(--pink),var(--purple));padding:12px 24px;border-radius:12px;}
 .btn-submit:hover{filter:brightness(1.05);}
 
+/* ---- Dark arcade theme: applied via <html data-theme="dark"> ---- */
+[data-theme="dark"]{
+ --ink:#e8e3f5;--txt:#b8b0d4;--muted:#7d759c;--line:#2a2447;
+ --green:#d81e7e;--green2:#5b34a8;--pink:#e0428a;--purple:#7649d6;--teal:#1ec8b6;--amber:#e0a51a;--sky:#3d84d6;--red:#e0475c;
+ --panel:#100d20;--panel2:#181430;
+}
+[data-theme="dark"] body{background:#120f24;}
+[data-theme="dark"] ::-webkit-scrollbar-thumb{background:#3d3560;border-color:#120f24;}
+[data-theme="dark"] .board ::-webkit-scrollbar-thumb{background:#3d3560;border-color:#161233;}
+[data-theme="dark"] .app{background:linear-gradient(160deg,#161233 0%,#1a1530 40%,#211a3d 72%,#26182f 100%);}
+[data-theme="dark"] .scan{background:radial-gradient(circle at 14% 14%,rgba(74,168,255,.16),transparent 44%),radial-gradient(circle at 86% 26%,rgba(255,61,151,.14),transparent 42%),radial-gradient(circle at 78% 84%,rgba(124,77,219,.18),transparent 46%);}
+[data-theme="dark"] .tabs{background:rgba(255,255,255,.1);box-shadow:0 3px 10px rgba(0,0,0,.25);}
+[data-theme="dark"] .tab{color:#c6bce6;}
+[data-theme="dark"] .tab:hover{color:#c8bdfa;}
+[data-theme="dark"] .card{background:var(--panel2);box-shadow:0 6px 16px rgba(0,0,0,.35);}
+[data-theme="dark"] .card .num{color:var(--panel2)!important;box-shadow:0 3px 8px rgba(0,0,0,.3);}
+[data-theme="dark"] .empty-state{background:var(--panel);border-color:#3d3560;}
+[data-theme="dark"] .board-body{background:#161233;color:#cfc7ea;}
+[data-theme="dark"] .board-body .waiting{color:#665d8c;}
+[data-theme="dark"] .log-line{color:#cfc7ea;}
+[data-theme="dark"] .card-fields{border:none;background:var(--panel2);box-shadow:0 6px 18px rgba(0,0,0,.3);}
+[data-theme="dark"] input.text,[data-theme="dark"] select.select,[data-theme="dark"] .modal input{background:#161233;}
+[data-theme="dark"] .chip{background:#241d42;border-color:#3d3560;color:#c6bce6;}
+[data-theme="dark"] .chip:hover{border-color:var(--purple);color:#c8bdfa;}
+[data-theme="dark"] .chip.on{background:linear-gradient(135deg,var(--green),var(--green2));color:#fff;border-color:transparent;}
+[data-theme="dark"] .toggle{background:#332c52;}
+[data-theme="dark"] .foot{background:rgba(28,23,51,.85);border-top-color:#2c2650;}
+[data-theme="dark"] .modal{background:var(--panel2);border-color:#332c52;box-shadow:0 24px 60px rgba(0,0,0,.5);}
+[data-theme="dark"] .overlay{background:rgba(6,4,16,.6);}
+
 @media (max-width:760px){
  .mast{flex-wrap:wrap;gap:12px;} .tabs{width:100%;margin-left:0;} .tab{flex:1;text-align:center;}
  .grid{grid-template-columns:1fr;}
@@ -260,7 +290,7 @@ setTimeout(boot, 2500);
 async function init() {
   const s = await api().get_schema();
   SCHEMA = s.fields; CONFIG = s.config;
-  renderFields();
+  renderFields();  // applies the theme too
   if (!s.config_exists) showView('config');
   pollLoop();  // self-scheduling: never overlaps, never piles up
 }
@@ -404,6 +434,12 @@ document.getElementById('promptInput').addEventListener('keydown', e => {
   if (e.key === 'Enter') submitPrompt();
 });
 
+/* theme — mirror the dark_mode config flag onto <html data-theme> so the
+   whole app restyles instantly, with no restart. */
+function applyTheme() {
+  document.documentElement.dataset.theme = CONFIG.dark_mode ? 'dark' : 'light';
+}
+
 /* config form */
 function visible(field) {
   if (!field.when) return true;
@@ -411,6 +447,7 @@ function visible(field) {
 }
 
 function renderFields() {
+  applyTheme();  // idempotent: keep <html data-theme> in sync on every re-render
   const box = document.getElementById('fields');
   box.innerHTML = '';
   SCHEMA.forEach(f => {

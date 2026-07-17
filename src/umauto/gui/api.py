@@ -56,6 +56,9 @@ class Api:
         # can't be done live (they are import-time singletons wired into many
         # modules), so a switch relaunches the app instead.
         self._startup_steam = bool(_load_config()[0].get("steam", False))
+        # Topmost is held only while a mode runs (Steam only); this event stops
+        # the thread that keeps re-asserting it.
+        self._topmost_stop = None
         # Background backend warm-up state.
         self._features = None
         self._warm_started = False
@@ -63,17 +66,66 @@ class Api:
         self._warm_error = None
         self._start_warmup()
 
+    def _overlay_wanted(self):
+        """True when the running window should float over the game: Steam only
+        (in ADB mode the game isn't on this screen) and only if opted in."""
+        cfg, _ = _load_config()
+        return bool(cfg.get("steam") and cfg.get("window_on_top"))
+
+    def _apply_topmost(self, on):
+        """Set/clear the Win32 topmost style on our window.
+
+        pywebview's ``on_top`` isn't enough here: the game raises itself and
+        pushes us behind, so we set WS_EX_TOPMOST ourselves and re-assert it.
+        SWP_NOACTIVATE keeps focus on the game while we do it.
+        """
+        try:
+            import win32con
+            import win32gui
+
+            hwnd = win32gui.FindWindow(None, "Uma Auto")
+            if not hwnd:
+                return
+            win32gui.SetWindowPos(
+                hwnd,
+                win32con.HWND_TOPMOST if on else win32con.HWND_NOTOPMOST,
+                0, 0, 0, 0,
+                win32con.SWP_NOMOVE | win32con.SWP_NOSIZE | win32con.SWP_NOACTIVATE,
+            )
+        except Exception:
+            pass
+
+    def _hold_topmost(self):
+        """Keep the window topmost for as long as the mode runs.
+
+        A single SetWindowPos loses to the game reclaiming the foreground, so a
+        background thread re-asserts it until the run ends.
+        """
+        self._release_topmost()
+        stop = threading.Event()
+        self._topmost_stop = stop
+
+        def loop():
+            while not stop.wait(1.0):
+                self._apply_topmost(True)
+
+        self._apply_topmost(True)
+        threading.Thread(target=loop, daemon=True).start()
+
+    def _release_topmost(self):
+        if self._topmost_stop is not None:
+            self._topmost_stop.set()
+            self._topmost_stop = None
+            self._apply_topmost(False)
+
     def _snap_to_run_placement(self):
-        """Move/resize the window to the game-overlay placement, saving the
-        current geometry so it can be restored when the run ends.
+        """Move/resize the window to the game-overlay placement and pin it on
+        top, saving the current geometry so it can be restored when the run ends.
 
         Only overlays the game on Steam with always-on-top enabled; in ADB mode
         (or without on-top) the window stays where it is.
         """
-        if self._window is None:
-            return
-        cfg, _ = _load_config()
-        if not (cfg.get("steam") and cfg.get("window_on_top")):
+        if self._window is None or not self._overlay_wanted():
             return
         try:
             import win32gui
@@ -94,9 +146,11 @@ class Api:
                 self._window.move(geom["x"], geom["y"])
         except Exception:
             pass
+        self._hold_topmost()
 
     def restore_window(self):
-        """Put the window back to its pre-run size/position."""
+        """Put the window back to its pre-run size/position and drop topmost."""
+        self._release_topmost()
         if self._window is not None and self._saved_geom:
             try:
                 g = self._saved_geom
@@ -140,10 +194,13 @@ class Api:
         with open(CONFIG_PATH, "w", encoding="utf-8") as f:
             json.dump(existing, f, indent=2, ensure_ascii=False)
         _refresh_live_config()
-        # Apply "always on top" live so it takes effect without a restart.
-        if self._window is not None and "window_on_top" in existing:
-            with contextlib.suppress(Exception):
-                self._window.on_top = bool(existing["window_on_top"])
+        # "Always on top" only applies to a running mode, so a change mid-run
+        # takes effect now; outside a run there is nothing to pin.
+        if session.running:
+            if self._overlay_wanted():
+                self._hold_topmost()
+            else:
+                self._release_topmost()
         # A fresh install just created config.json: kick off the warm-up now.
         self._start_warmup()
         # Switching Steam <-> ADB rebuilds the whole game-control layer, which
