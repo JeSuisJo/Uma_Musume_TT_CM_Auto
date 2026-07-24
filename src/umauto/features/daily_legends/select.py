@@ -11,7 +11,7 @@ from ...driver import driver
 from .champions import COORD_BY_NAME, DEFAULT
 
 # How many times to scroll the list while hunting for the champion.
-_MAX_SCROLLS = 7
+_MAX_SCROLLS = 10
 
 
 def select_champion(champion):
