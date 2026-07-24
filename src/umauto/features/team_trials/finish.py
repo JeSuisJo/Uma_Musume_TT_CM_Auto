@@ -22,6 +22,15 @@ def finish_run():
     """
     while not screen.see("race_again"):
         for popup in _POPUPS:
+            # ``story_unlocked`` can appear at slightly different positions, so
+            # find it anywhere in its region (template match) instead of a fixed
+            # pixel-for-pixel comparison, and tap wherever it was found.
+            if popup == "story_unlocked":
+                if screen.see_template(popup):
+                    time.sleep(0.5)
+                    screen.tap_template(popup)
+                continue
+
             if screen.see(popup):
                 time.sleep(0.5)
                 screen.tap(popup)
