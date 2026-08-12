@@ -21,8 +21,19 @@ class SteamDriver(Driver):
     def _window(self):
         windows = gw.getWindowsWithTitle(self.window_title)
         if not windows:
-            raise RuntimeError(f"Window '{self.window_title}' not found")
+            # A clean stop rather than a crash: the game simply is not open (or
+            # the configured title does not match its window).
+            self.stop(
+                f"Game window '{self.window_title}' not found. "
+                "Start Umamusume on Steam and wait for its window to appear, "
+                "then try again (check 'steam_window_title' in config.json if "
+                "the game is already running)."
+            )
         return windows[0]
+
+    def ensure_ready(self):
+        """Check the game window exists before a run starts."""
+        self._window()
 
     def _offset(self):
         win = self._window()
