@@ -15,3 +15,6 @@ dist/
 
 # Launcher shortcut (machine-specific absolute paths; created by setup.bat)
 Uma Auto.lnk
+
+# Local assistant instructions (not part of the project)
+CLAUDE.md
