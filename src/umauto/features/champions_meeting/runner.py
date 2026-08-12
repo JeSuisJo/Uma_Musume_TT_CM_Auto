@@ -28,19 +28,21 @@ def run(already_done):
 
     launch_cm()
 
-    print("Checking if you have free runs")
     time.sleep(1)
     # With free runs all 3 attempts are available; otherwise only what is left.
     done = 0 if screen.see("free_cm") else already_done
     runs = (3 - done) + extra_run
+
+    ticket_done = False
 
     for index in range(runs):
         _header()
         print(f"Running {index + 1} of {runs}")
         screen.wait("in_cm")
         time.sleep(0.5)
-        if index >= 1 or already_done >= 1:
+        if not ticket_done and (index >= 1 or already_done >= 1):
             collect_ticket()
+            ticket_done = True
 
         screen.tap("cm_launch")
         time.sleep(1)

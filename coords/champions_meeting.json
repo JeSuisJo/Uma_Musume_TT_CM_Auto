@@ -217,6 +217,16 @@
       "tap": [902, 708]
     }
   },
+  "no_ticket_cm": {
+    "adb": {
+      "region": [97, 286, 720, 518],
+      "img": "img/android/no_ticket_cm.png"
+    },
+    "steam": {
+      "region": [246, 273, 865, 499],
+      "img": "img/steam/no_ticket_cm.png"
+    }
+  },
   "ticket_collect": {
     "adb": {
       "tap": [551, 767]

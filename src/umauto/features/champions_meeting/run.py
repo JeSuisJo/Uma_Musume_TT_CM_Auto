@@ -38,6 +38,9 @@ def run_cm():
         time.sleep(1)
         screen.tap_template("view_result_cm")
 
+        time.sleep(1)
+        screen.tap_template("view_result_cm")
+
         while not screen.see("cm_race_finished"):
             screen.tap("rank_up_cm")
             time.sleep(0.5)
