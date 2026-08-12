@@ -26,8 +26,7 @@ class SteamDriver(Driver):
             self.stop(
                 f"Game window '{self.window_title}' not found. "
                 "Start Umamusume on Steam and wait for its window to appear, "
-                "then try again (check 'steam_window_title' in config.json if "
-                "the game is already running)."
+                "then try again."
             )
         return windows[0]
 
