@@ -1,18 +1,18 @@
 # Uma Musume TT/CM Auto
 
-Automation bot for **Team Trials**, **Champions Meeting**, **Daily Races** and **Daily Legends** in Uma Musume Pretty Derby. Supports both **Android (ADB)** and **PC (Steam)**.
+Automation bot for Team Trials, Champions Meeting, Daily Races and Daily Legends in Uma Musume Pretty Derby. Supports both Android (ADB) and PC (Steam).
 
 ## TL;DR
 
-1. Install **Python 3.10+** (tick _"Add python.exe to PATH"_).
-2. Start the game: either your **Android emulator** or **Uma Musume on Steam**.
-3. Double-click **`setup.bat`** (first time only, it installs everything and
-   makes an **"Uma Auto"** shortcut).
-4. Open the **Uma Auto** shortcut → set things up in the **Config** tab → hit a
+1. Install Python 3.10+ (tick _"Add python.exe to PATH"_).
+2. Start the game: either your Android emulator or Uma Musume on Steam.
+3. Double-click `setup.bat` (first time only, it installs everything and
+   makes an "Uma Auto" shortcut).
+4. Open the Uma Auto shortcut → set things up in the **Config** tab → hit a
    mode in the **Modes** tab. Done.
 
-Prefer the terminal? `python
-main.py` still works, see [Command line](#command-line-legacy).)\_
+Prefer the terminal? `python main.py` still works, see
+[Command line](#command-line-legacy).
 
 ## Features
 
@@ -28,16 +28,16 @@ main.py` still works, see [Command line](#command-line-legacy).)\_
 
 ## Prerequisites
 
-- **Python 3.10+**
-- **Android (ADB)**: an Android emulator (LDPlayer, BlueStacks, etc.)
-- **Steam**: the PC version of Uma Musume
+- Python 3.10+
+- Android (ADB): an Android emulator (LDPlayer, BlueStacks, etc.)
+- Steam: the PC version of Uma Musume
 
 ### Emulator / Game Settings
 
-| Platform  | Resolution  | Additional |
-| --------- | ----------- | ---------- |
-| **ADB**   | 1080 x 800  | 240 DPI    |
-| **Steam** | 1920 x 1080 | Fullscreen |
+| Platform | Resolution  | Additional |
+| -------- | ----------- | ---------- |
+| ADB      | 1080 x 800  | 240 DPI    |
+| Steam    | 1920 x 1080 | Fullscreen |
 
 ### Python Dependencies
 
@@ -55,14 +55,14 @@ pip install pillow opencv-python numpy pyautogui pygetwindow pywin32
 
 ## Before Starting
 
-You no longer need to be on a specific screen: the bot works from the **Home**
-screen **or** the **Race Menu**. Each mode navigates back to Race on its own
-before it starts, so either one is fine.
+You no longer need to be on a specific screen: the bot works from the Home
+screen or the Race Menu. Each mode navigates back to Race on its own before
+it starts, so either one is fine.
 
 > **Daily Races & Daily Legends:** you must have completed each of these at
-> least **once manually** before letting the bot run them. The first manual run
+> least once manually before letting the bot run them. The first manual run
 > clears the intro/tutorial screens and unlocks the normal race flow the bot
-> relies on. This also applies to the **Full Daily** mode, which chains them.
+> relies on. This also applies to the Full Daily mode, which chains them.
 
 ![Home Menu](img/readme.png)
 ![Race Menu](img/readme2.png)
@@ -94,7 +94,7 @@ When `daily_sales_mode` is `"specific"`, `shop_items` accepts any of:
 
 ## Usage
 
-There are **two ways** to run the bot, pick whichever you prefer:
+There are two ways to run the bot, pick whichever you prefer:
 
 - **Uma Auto**: the graphical app (recommended). Double-click the shortcut, no
   console needed.
@@ -106,9 +106,9 @@ between them at any time.
 
 ### Graphical app (recommended)
 
-Run **`setup.bat`** once. It installs everything automatically (about a minute)
-and creates an **"Uma Auto" shortcut in this folder**. From then on, just
-double-click that shortcut: it opens the app **with no console window at all**,
+Run `setup.bat` once. It installs everything automatically (about a minute)
+and creates an "Uma Auto" shortcut in this folder. From then on, just
+double-click that shortcut: it opens the app with no console window at all,
 so there is no need to run `setup.bat` again. Because it runs plain Python (never a packaged
 `.exe`), antivirus software does **not** flag it as a virus.
 
@@ -121,26 +121,26 @@ The window has two tabs: **Modes** and **Config**.
 ![Modes tab](img/app_modes.png)
 
 **Modes**: the _Starting Grid_ lists one card per game mode; click a card to run
-it. The _Race Log_ underneath streams the bot's progress live, and a **Stop**
+it. The _Race Log_ underneath streams the bot's progress live, and a Stop
 button aborts the current run. A mode that needs input (e.g. how many Champions
 Meeting runs you have already done) pops up a small dialog.
 
 ![Config tab](img/app_config.png)
 
 **Config**: the _Race Card_ form edits every `config.json` option (toggles,
-dropdowns, item chips). Click **Save** to apply. On a fresh install the app opens
+dropdowns, item chips). Click Save to apply. On a fresh install the app opens
 here first, so you can set everything up graphically instead of the text wizard.
 
 How settings take effect:
 
-- Most options apply on the **next run**.
-- **Switching Steam ⇄ ADB restarts the app automatically** (the whole
+- Most options apply on the next run.
+- Switching Steam ⇄ ADB restarts the app automatically (the whole
   game-control layer is rebuilt).
-- **"Keep the app window on top"** (Steam only) applies **instantly**.
+- "Keep the app window on top" (Steam only) applies instantly.
 
-On **Steam** with _Keep on top_ enabled, the window floats over the game and
+On Steam with _Keep on top_ enabled, the window floats over the game and
 snaps to a preset spot while a mode runs, then returns to its place afterwards,
-handy on a fullscreen game's letterbox bar. On **ADB**, the connected emulator is
+handy on a fullscreen game's letterbox bar. On ADB, the connected emulator is
 detected (and saved) automatically before each run.
 
 Prefer to run it without the `.bat`:
@@ -155,7 +155,7 @@ python -m umauto.gui
 The original terminal version still works exactly as before. Use it if you
 prefer the `cmd` output or want to run without the GUI.
 
-1. Make sure the game is on the **Home** screen or the **Race Menu**
+1. Make sure the game is on the Home screen or the Race Menu
 2. Run the bot:
 
 ```bash
@@ -164,7 +164,7 @@ python main.py
 python -m umauto
 ```
 
-On the **first run**, if `config.json` is missing, a short wizard asks for your
+On the first run, if `config.json` is missing, a short wizard asks for your
 platform and preferences and generates it for you. You can also copy
 `config.example.json` to `config.json` and edit it by hand.
 
@@ -182,8 +182,8 @@ platform and preferences and generates it for you. You can also copy
 
 ## Project Structure
 
-The code lives in `src/umauto`, laid out **feature-first** (one folder per game
-mode) on top of a small shared core. Each file does **one thing**, so a mode
+The code lives in `src/umauto`, laid out feature-first (one folder per game
+mode) on top of a small shared core. Each file does one thing, so a mode
 reads as a short list of steps and its `runner.py` just wires them together.
 
 ```
