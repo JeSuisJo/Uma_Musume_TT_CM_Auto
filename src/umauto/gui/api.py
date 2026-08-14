@@ -1,10 +1,11 @@
 """The object pywebview exposes to JavaScript as ``window.pywebview.api``.
 
 Every method here is callable from the HTML page. Config read/write goes through
-:mod:`json` directly (never ``umauto.config``) so the config screen works before
-config.json exists. The heavy backend (features pull in OpenCV/NumPy; building
-the driver can restart ADB) warms up in a background thread so no UI call blocks
-the window; until it is ready ``list_features`` reports ``loading``.
+:mod:`json` directly (never ``umauto.config``): the config screen has to work
+before config.json even exists. The heavy backend (features pull in OpenCV/
+NumPy; building the driver can restart ADB) warms up in a background thread,
+keeping UI calls from blocking the window; until it's ready, ``list_features``
+reports ``loading``.
 """
 
 import contextlib
@@ -23,7 +24,7 @@ def _load_config():
     if os.path.exists(CONFIG_PATH):
         with open(CONFIG_PATH, encoding="utf-8") as f:
             data = json.load(f)
-        # Backfill any key missing from an older file so the form is complete.
+        # Backfills any key missing from an older file, keeping the form complete.
         merged = schema.defaults()
         merged.update(data)
         return merged, True
@@ -34,10 +35,10 @@ def _refresh_live_config():
     """Push the on-disk config into an already-imported ``umauto.config``.
 
     Features read config values at run time from a single object loaded once at
-    import. After the user edits and saves, we update that object in place so
-    non-platform changes (difficulty, shop, champion...) take effect without a
-    restart. A platform switch (Steam <-> ADB) still needs a restart because the
-    driver is chosen at import; the UI warns about that.
+    import. After the user edits and saves, that object gets updated in place,
+    letting non-platform changes (difficulty, shop, champion...) take effect
+    without a restart. A platform switch (Steam <-> ADB) still needs one, since
+    the driver is chosen at import; the UI warns about that.
     """
     import sys
 
@@ -53,8 +54,8 @@ class Api:
         self._window = None
         self._saved_geom = None  # window geometry to restore after a run
         # Platform the driver/coords were built with at startup. Changing it
-        # can't be done live (they are import-time singletons wired into many
-        # modules), so a switch relaunches the app instead.
+        # live isn't possible (they're import-time singletons wired into many
+        # modules); a switch relaunches the app instead.
         self._startup_steam = bool(_load_config()[0].get("steam", False))
         # Topmost is held only while a mode runs (Steam only); this event stops
         # the thread that keeps re-asserting it.
@@ -76,8 +77,8 @@ class Api:
         """Set/clear the Win32 topmost style on our window.
 
         pywebview's ``on_top`` isn't enough here: the game raises itself and
-        pushes us behind, so we set WS_EX_TOPMOST ourselves and re-assert it.
-        SWP_NOACTIVATE keeps focus on the game while we do it.
+        pushes us behind. We set WS_EX_TOPMOST ourselves instead and keep
+        re-asserting it. SWP_NOACTIVATE keeps focus on the game while we do it.
         """
         try:
             import win32con
@@ -98,7 +99,7 @@ class Api:
     def _hold_topmost(self):
         """Keep the window topmost for as long as the mode runs.
 
-        A single SetWindowPos loses to the game reclaiming the foreground, so a
+        A single SetWindowPos loses to the game reclaiming the foreground; a
         background thread re-asserts it until the run ends.
         """
         self._release_topmost()
@@ -194,8 +195,8 @@ class Api:
         with open(CONFIG_PATH, "w", encoding="utf-8") as f:
             json.dump(existing, f, indent=2, ensure_ascii=False)
         _refresh_live_config()
-        # "Always on top" only applies to a running mode, so a change mid-run
-        # takes effect now; outside a run there is nothing to pin.
+        # "Always on top" only applies to a running mode: a change mid-run
+        # takes effect right away, but outside a run there's nothing to pin.
         if session.running:
             if self._overlay_wanted():
                 self._hold_topmost()
@@ -203,8 +204,8 @@ class Api:
                 self._release_topmost()
         # A fresh install just created config.json: kick off the warm-up now.
         self._start_warmup()
-        # Switching Steam <-> ADB rebuilds the whole game-control layer, which
-        # can't be swapped live, so relaunch the app to pick it up.
+        # Switching Steam <-> ADB rebuilds the whole game-control layer. That
+        # can't happen live; relaunching the app is what picks it up.
         platform_changed = bool(existing.get("steam", False)) != self._startup_steam
         if platform_changed and self._window is not None:
             threading.Timer(0.4, self._restart).start()

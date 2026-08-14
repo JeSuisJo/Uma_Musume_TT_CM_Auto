@@ -21,8 +21,8 @@ class SteamDriver(Driver):
     def _window(self):
         windows = gw.getWindowsWithTitle(self.window_title)
         if not windows:
-            # A clean stop rather than a crash: the game simply is not open (or
-            # the configured title does not match its window).
+            # Stops cleanly instead of crashing: the game just isn't open,
+            # or the title doesn't match its window.
             self.stop(
                 f"Game window '{self.window_title}' not found. "
                 "Start Umamusume on Steam and wait for its window to appear, "
@@ -58,9 +58,9 @@ class SteamDriver(Driver):
     def _set_foreground(hwnd):
         """Bring ``hwnd`` to the foreground.
 
-        ``SetForegroundWindow`` fails (error 6, invalid handle) when the calling
-        process does not own the foreground, so we retry with the well-known
-        workarounds and never let a focus failure crash the run.
+        ``SetForegroundWindow`` fails (error 6, invalid handle) whenever the
+        calling process doesn't already own the foreground. The workarounds
+        below retry it; a focus failure should never crash the run.
         """
         try:
             win32gui.SetForegroundWindow(hwnd)
@@ -68,7 +68,7 @@ class SteamDriver(Driver):
         except pywintypes.error:
             pass
 
-        # A synthetic ALT press unlocks Windows' foreground-lock restriction.
+        # Pressing ALT unlocks Windows' foreground-lock restriction.
         try:
             pyautogui.press("alt")
             win32gui.SetForegroundWindow(hwnd)
@@ -76,7 +76,7 @@ class SteamDriver(Driver):
         except pywintypes.error:
             pass
 
-        # Last resort: minimizing then restoring usually forces the focus.
+        # Last resort: minimize then restore, which usually forces the focus.
         try:
             win32gui.ShowWindow(hwnd, win32con.SW_MINIMIZE)
             win32gui.ShowWindow(hwnd, win32con.SW_RESTORE)
@@ -111,7 +111,7 @@ class SteamDriver(Driver):
         pyautogui.moveTo(ox + x1, oy + y1)
         pyautogui.mouseDown()
         pyautogui.moveTo(ox + x2, oy + y2, duration=move_ms / 1000)
-        # Hold at the destination so the release velocity is zero (no fling).
+        # Kills the release velocity so the game doesn't register a fling.
         time.sleep(hold_ms / 1000)
         pyautogui.mouseUp()
 

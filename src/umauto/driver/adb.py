@@ -12,9 +12,8 @@ from .base import Driver
 
 _ADB = resolve("platform-tools/adb.exe")
 
-# When the app runs under pythonw.exe (no console, e.g. the GUI), each adb.exe
-# call would otherwise pop up its own console window. CREATE_NO_WINDOW keeps
-# those child processes headless so no cmd windows flash during a run.
+# Avoids a flashing cmd window per adb call when running under pythonw.exe
+# (the GUI has no console of its own to attach to).
 _NO_WINDOW = subprocess.CREATE_NO_WINDOW if sys.platform == "win32" else 0
 
 
@@ -32,8 +31,8 @@ def _save_device_id(device_id):
 
 class AdbDriver(Driver):
     def __init__(self):
-        # The real device is resolved lazily in ensure_ready() (run start), so
-        # importing the driver never blocks on adb.
+        # Real lookup happens in ensure_ready() at run start; importing this
+        # module never touches adb.
         self.device = config.get("device_id")
 
     @staticmethod
@@ -87,25 +86,21 @@ class AdbDriver(Driver):
     def ensure_ready(self):
         """Resolve the ADB device before a run.
 
-        Trusts the saved device when it is still online (no detection at all);
-        only scans/auto-selects/asks when the configured device is missing.
+        Trusts the saved device if it's still online, no detection at all.
+        Scanning/auto-selecting/asking only kicks in once it's missing.
         """
         configured = config.get("device_id")
 
-        # Saved device still online -> use it directly, skip detection entirely.
         if configured and self._is_online(configured):
             self.device = configured
             return
 
-        # Saved device missing (or none saved): now detect what is connected.
         devices = self._list_devices()
 
-        # Exactly one device -> adopt and remember it.
         if len(devices) == 1:
             self._use_device(devices[0], "ADB device auto-selected")
             return
 
-        # None found: try restarting the ADB server once, then re-check.
         if not devices:
             print("No ADB device found, restarting ADB server...")
             self._restart_server()
@@ -117,12 +112,11 @@ class AdbDriver(Driver):
                 self._use_device(devices[0], "ADB device auto-selected")
                 return
 
-        # Still nothing: cannot run without a device.
         if not devices:
             self.stop("No emulator detected. Start your emulator, then try again.")
 
-        # Several devices. Ask only when nothing was configured; otherwise the
-        # configured entry is stale, so adopt the first without prompting.
+        # Several devices connected. Only prompt when nothing was configured
+        # before; a stale configured id just gets replaced with the first match.
         if configured:
             self._use_device(devices[0], "ADB device auto-updated")
         else:
@@ -147,8 +141,8 @@ class AdbDriver(Driver):
 
     def _screenshot(self, dest="temp.png"):
         dest = resolve(dest)
-        # exec-out streams the PNG straight back, so one adb call replaces the
-        # screencap + pull + rm round-trip through /sdcard.
+        # exec-out streams the PNG directly, skipping the screencap/pull/rm
+        # round-trip through /sdcard.
         data = self._exec_out(["screencap", "-p"])
         if data.startswith(b"\x89PNG"):
             with open(dest, "wb") as f:
@@ -159,9 +153,9 @@ class AdbDriver(Driver):
     def _screenshot_via_pull(self, dest):
         """Capture via /sdcard, for adb daemons whose exec-out returns nothing.
 
-        Every step is checked: an unchecked failure here used to surface far
-        away as a confusing "file not found" from the image layer, instead of
-        naming the real cause (the device went away mid-run).
+        An unchecked failure here used to surface far away as a confusing
+        "file not found" from the image layer. Checking each step names the
+        real cause instead: the device went away mid-run.
         """
         if not (
             self._run(["shell", "screencap", "-p", "/sdcard/tmp.png"])
@@ -196,7 +190,7 @@ class AdbDriver(Driver):
             my = int(y1 + (y2 - y1) * i / steps)
             motion("MOVE", mx, my)
             time.sleep(move_ms / 1000 / steps)
-        # Hold at the destination so the release velocity is zero (no fling).
+        # Kills the release velocity so the game doesn't register a fling.
         time.sleep(hold_ms / 1000)
         motion("MOVE", x2, y2)
         motion("UP", x2, y2)
@@ -212,4 +206,4 @@ class AdbDriver(Driver):
         self._run(["shell", "input", "keyevent", "67"])
 
     def focus(self):
-        pass  # ADB sends commands directly; no focus needed.
+        pass  # adb commands don't need window focus.

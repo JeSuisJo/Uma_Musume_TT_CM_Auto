@@ -1,10 +1,7 @@
 @echo off
-REM ============================================================
-REM  Uma Auto - first-time setup.
-REM  Double-click this once. It installs the app and creates an
-REM  "Uma Auto" shortcut in this folder. Use that shortcut from
-REM  then on: it opens the app with no console window.
-REM ============================================================
+REM Uma Auto first-time setup. Double-click this once. It installs the app
+REM and creates an "Uma Auto" shortcut in this folder; use that shortcut
+REM from then on, it opens the app with no console window.
 cd /d "%~dp0"
 
 python --version >nul 2>&1

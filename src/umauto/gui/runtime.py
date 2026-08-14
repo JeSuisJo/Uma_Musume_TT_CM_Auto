@@ -5,7 +5,7 @@ of a run we redirect that console (see :func:`_patched_console`): stdout becomes
 a polled log, ``input()`` becomes a modal prompt, ``os.system("cls")`` clears the
 log, and a stop flag checked before each screenshot lets Stop abort the run.
 
-Only one run happens at a time, so a single module-level :class:`Session` holds
+Only one run happens at a time: a single module-level :class:`Session` holds
 the state shared with the API layer.
 """
 
@@ -26,8 +26,8 @@ class _LogWriter(io.TextIOBase):
         self._pending = ""
 
     def write(self, text):
-        # Buffer partial lines so a bare ``print(end="")`` progress update does
-        # not spam the log until a newline arrives.
+        # Buffers partial lines: a bare ``print(end="")`` progress update won't
+        # spam the log until a newline arrives.
         self._pending += text
         while "\n" in self._pending:
             line, self._pending = self._pending.split("\n", 1)
@@ -108,8 +108,8 @@ class Session:
         return True
 
     def _run(self, key):
-        # Imported lazily: these modules read config.json at import time, so
-        # they must not load until a config exists and a run is requested.
+        # Imported lazily: these modules read config.json at import time and
+        # must not load until a config exists and a run is requested.
         from ..driver import StopScript, driver
         from ..features.registry import FEATURES
 

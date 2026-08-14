@@ -1,14 +1,14 @@
 """Open the native GUI window (pywebview) over the local HTML page.
 
-While a mode runs, the window snaps to a fixed overlay placement so it floats on
-a corner the bot never reads or clicks. Steam mode requires a 1920x1080 screen,
-so the geometry is a hardcoded pixel rect (measured with helper/place_window.py).
+While a mode runs, the window snaps to a fixed overlay placement, floating on a
+corner the bot never reads or clicks. Steam mode requires a 1920x1080 screen;
+the geometry is a hardcoded pixel rect (measured with helper/place_window.py).
 """
 
 import os
 
 # Overlay geometry while a mode runs. Fixed because Steam mode is always played
-# at 1920x1080 -- measured with helper/place_window.py; paste its four numbers.
+# at 1920x1080 (measured with helper/place_window.py; paste its four numbers).
 _PLACEMENT_PIXELS = {"x": 967, "y": 7, "width": 947, "height": 1026}
 
 
@@ -34,7 +34,7 @@ def run():
 
     # Open at a comfortable default size/centre. The window only snaps to the
     # game-overlay placement (``_placement()``) once a mode is launched, and
-    # restores afterwards -- handled in the API layer.
+    # restores afterwards, handled in the API layer.
     window = webview.create_window(
         "Uma Auto",
         url=html_path,

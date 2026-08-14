@@ -23,8 +23,8 @@ def swipe_to(name):
 def drag_hold_to(name, move_ms=300, hold_ms=500):
     """Drag along a named entry's ``swipe`` coords, holding at the end.
 
-    Like :func:`swipe_to`, but keeps the touch pressed at the destination so
-    the game's scroll inertia does not overshoot.
+    Like :func:`swipe_to`, but keeps the touch pressed at the destination:
+    stops the game's scroll inertia from overshooting.
     """
     x1, y1, x2, y2 = coords(name)["swipe"][:4]
     driver.drag_hold(x1, y1, x2, y2, move_ms=move_ms, hold_ms=hold_ms)
@@ -52,8 +52,8 @@ def wait(name, threshold=0.9, poll=0.5):
 def see_template(name, threshold=0.9, scales=None):
     """Like :func:`see`, but for a small image inside a larger region.
 
-    Uses template matching (with multi-scale search), so the reference image
-    can be smaller than its ``region`` and appear anywhere within it.
+    Uses template matching (with multi-scale search): the reference image
+    can be smaller than its ``region`` and appear anywhere inside it.
     """
     block = coords(name)
     _, loc = driver.find_template(block["img"], block["region"], threshold, scales)
@@ -63,8 +63,8 @@ def see_template(name, threshold=0.9, scales=None):
 def find(name, threshold=0.9, scales=None):
     """Return the centre ``(x, y)`` of a template match, or ``None``.
 
-    Like :func:`see_template`, but gives back the match location so callers can
-    tap somewhere relative to it (nothing is tapped here).
+    Like :func:`see_template`, but returns the match location, letting callers
+    tap somewhere relative to it. Nothing is tapped here.
     """
     block = coords(name)
     _, loc = driver.find_template(block["img"], block["region"], threshold, scales)
@@ -75,7 +75,7 @@ def find_all(name, threshold=0.9, scales=None, color_threshold=None):
     """Return the centres of ALL template matches of ``name`` in its region.
 
     Like :func:`find`, but reports every distinct on-screen copy (de-duplicated)
-    so callers can act on each one -- e.g. buy a shop item that is listed twice.
+    so callers can act on each one, e.g. buying a shop item that is listed twice.
     ``color_threshold`` adds a colour-sensitive check that rejects greyed-out
     (already-selected / disabled) copies which raw correlation still matches.
     """

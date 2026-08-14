@@ -23,7 +23,7 @@ def run():
 
         # Enter Team Trials from the home screen. Needed on the first run and
         # again after the daily shop sends us home; between runs 'race again'
-        # (in finish_run) drops us straight onto selection, so we skip this.
+        # (in finish_run) drops us straight onto selection, skipping this step.
         if need_launch:
             screen.wait_from_home("tt_button")
             screen.tap("tt_button")

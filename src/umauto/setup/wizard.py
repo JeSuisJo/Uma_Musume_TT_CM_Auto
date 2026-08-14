@@ -1,7 +1,7 @@
 """Configuration wizard: create config.json, or backfill new keys into it.
 
-It must not import :mod:`umauto.config` (that module reads config.json at import
-time), so it only depends on :mod:`umauto.paths` and this package's own
+It can't import :mod:`umauto.config` (that module reads config.json at import
+time). Its only dependencies are :mod:`umauto.paths` and this package's own
 :mod:`.defaults` / :mod:`.prompts`.
 
 The questions live in one ordered, declarative list (:data:`_QUESTIONS`) shared
@@ -9,8 +9,8 @@ by two entry points:
 
 * a **fresh install** (no config.json) asks every applicable question;
 * an **upgrade** (config.json exists but predates keys added in a new release)
-  asks *only* the missing ones, then rewrites the file -- so users who update
-  get prompted for the new options instead of silently running on defaults.
+  asks *only* the missing ones, then rewrites the file. Users who update get
+  prompted for the new options, instead of silently running on defaults.
 
 To expose a new option, add one :class:`_Question` row (and its default in
 :mod:`.defaults`); both flows pick it up automatically.
@@ -35,13 +35,13 @@ CONFIG_PATH = resolve("config.json")
 class _Question:
     """One config key, how to ask for it, and when it is relevant.
 
-    ``ask`` receives the config answered so far, so a question can seed its
-    default from another key -- e.g. the split ``use_parfait_TT`` /
+    ``ask`` receives the config answered so far: a question can seed its
+    default from another key, e.g. the split ``use_parfait_TT`` /
     ``use_parfait_daily_legends`` questions default to the legacy single
     ``use_parfait`` value when upgrading. ``when`` gates conditional keys against
     that same config (e.g. ``shop_items`` is only asked when ``daily_sales_mode``
-    is ``"specific"``). Because both flows walk :data:`_QUESTIONS` in order, a
-    guard or default can safely read a key asked earlier in the list.
+    is ``"specific"``). Both flows walk :data:`_QUESTIONS` in order, so a guard
+    or default can safely read a key asked earlier in the list.
     """
 
     def __init__(self, key, ask, when=None):
@@ -53,8 +53,8 @@ class _Question:
         return self.when is None or self.when(config)
 
 
-# Ordered so every guard's dependency is asked before it (steam before the
-# steam/adb split, daily_sales_mode before shop_items).
+# Order matters here: every guard's dependency needs to be asked first
+# (steam before the steam/adb split, daily_sales_mode before shop_items).
 _QUESTIONS = [
     _Question("steam", lambda c: ask_bool("Play on Steam (PC)?", DEFAULTS["steam"])),
     _Question(
@@ -63,7 +63,7 @@ _QUESTIONS = [
         when=lambda c: c.get("steam"),
     ),
     # device_id is not asked: it is detected (and saved) automatically at run
-    # start by the ADB driver -- see AdbDriver.ensure_ready. The default from
+    # start by the ADB driver (see AdbDriver.ensure_ready). The default from
     # DEFAULTS lands in config.json as the initial cached value.
     _Question(
         "difficulty_tm",
@@ -75,8 +75,8 @@ _QUESTIONS = [
     ),
     _Question(
         "use_parfait_TT",
-        # Default seeded from the legacy single ``use_parfait`` key so a user
-        # upgrading from before the split keeps their old choice.
+        # Seeds the default from the legacy single ``use_parfait`` key: a
+        # user upgrading from before the split keeps their old choice.
         lambda c: ask_bool(
             "Use a parfait before each Team Trials run?",
             c.get("use_parfait", DEFAULTS["use_parfait_TT"]),
@@ -149,8 +149,8 @@ def _prompt_config():
     print("(press Enter to keep the default shown in brackets)")
     print("=" * 50)
 
-    # Start from the defaults so skipped conditional keys (e.g. device_id for a
-    # Steam user) still land in the file with a harmless value.
+    # Starting from the defaults means skipped conditional keys (e.g. device_id
+    # for a Steam user) still land in the file with a harmless value.
     config = dict(DEFAULTS)
     for question in _QUESTIONS:
         if question.applies(config):
@@ -163,7 +163,7 @@ def _migrate(existing):
 
     Walks :data:`_QUESTIONS` against the user's current config: a question is
     asked only when its key is absent *and* it applies. Re-checking ``applies``
-    as answers come in handles cascades -- answering a newly added
+    as answers come in handles cascades: answering a newly added
     ``daily_sales_mode`` with ``"specific"`` makes the also-missing
     ``shop_items`` become relevant and get asked too. Returns True if anything
     was added.

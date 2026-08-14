@@ -1,8 +1,8 @@
 """Interactive prompt helpers for the first-run wizard.
 
 Pure ``input()`` wrappers, one per answer shape (yes/no, free text, fixed
-choice, pick-one-from-list, pick-many-from-list). They keep no state and import
-nothing, so the wizard flow reads as a list of questions.
+choice, pick-one-from-list, pick-many-from-list). They keep no state and
+import nothing: the wizard flow reads as a plain list of questions.
 """
 
 

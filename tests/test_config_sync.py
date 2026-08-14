@@ -7,9 +7,9 @@ That duplication is deliberate but fragile: add an item in one place and forget
 the other, and the wizard silently drifts out of sync with what the runner can
 actually buy/select. These tests fail the moment the two copies diverge.
 
-The three source modules import nothing heavy, so they are loaded directly by
-file path -- this avoids pulling in the driver (which probes ADB at import) and
-keeps the test runnable without config.json or any device attached.
+The three source modules import nothing heavy: they get loaded directly by
+file path, avoiding the driver import (which probes ADB at import) and keeping
+the test runnable without config.json or any device attached.
 """
 
 import importlib.util
@@ -50,7 +50,7 @@ def _coord_files():
 def test_coords_have_no_duplicate_names():
     """No name may be defined in two coords/*.json files.
 
-    coords.py merges every file into one flat namespace, so a duplicate would
+    coords.py merges every file into one flat namespace; a duplicate would
     silently shadow the other. This mirrors the loader's own guard, catching
     the clash in CI instead of on screen.
     """
@@ -67,7 +67,7 @@ def test_every_referenced_template_image_exists():
     """Every ``img`` path in every coord entry must exist on disk.
 
     A missing template makes the driver crash (or loop forever) the moment that
-    screen is awaited -- exactly the bug that hid behind a missing Steam PNG.
+    screen is awaited: exactly the bug that hid behind a missing Steam PNG.
     """
     missing = []
     for path in _coord_files():

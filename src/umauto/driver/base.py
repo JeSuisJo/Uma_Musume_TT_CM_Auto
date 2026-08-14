@@ -1,8 +1,8 @@
 """Driver abstraction: shared image/colour logic over platform primitives.
 
 Subclasses implement the platform-specific primitives (``_screenshot``,
-``tap``, ``swipe``, ...). Everything image- or colour-related is shared here and
-relies only on ``_screenshot``, so it never gets duplicated across backends.
+``tap``, ``swipe``, ...). Everything image- or colour-related lives here,
+built only on top of ``_screenshot``, so backends never duplicate it.
 """
 
 import contextlib
@@ -42,7 +42,7 @@ def _iou(a, b):
 class Driver:
     """Base driver with shared image and colour helpers."""
 
-    # Set while a ``frozen()`` block is active; see :meth:`_capture`.
+    # True inside an active ``frozen()`` block; read by :meth:`_capture`.
     _freeze_active = False
     _frozen_path = None
 
@@ -53,19 +53,19 @@ class Driver:
     def frozen(self):
         """Reuse a single capture for every check made inside the block.
 
-        Each image/colour helper normally grabs its own screenshot, which costs
-        a full round-trip to the device. When several checks read the *same*
-        static view -- e.g. hunting ten shop icons in one list -- they can all
-        run against one frame instead of ten.
+        Each image/colour helper normally grabs its own screenshot: a full
+        round-trip to the device. Several checks reading the *same* static
+        view (e.g. hunting ten shop icons in one list) can share one frame
+        instead of paying for that ten times.
 
-        Only wrap code that does not act on the screen: a tap inside the block
-        would leave the later checks reading a pre-tap frame. Wrap the detection
-        phase, then act on its result once the block has exited. Waiting loops
-        must never be frozen -- they poll for a *change*, so they need a fresh
-        frame every time.
+        Don't wrap code that acts on the screen. A tap inside the block would
+        leave later checks reading a pre-tap frame, so wrap only the
+        detection phase and act on its result afterward. Waiting loops can't
+        be frozen either: they poll for a *change* and need a fresh frame
+        every time.
         """
         if self._freeze_active:
-            yield  # already frozen by an outer block: reuse its frame
+            yield  # outer block already froze the frame, nothing to do here
             return
         self._freeze_active = True
         self._frozen_path = None
@@ -80,8 +80,8 @@ class Driver:
     def _capture(self):
         """Return a path to a current capture, honouring :meth:`frozen`.
 
-        Every image/colour helper goes through here rather than calling
-        ``_screenshot`` directly, so freezing works for all of them at once.
+        Every image/colour helper calls this instead of ``_screenshot``
+        directly. That's what makes freezing work for all of them at once.
         """
         if not self._freeze_active:
             return self._screenshot()
@@ -106,9 +106,8 @@ class Driver:
     def drag_hold(self, x1, y1, x2, y2, move_ms=300, hold_ms=500):
         """Drag from (x1,y1) to (x2,y2) then hold at the end before releasing.
 
-        Holding at the destination drops the release velocity to zero, which
-        prevents the game's scroll inertia ("fling") from continuing past the
-        target position.
+        Holding at the destination zeroes the release velocity. Otherwise the
+        game's scroll inertia ("fling") carries on past the target position.
         """
         raise NotImplementedError
 
@@ -160,11 +159,11 @@ class Driver:
     def find_template(self, reference_path, region, threshold=0.9, scales=None):
         """Locate a (possibly smaller/scaled) template inside ``region``.
 
-        Unlike :meth:`compare_image`, this slides the reference over the region
-        with ``cv2.matchTemplate`` instead of resizing it to the whole region,
-        so the reference can be smaller than the searched area. ``scales`` is an
-        iterable of size factors applied to the reference (multi-scale search),
-        which handles a template captured at a slightly different resolution.
+        Unlike :meth:`compare_image`, this slides the reference over the
+        region with ``cv2.matchTemplate`` rather than resizing it to fill the
+        region: the reference can be smaller than the searched area. ``scales``
+        lists size factors applied to the reference for a multi-scale search,
+        covering a template captured at a slightly different resolution.
 
         Returns ``(score, (x, y))`` where ``(x, y)`` is the match centre in
         full-screen coordinates, or ``(score, None)`` when nothing beats
@@ -212,18 +211,18 @@ class Driver:
     ):
         """Locate ALL matches of a template inside ``region`` (multi-instance).
 
-        Like :meth:`find_template`, but returns every distinct match whose score
-        beats ``threshold`` instead of only the best one. Matches are
-        de-duplicated with non-maximum suppression, so the same on-screen
-        instance (detected repeatedly across scales/neighbouring pixels) is
-        reported once while genuinely separate copies are all kept.
+        Like :meth:`find_template`, but returns every distinct match above
+        ``threshold`` instead of just the best one. Non-maximum suppression
+        de-duplicates them: the same on-screen instance, caught repeatedly
+        across scales or neighbouring pixels, is reported once, while
+        genuinely separate copies are all kept.
 
-        ``matchTemplate`` (TM_CCOEFF_NORMED) is invariant to brightness/contrast,
-        so a greyed-out / disabled icon still correlates highly with its colour
-        reference. When ``color_threshold`` is given, each candidate is re-scored
-        with a colour-sensitive RMS similarity and dropped below that value --
-        this rejects already-selected (greyed) items that the raw correlation
-        would still match.
+        ``matchTemplate`` (TM_CCOEFF_NORMED) is invariant to brightness and
+        contrast, so a greyed-out or disabled icon still correlates highly
+        with its colour reference. Pass ``color_threshold`` and each candidate
+        gets re-scored with a colour-sensitive RMS similarity, dropping
+        already-selected (greyed) items the raw correlation would otherwise
+        still match.
 
         Returns a list of ``(x, y)`` centres in full-screen coordinates,
         highest score first.

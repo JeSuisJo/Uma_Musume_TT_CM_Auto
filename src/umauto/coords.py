@@ -2,9 +2,9 @@
 
 Coordinates are split one JSON file per feature (``coords/shop.json``,
 ``coords/team_trials.json``, ...) plus ``coords/common.json`` for entries shared
-by several modes -- mirroring the ``features/`` packages. They are merged into a
-single flat namespace at import time, so callers still look names up globally
-(``coords("shop_star_piece")``); the split is storage-only.
+by several modes, mirroring the ``features/`` packages. They get merged into a
+single flat namespace at import time; callers still look names up globally
+(``coords("shop_star_piece")``). The split is storage-only.
 
 Each entry holds a ``tap`` point, a ``region`` and an ``img`` reference for the
 active platform ("adb" or "steam").
@@ -26,8 +26,8 @@ def _load():
     """Merge every ``coords/*.json`` file, rejecting duplicate names.
 
     A flat global namespace means the same name defined in two files would
-    silently shadow one another; instead we fail loudly with both filenames so
-    the collision is fixed at its source rather than debugged on screen.
+    silently shadow one another. Failing loudly with both filenames catches
+    the collision at its source instead of leaving it to debug on screen.
     """
     merged = {}
     origin = {}  # name -> file it came from, for collision messages

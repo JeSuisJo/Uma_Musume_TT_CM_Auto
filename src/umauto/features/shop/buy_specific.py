@@ -33,10 +33,10 @@ def buy_specific_sales():
 
     Opens the shop and searches the item list for each configured item's icon
     template. Any icon found in the current view is selected (its row buy button
-    is tapped, at a fixed X offset from the icon -- see ``shop_buy_offset``);
+    is tapped, at a fixed X offset from the icon, see ``shop_buy_offset``);
     then the list is scrolled and searched again, ``_MAX_SCROLLS`` times. Items
-    are re-checked on every pass so duplicates (e.g. two Star Pieces at
-    different spots) are all bought. The basket is confirmed once at the end.
+    are re-checked on every pass: duplicates (e.g. two Star Pieces at different
+    spots) all get bought. The basket is confirmed once at the end.
     """
     screen.tap("shop")
     screen.wait("in_shop")
@@ -73,7 +73,7 @@ def _color_at(name, tolerance=10):
     """Return True if the pixel at ``name``'s ``region`` point matches its ``rgb``.
 
     These entries store a single ``[x, y]`` point under ``region`` (not ``tap``)
-    plus an ``rgb`` target, so this reads the live pixel there and compares it.
+    plus an ``rgb`` target; this reads the live pixel there and compares it.
     """
     block = coords(name)
     x, y = block["region"]
@@ -83,11 +83,11 @@ def _color_at(name, tolerance=10):
 def _buy_visible(targets):
     """Select every configured item currently on screen; return how many.
 
-    Items are never marked done, so the same name is re-checked on each pass:
-    a shop that lists an item twice gets it bought each time it comes into view.
+    Items are never marked done. The same name gets re-checked on each pass,
+    so a shop listing an item twice buys it every time it comes into view.
 
-    Every item is located against one frozen capture before anything is tapped,
-    so the whole view costs a single screenshot instead of one per item.
+    Every item gets located against one frozen capture before anything is
+    tapped: the whole view costs a single screenshot instead of one per item.
     """
     off = coords("shop_buy_offset")
     # Let the list settle before the capture: the taps below aim at coordinates

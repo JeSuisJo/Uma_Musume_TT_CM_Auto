@@ -132,7 +132,7 @@ select.select:focus{outline:none;border-color:var(--purple);}
 .btn-submit{border:none;cursor:pointer;font-family:var(--sans);font-weight:700;font-size:13px;letter-spacing:1px;text-transform:uppercase;color:#fff;background:linear-gradient(135deg,var(--pink),var(--purple));padding:12px 24px;border-radius:12px;}
 .btn-submit:hover{filter:brightness(1.05);}
 
-/* ---- Dark arcade theme: applied via <html data-theme="dark"> ---- */
+/* Dark arcade theme: applied via <html data-theme="dark"> */
 [data-theme="dark"]{
  --ink:#e8e3f5;--txt:#b8b0d4;--muted:#7d759c;--line:#2a2447;
  --green:#d81e7e;--green2:#5b34a8;--pink:#e0428a;--purple:#7649d6;--teal:#1ec8b6;--amber:#e0a51a;--sky:#3d84d6;--red:#e0475c;
@@ -264,8 +264,8 @@ function showView(name) {
   document.getElementById('foot').classList.toggle('on', name === 'config');
 }
 
-/* init — robust boot: pywebview may fire 'pywebviewready' before this script
-   attaches its listener, so we also poll for the API and retry on failure.
+/* init: robust boot. pywebview may fire 'pywebviewready' before this script
+   attaches its listener, so it also polls for the API and retries on failure.
    Without this, a missed event leaves both tabs blank. */
 let booted = false;
 async function boot() {
@@ -295,7 +295,7 @@ async function init() {
   pollLoop();  // self-scheduling: never overlaps, never piles up
 }
 
-/* One poll cycle at a time. Reschedules itself only after finishing, so a
+/* One poll cycle at a time. Reschedules itself only after finishing: a
    slow call can never stack up and lock the UI. */
 async function pollLoop() {
   try {
@@ -399,7 +399,7 @@ function renderLogLine(cons, line) {
   if (line === '\x00clear') { cons.innerHTML = ''; return; }
   if (/^=+$/.test(line.trim()) && line.trim().length >= 3) {
     // Skip a separator at the very top: the RACE LOG header strip is already
-    // right above it, so it would be a redundant double rule.
+    // right above it, and a separator there would just double up.
     if (cons.childNodes.length === 0) return;
     const hr = document.createElement('div');
     hr.className = 'log-sep';
@@ -434,8 +434,8 @@ document.getElementById('promptInput').addEventListener('keydown', e => {
   if (e.key === 'Enter') submitPrompt();
 });
 
-/* theme — mirror the dark_mode config flag onto <html data-theme> so the
-   whole app restyles instantly, with no restart. */
+/* theme: mirror the dark_mode config flag onto <html data-theme>; the whole
+   app restyles instantly, no restart needed. */
 function applyTheme() {
   document.documentElement.dataset.theme = CONFIG.dark_mode ? 'dark' : 'light';
 }
