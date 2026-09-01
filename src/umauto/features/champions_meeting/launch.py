@@ -1,5 +1,3 @@
-"""Navigate into the Champions Meeting screen."""
-
 import time
 
 from ... import screen

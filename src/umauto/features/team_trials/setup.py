@@ -1,5 +1,3 @@
-"""Confirm the trial line-up before the race."""
-
 import time
 
 from ... import screen

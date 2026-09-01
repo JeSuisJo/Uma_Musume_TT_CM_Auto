@@ -1,5 +1,3 @@
-"""Close the race result, handle the shop prompt, and return home."""
-
 import time
 
 from ... import screen

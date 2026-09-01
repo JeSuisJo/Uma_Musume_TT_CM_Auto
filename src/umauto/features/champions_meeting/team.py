@@ -1,5 +1,3 @@
-"""Register the team for a Champions Meeting run."""
-
 import time
 
 from ... import screen

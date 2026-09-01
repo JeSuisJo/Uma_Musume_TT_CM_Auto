@@ -1,5 +1,3 @@
-"""Champions Meeting mode: run the remaining daily attempts."""
-
 import os
 import time
 
@@ -29,7 +27,6 @@ def run(already_done):
     launch_cm()
 
     time.sleep(1)
-    # With free runs all 3 attempts are available; otherwise only what is left.
     done = 0 if screen.see("free_cm") else already_done
     runs = (3 - done) + extra_run
 

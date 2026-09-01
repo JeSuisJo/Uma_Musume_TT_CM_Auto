@@ -1,5 +1,3 @@
-"""Start and run the selected Daily Legends race, then collect the rewards."""
-
 import time
 
 from ... import screen
@@ -8,7 +6,6 @@ from ..shop import handle_daily_sales
 
 
 def run_race():
-    """Run the race (optionally using a parfait) and collect its rewards."""
     print("Starting the race")
     screen.tap("daily_legends_start")
     screen.wait("daily_race_start")
@@ -39,9 +36,6 @@ def run_race():
     screen.wait("dl_reward")
     screen.tap("dl_reward")
     time.sleep(2.5)
-    # When the shop prompt appears, handle_daily_sales already goes home, so
-    # skip the wait: otherwise wait_any would block forever on the daily
-    # legends menu that we've already left.
     if not handle_daily_sales():
         screen.wait_any("in_daily_legends", "daily_legends_enter")
         screen.tap("home")

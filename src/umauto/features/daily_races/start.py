@@ -1,12 +1,9 @@
-"""Enable multi-race, then start and confirm the daily race."""
-
 import time
 
 from ... import screen
 
 
 def start_race():
-    """Toggle multi-race if needed, then launch the race."""
     screen.wait("daily_race_start")
     time.sleep(0.5)
     if not screen.is_color("dr_multi_race"):

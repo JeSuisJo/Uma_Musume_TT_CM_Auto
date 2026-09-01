@@ -1,5 +1,3 @@
-"""Daily Legends Race mode: run a single race with the configured champion."""
-
 import os
 
 from ...config import config

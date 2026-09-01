@@ -1,5 +1,3 @@
-"""Run a trial race and skip to the result."""
-
 import time
 
 from ... import screen

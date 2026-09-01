@@ -1,13 +1,9 @@
-"""Single source of truth for user configuration (config.json)."""
-
 import json
 
 from .paths import resolve
 
 
 class Config:
-    """Read-only view over config.json with attribute and ``.get()`` access."""
-
     def __init__(self, data):
         self._data = data
 

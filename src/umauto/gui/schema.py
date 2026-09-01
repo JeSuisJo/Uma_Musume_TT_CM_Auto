@@ -1,21 +1,3 @@
-"""Declarative description of config.json for the GUI form.
-
-Mirrors the questions asked by the text wizard (:mod:`umauto.setup.wizard`) but
-in a data-only shape the HTML form can render. It deliberately imports *only*
-:mod:`umauto.setup.defaults` (which depends on nothing and is importable before
-config.json exists). That's what lets the config screen work on a fresh install
-too.
-
-Each field is a dict:
-    key            config.json key
-    type           "bool" | "text" | "choice" | "multichoice" | "info"
-    label          human label
-    help           optional one-line hint
-    options        for choice/multichoice: allowed values
-    option_labels  optional {value: pretty label} for choice
-    when           optional {other_key: required_value} to show conditionally
-"""
-
 from ..setup.defaults import DAILY_CHAMPIONS, DEFAULTS, SHOP_ITEMS
 
 FIELDS = [
@@ -120,16 +102,11 @@ FIELDS = [
 ]
 
 
-# GUI-only settings the text wizard doesn't manage. Merging them into the
-# config form's defaults means they still show up on a config.json created by
-# the CLI. (The overlay window geometry is predefined in umauto.gui.app, not a
-# form field.)
 _GUI_DEFAULTS = {
-    "window_on_top": False,  # opt-in: don't force always-on-top on anyone
-    "dark_mode": False,  # UI-only theme toggle; the automation ignores it
+    "window_on_top": False,
+    "dark_mode": False,
 }
 
 
 def defaults():
-    """A fresh config dict (used when config.json does not exist yet)."""
     return {**DEFAULTS, **_GUI_DEFAULTS}

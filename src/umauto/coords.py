@@ -1,15 +1,3 @@
-"""Named screen coordinates and reference images (the ``coords/`` folder).
-
-Coordinates are split one JSON file per feature (``coords/shop.json``,
-``coords/team_trials.json``, ...) plus ``coords/common.json`` for entries shared
-by several modes, mirroring the ``features/`` packages. They get merged into a
-single flat namespace at import time; callers still look names up globally
-(``coords("shop_star_piece")``). The split is storage-only.
-
-Each entry holds a ``tap`` point, a ``region`` and an ``img`` reference for the
-active platform ("adb" or "steam").
-"""
-
 import glob
 import json
 import os
@@ -23,14 +11,8 @@ _COORDS_DIR = resolve("coords")
 
 
 def _load():
-    """Merge every ``coords/*.json`` file, rejecting duplicate names.
-
-    A flat global namespace means the same name defined in two files would
-    silently shadow one another. Failing loudly with both filenames catches
-    the collision at its source instead of leaving it to debug on screen.
-    """
     merged = {}
-    origin = {}  # name -> file it came from, for collision messages
+    origin = {}
     for path in sorted(glob.glob(os.path.join(_COORDS_DIR, "*.json"))):
         name_of_file = os.path.basename(path)
         with open(path, encoding="utf-8") as f:
@@ -50,5 +32,4 @@ _COORDS = _load()
 
 
 def coords(name):
-    """Return the coordinate block for ``name`` on the active platform."""
     return _COORDS[name][_MODE]

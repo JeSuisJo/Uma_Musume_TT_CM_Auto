@@ -1,11 +1,3 @@
-"""Interactive prompt helpers for the first-run wizard.
-
-Pure ``input()`` wrappers, one per answer shape (yes/no, free text, fixed
-choice, pick-one-from-list, pick-many-from-list). They keep no state and
-import nothing: the wizard flow reads as a plain list of questions.
-"""
-
-
 def ask_bool(prompt, default):
     suffix = "[Y/n]" if default else "[y/N]"
     truthy = {"y", "yes", "o", "oui"}
@@ -52,11 +44,6 @@ def ask_from_list(prompt, options, default):
 
 
 def ask_multi_from_list(prompt, options, default):
-    """Ask for zero or more picks from a list (comma-separated numbers).
-
-    Returns the chosen display names in list order. An empty answer keeps
-    ``default``; "all" selects everything.
-    """
     while True:
         print(prompt)
         for i, option in enumerate(options, 1):
@@ -68,7 +55,6 @@ def ask_multi_from_list(prompt, options, default):
             return list(options)
         parts = [p.strip() for p in answer.split(",") if p.strip()]
         if all(p.isdigit() and 1 <= int(p) <= len(options) for p in parts):
-            # De-duplicate while keeping the list's display order.
             picked = {int(p) for p in parts}
             return [option for i, option in enumerate(options, 1) if i in picked]
         print(f"  Please enter numbers between 1 and {len(options)}, comma-separated.")

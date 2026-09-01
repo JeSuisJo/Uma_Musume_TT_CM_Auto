@@ -1,5 +1,3 @@
-"""Select the trial difficulty configured in config.json."""
-
 import time
 
 from ... import screen
@@ -9,11 +7,6 @@ _DIFFICULTIES = ("easy", "medium", "hard")
 
 
 def select_difficulty():
-    """Pick the configured difficulty.
-
-    Return True when a run is already scheduled and the setup step can be
-    skipped, False otherwise.
-    """
     while not screen.see("in_selection"):
         if screen.see("in_selection_refresh"):
             break

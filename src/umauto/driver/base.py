@@ -1,10 +1,3 @@
-"""Driver abstraction: shared image/colour logic over platform primitives.
-
-Subclasses implement the platform-specific primitives (``_screenshot``,
-``tap``, ``swipe``, ...). Everything image- or colour-related lives here,
-built only on top of ``_screenshot``, so backends never duplicate it.
-"""
-
 import contextlib
 import math
 import os
@@ -16,8 +9,6 @@ from ..paths import resolve
 
 
 class StopScript(Exception):
-    """Raised to abort the current run cleanly."""
-
     def __init__(self, message="Script stopped"):
         super().__init__(message)
 
@@ -28,7 +19,6 @@ def _silent_remove(path):
 
 
 def _iou(a, b):
-    """Intersection-over-union of two ``(x1, y1, x2, y2)`` boxes."""
     ix1, iy1 = max(a[0], b[0]), max(a[1], b[1])
     ix2, iy2 = min(a[2], b[2]), min(a[3], b[3])
     inter = max(0, ix2 - ix1) * max(0, iy2 - iy1)
@@ -40,9 +30,6 @@ def _iou(a, b):
 
 
 class Driver:
-    """Base driver with shared image and colour helpers."""
-
-    # True inside an active ``frozen()`` block; read by :meth:`_capture`.
     _freeze_active = False
     _frozen_path = None
 
@@ -51,21 +38,8 @@ class Driver:
 
     @contextlib.contextmanager
     def frozen(self):
-        """Reuse a single capture for every check made inside the block.
-
-        Each image/colour helper normally grabs its own screenshot: a full
-        round-trip to the device. Several checks reading the *same* static
-        view (e.g. hunting ten shop icons in one list) can share one frame
-        instead of paying for that ten times.
-
-        Don't wrap code that acts on the screen. A tap inside the block would
-        leave later checks reading a pre-tap frame, so wrap only the
-        detection phase and act on its result afterward. Waiting loops can't
-        be frozen either: they poll for a *change* and need a fresh frame
-        every time.
-        """
         if self._freeze_active:
-            yield  # outer block already froze the frame, nothing to do here
+            yield
             return
         self._freeze_active = True
         self._frozen_path = None
@@ -78,11 +52,6 @@ class Driver:
             self._freeze_active = False
 
     def _capture(self):
-        """Return a path to a current capture, honouring :meth:`frozen`.
-
-        Every image/colour helper calls this instead of ``_screenshot``
-        directly. That's what makes freezing work for all of them at once.
-        """
         if not self._freeze_active:
             return self._screenshot()
         if self._frozen_path is None:
@@ -90,7 +59,6 @@ class Driver:
         return self._frozen_path
 
     def _release(self, path):
-        """Discard a capture, unless it is the frozen frame still in use."""
         if not (self._freeze_active and path == self._frozen_path):
             _silent_remove(path)
 
@@ -104,11 +72,6 @@ class Driver:
         raise NotImplementedError
 
     def drag_hold(self, x1, y1, x2, y2, move_ms=300, hold_ms=500):
-        """Drag from (x1,y1) to (x2,y2) then hold at the end before releasing.
-
-        Holding at the destination zeroes the release velocity. Otherwise the
-        game's scroll inertia ("fling") carries on past the target position.
-        """
         raise NotImplementedError
 
     def write(self, text):
@@ -121,16 +84,15 @@ class Driver:
         raise NotImplementedError
 
     def focus(self):
-        """Bring the game to the foreground (no-op when not needed)."""
+        pass
 
     def ensure_ready(self):
-        """Resolve/validate the target device before a run (no-op by default)."""
+        pass
 
     def stop(self, message="Script stopped"):
         raise StopScript(message)
 
     def screenshot(self, dest="temp.png"):
-        """Capture the current screen to ``dest`` and return its path."""
         return self._screenshot(dest)
 
     @staticmethod
@@ -157,18 +119,6 @@ class Driver:
             time.sleep(poll)
 
     def find_template(self, reference_path, region, threshold=0.9, scales=None):
-        """Locate a (possibly smaller/scaled) template inside ``region``.
-
-        Unlike :meth:`compare_image`, this slides the reference over the
-        region with ``cv2.matchTemplate`` rather than resizing it to fill the
-        region: the reference can be smaller than the searched area. ``scales``
-        lists size factors applied to the reference for a multi-scale search,
-        covering a template captured at a slightly different resolution.
-
-        Returns ``(score, (x, y))`` where ``(x, y)`` is the match centre in
-        full-screen coordinates, or ``(score, None)`` when nothing beats
-        ``threshold``.
-        """
         import cv2
         import numpy as np
 
@@ -209,24 +159,6 @@ class Driver:
         max_results=30,
         color_threshold=None,
     ):
-        """Locate ALL matches of a template inside ``region`` (multi-instance).
-
-        Like :meth:`find_template`, but returns every distinct match above
-        ``threshold`` instead of just the best one. Non-maximum suppression
-        de-duplicates them: the same on-screen instance, caught repeatedly
-        across scales or neighbouring pixels, is reported once, while
-        genuinely separate copies are all kept.
-
-        ``matchTemplate`` (TM_CCOEFF_NORMED) is invariant to brightness and
-        contrast, so a greyed-out or disabled icon still correlates highly
-        with its colour reference. Pass ``color_threshold`` and each candidate
-        gets re-scored with a colour-sensitive RMS similarity, dropping
-        already-selected (greyed) items the raw correlation would otherwise
-        still match.
-
-        Returns a list of ``(x, y)`` centres in full-screen coordinates,
-        highest score first.
-        """
         import cv2
         import numpy as np
 
@@ -243,7 +175,7 @@ class Driver:
         )
 
         h_h, h_w = haystack.shape[:2]
-        boxes = []  # (score, x1, y1, x2, y2) in region-local coordinates
+        boxes = []
         for scale in scales:
             tw, th = int(ref.shape[1] * scale), int(ref.shape[0] * scale)
             if tw < 1 or th < 1 or tw > h_w or th > h_h:
@@ -264,7 +196,7 @@ class Driver:
                 tmpl = cv2.resize(ref, (x2 - x1, y2 - y1)).astype(np.float32)
                 rms = np.sqrt(((crop - tmpl) ** 2).mean())
                 if 1.0 - rms / 255.0 < color_threshold:
-                    continue  # too different in colour -> greyed/disabled item
+                    continue
             kept.append((x1, y1, x2, y2))
             if len(kept) >= max_results:
                 break

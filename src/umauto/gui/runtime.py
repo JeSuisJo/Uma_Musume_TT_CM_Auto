@@ -1,14 +1,3 @@
-"""Run a CLI feature from the GUI without touching feature code.
-
-Features ``print`` progress and occasionally call ``input()``. For the duration
-of a run we redirect that console (see :func:`_patched_console`): stdout becomes
-a polled log, ``input()`` becomes a modal prompt, ``os.system("cls")`` clears the
-log, and a stop flag checked before each screenshot lets Stop abort the run.
-
-Only one run happens at a time: a single module-level :class:`Session` holds
-the state shared with the API layer.
-"""
-
 import builtins
 import collections
 import contextlib
@@ -19,15 +8,11 @@ import threading
 
 
 class _LogWriter(io.TextIOBase):
-    """A file-like object that funnels ``print`` into the session log."""
-
     def __init__(self, session):
         self._session = session
         self._pending = ""
 
     def write(self, text):
-        # Buffers partial lines: a bare ``print(end="")`` progress update won't
-        # spam the log until a newline arrives.
         self._pending += text
         while "\n" in self._pending:
             line, self._pending = self._pending.split("\n", 1)
@@ -41,15 +26,12 @@ class _LogWriter(io.TextIOBase):
 
 
 class Session:
-    """Shared state between the worker thread and the pywebview API."""
-
     def __init__(self):
         self._lock = threading.Lock()
         self._log = collections.deque()
         self.running = False
         self.stop_requested = False
         self.last_error = None
-        # Pending input() prompt handshake.
         self._prompt_message = None
         self._prompt_answer = None
         self._prompt_event = threading.Event()
@@ -68,13 +50,12 @@ class Session:
     def clear_log(self):
         with self._lock:
             self._log.clear()
-            self._log.append("\x00clear")  # sentinel: tell the UI to wipe
+            self._log.append("\x00clear")
 
     def pending_prompt(self):
         return self._prompt_message
 
     def _ask(self, message):
-        """Block the worker until the UI answers (or Stop is pressed)."""
         if self.stop_requested:
             raise StopScriptProxy()
         self._prompt_answer = None
@@ -92,7 +73,6 @@ class Session:
 
     def request_stop(self):
         self.stop_requested = True
-        # Release a worker that is blocked waiting on a prompt.
         self._prompt_event.set()
 
     def start(self, key):
@@ -108,8 +88,6 @@ class Session:
         return True
 
     def _run(self, key):
-        # Imported lazily: these modules read config.json at import time and
-        # must not load until a config exists and a run is requested.
         from ..driver import StopScript, driver
         from ..features.registry import FEATURES
 
@@ -131,7 +109,7 @@ class Session:
             except (StopScript, StopScriptProxy) as exc:
                 self.log("")
                 self.log(f"Stopped: {exc}" if str(exc) else "Stopped.")
-            except Exception as exc:  # surface crashes in the log, not a console
+            except Exception as exc:
                 self.last_error = str(exc)
                 self.log("")
                 self.log(f"Error: {exc}")
@@ -141,19 +119,12 @@ class Session:
 
 
 class StopScriptProxy(Exception):
-    """Local stop signal used before the real driver StopScript is importable.
-
-    Raised by prompt cancellation and the screenshot guard; caught alongside
-    the driver's ``StopScript`` so both read as a clean user-initiated stop.
-    """
-
     def __init__(self, message="Stopped by user"):
         super().__init__(message)
 
 
 @contextlib.contextmanager
 def _patched_console(session, writer, driver, StopScript):
-    """Temporarily reroute stdout, input, cls and screenshots to the session."""
     real_stdout = sys.stdout
     real_input = builtins.input
     real_system = os.system
@@ -166,7 +137,6 @@ def _patched_console(session, writer, driver, StopScript):
         return session._ask(prompt or "…")
 
     def gui_system(command):
-        # Swallow the console-clear the runners issue between iterations.
         if str(command).strip().lower() in ("cls", "clear"):
             session.clear_log()
             return 0
@@ -190,5 +160,4 @@ def _patched_console(session, writer, driver, StopScript):
         driver._screenshot = real_screenshot
 
 
-# Single shared session for the whole GUI process.
 session = Session()

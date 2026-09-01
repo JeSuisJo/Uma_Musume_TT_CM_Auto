@@ -1,5 +1,3 @@
-"""Interactive menu: choose and launch an automation mode."""
-
 import os
 
 from .driver import StopScript, driver

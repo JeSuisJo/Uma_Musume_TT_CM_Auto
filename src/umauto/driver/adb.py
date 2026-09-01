@@ -1,24 +1,24 @@
-"""ADB driver: controls an Android emulator/device via platform-tools/adb."""
-
 import contextlib
 import json
+import re
 import subprocess
 import sys
 import time
 
 from ..config import config
 from ..paths import PROJECT_ROOT, resolve
+from ..setup.prompts import ask_from_list
 from .base import Driver
 
 _ADB = resolve("platform-tools/adb.exe")
 
-# Avoids a flashing cmd window per adb call when running under pythonw.exe
-# (the GUI has no console of its own to attach to).
 _NO_WINDOW = subprocess.CREATE_NO_WINDOW if sys.platform == "win32" else 0
+
+_COMPONENT = re.compile(r"([A-Za-z0-9_.]+/[A-Za-z0-9_.$]+)")
+_RESUMED_MARKERS = ("topResumedActivity=", "ResumedActivity:")
 
 
 def _save_device_id(device_id):
-    """Persist the resolved device to config.json and the live config."""
     path = resolve("config.json")
     with contextlib.suppress(OSError, ValueError):
         with open(path, encoding="utf-8") as f:
@@ -31,64 +31,68 @@ def _save_device_id(device_id):
 
 class AdbDriver(Driver):
     def __init__(self):
-        # Real lookup happens in ensure_ready() at run start; importing this
-        # module never touches adb.
         self.device = config.get("device_id")
 
     @staticmethod
-    def _list_devices():
-        result = subprocess.run(
-            [_ADB, "devices"], capture_output=True, text=True, timeout=10,
-            creationflags=_NO_WINDOW,
-        )
+    def _adb(args, timeout=10):
+        try:
+            result = subprocess.run(
+                [_ADB] + args, capture_output=True, text=True, timeout=timeout,
+                creationflags=_NO_WINDOW,
+            )
+        except (OSError, subprocess.SubprocessError):
+            return ""
+        return result.stdout if result.returncode == 0 else ""
+
+    @classmethod
+    def _list_devices(cls):
         lines = [
-            line for line in result.stdout.strip().split("\n")[1:] if "\tdevice" in line
+            line
+            for line in cls._adb(["devices"]).strip().split("\n")[1:]
+            if "\tdevice" in line
         ]
         return [line.split("\t")[0] for line in lines]
 
-    @staticmethod
-    def _restart_server():
-        subprocess.run(
-            [_ADB, "kill-server"], capture_output=True, timeout=10,
-            creationflags=_NO_WINDOW,
-        )
+    @classmethod
+    def _restart_server(cls):
+        cls._adb(["kill-server"])
         time.sleep(1)
-        subprocess.run(
-            [_ADB, "start-server"], capture_output=True, timeout=15,
-            creationflags=_NO_WINDOW,
-        )
+        cls._adb(["start-server"], timeout=15)
         time.sleep(2)
+
+    @classmethod
+    def _foreground_app(cls, device_id):
+        dump = cls._adb(
+            ["-s", device_id, "shell", "dumpsys", "activity", "activities"], timeout=15
+        )
+        for line in dump.split("\n"):
+            marker = next((m for m in _RESUMED_MARKERS if m in line), None)
+            if not marker:
+                continue
+            match = _COMPONENT.search(line.split(marker, 1)[1])
+            if match and "launcher" not in match.group(1).lower():
+                return match.group(1).split("/")[0]
+        return ""
 
     def _use_device(self, device_id, note):
         self.device = device_id
         _save_device_id(device_id)
         print(f"{note}: {device_id}")
 
-    @staticmethod
-    def _ask_device(devices):
-        print("Multiple devices connected:")
-        for i, device in enumerate(devices, 1):
-            print(f"  [{i}] {device}")
-        while True:
-            answer = input("Select device (number): ").strip()
-            if answer.isdigit() and 1 <= int(answer) <= len(devices):
-                return devices[int(answer) - 1]
-            print(f"  Please enter a number between 1 and {len(devices)}.")
+    @classmethod
+    def _ask_device(cls, devices):
+        labels = []
+        for device in devices:
+            app = cls._foreground_app(device)
+            labels.append(f"{device} - {app}" if app else device)
+        chosen = ask_from_list("Multiple devices connected:", labels, labels[0])
+        return devices[labels.index(chosen)]
 
-    def _is_online(self, device_id):
-        """True if a specific device is connected (direct check, no full scan)."""
-        result = subprocess.run(
-            [_ADB, "-s", device_id, "get-state"], capture_output=True, text=True,
-            timeout=10, creationflags=_NO_WINDOW,
-        )
-        return result.returncode == 0 and result.stdout.strip() == "device"
+    @classmethod
+    def _is_online(cls, device_id):
+        return cls._adb(["-s", device_id, "get-state"]).strip() == "device"
 
     def ensure_ready(self):
-        """Resolve the ADB device before a run.
-
-        Trusts the saved device if it's still online, no detection at all.
-        Scanning/auto-selecting/asking only kicks in once it's missing.
-        """
         configured = config.get("device_id")
 
         if configured and self._is_online(configured):
@@ -115,12 +119,7 @@ class AdbDriver(Driver):
         if not devices:
             self.stop("No emulator detected. Start your emulator, then try again.")
 
-        # Several devices connected. Only prompt when nothing was configured
-        # before; a stale configured id just gets replaced with the first match.
-        if configured:
-            self._use_device(devices[0], "ADB device auto-updated")
-        else:
-            self._use_device(self._ask_device(devices), "ADB device selected")
+        self._use_device(self._ask_device(devices), "ADB device selected")
 
     def _run(self, args):
         base = [_ADB, "-s", self.device] if self.device else [_ADB]
@@ -131,7 +130,6 @@ class AdbDriver(Driver):
         return result.returncode == 0
 
     def _exec_out(self, args):
-        """Run ``adb exec-out`` and return its raw stdout (empty on failure)."""
         base = [_ADB, "-s", self.device] if self.device else [_ADB]
         result = subprocess.run(
             base + ["exec-out"] + args, capture_output=True, timeout=30,
@@ -141,8 +139,6 @@ class AdbDriver(Driver):
 
     def _screenshot(self, dest="temp.png"):
         dest = resolve(dest)
-        # exec-out streams the PNG directly, skipping the screencap/pull/rm
-        # round-trip through /sdcard.
         data = self._exec_out(["screencap", "-p"])
         if data.startswith(b"\x89PNG"):
             with open(dest, "wb") as f:
@@ -151,12 +147,6 @@ class AdbDriver(Driver):
         return self._screenshot_via_pull(dest)
 
     def _screenshot_via_pull(self, dest):
-        """Capture via /sdcard, for adb daemons whose exec-out returns nothing.
-
-        An unchecked failure here used to surface far away as a confusing
-        "file not found" from the image layer. Checking each step names the
-        real cause instead: the device went away mid-run.
-        """
         if not (
             self._run(["shell", "screencap", "-p", "/sdcard/tmp.png"])
             and self._run(["pull", "/sdcard/tmp.png", dest])
@@ -190,7 +180,6 @@ class AdbDriver(Driver):
             my = int(y1 + (y2 - y1) * i / steps)
             motion("MOVE", mx, my)
             time.sleep(move_ms / 1000 / steps)
-        # Kills the release velocity so the game doesn't register a fling.
         time.sleep(hold_ms / 1000)
         motion("MOVE", x2, y2)
         motion("UP", x2, y2)
@@ -206,4 +195,4 @@ class AdbDriver(Driver):
         self._run(["shell", "input", "keyevent", "67"])
 
     def focus(self):
-        pass  # adb commands don't need window focus.
+        pass

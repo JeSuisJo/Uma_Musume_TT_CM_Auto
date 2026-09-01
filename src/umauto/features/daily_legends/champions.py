@@ -1,10 +1,3 @@
-"""The Daily Legends champions and their coordinate names.
-
-The config stores exactly one champion (its display name). ``COORD_BY_NAME``
-maps that name to the coordinate entry the runner taps to select it.
-"""
-
-# (display name, coordinate name) in the order shown on screen.
 CHAMPIONS = [
     ("El Condor Pasa", "legend_el_condor_pasa"),
     ("Special Week", "legend_special_week"),

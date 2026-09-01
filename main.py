@@ -1,5 +1,3 @@
-"""Convenience launcher: ``python main.py`` (equivalent to ``python -m umauto``)."""
-
 import os
 import sys
 

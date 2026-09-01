@@ -1,5 +1,3 @@
-"""Steam driver: controls the Windows game window via pyautogui/win32."""
-
 import time
 
 import pyautogui
@@ -21,8 +19,6 @@ class SteamDriver(Driver):
     def _window(self):
         windows = gw.getWindowsWithTitle(self.window_title)
         if not windows:
-            # Stops cleanly instead of crashing: the game just isn't open,
-            # or the title doesn't match its window.
             self.stop(
                 f"Game window '{self.window_title}' not found. "
                 "Start Umamusume on Steam and wait for its window to appear, "
@@ -31,7 +27,6 @@ class SteamDriver(Driver):
         return windows[0]
 
     def ensure_ready(self):
-        """Check the game window exists before a run starts."""
         self._window()
 
     def _offset(self):
@@ -56,19 +51,12 @@ class SteamDriver(Driver):
 
     @staticmethod
     def _set_foreground(hwnd):
-        """Bring ``hwnd`` to the foreground.
-
-        ``SetForegroundWindow`` fails (error 6, invalid handle) whenever the
-        calling process doesn't already own the foreground. The workarounds
-        below retry it; a focus failure should never crash the run.
-        """
         try:
             win32gui.SetForegroundWindow(hwnd)
             return
         except pywintypes.error:
             pass
 
-        # Pressing ALT unlocks Windows' foreground-lock restriction.
         try:
             pyautogui.press("alt")
             win32gui.SetForegroundWindow(hwnd)
@@ -76,7 +64,6 @@ class SteamDriver(Driver):
         except pywintypes.error:
             pass
 
-        # Last resort: minimize then restore, which usually forces the focus.
         try:
             win32gui.ShowWindow(hwnd, win32con.SW_MINIMIZE)
             win32gui.ShowWindow(hwnd, win32con.SW_RESTORE)
@@ -111,7 +98,6 @@ class SteamDriver(Driver):
         pyautogui.moveTo(ox + x1, oy + y1)
         pyautogui.mouseDown()
         pyautogui.moveTo(ox + x2, oy + y2, duration=move_ms / 1000)
-        # Kills the release velocity so the game doesn't register a fling.
         time.sleep(hold_ms / 1000)
         pyautogui.mouseUp()
 

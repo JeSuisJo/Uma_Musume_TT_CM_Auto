@@ -1,5 +1,3 @@
-"""Collect the free daily Champions Meeting ticket."""
-
 import time
 
 from ... import screen

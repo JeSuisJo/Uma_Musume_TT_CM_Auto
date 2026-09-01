@@ -1,5 +1,3 @@
-"""Claim the Champions Meeting run reward."""
-
 import time
 
 from ... import screen

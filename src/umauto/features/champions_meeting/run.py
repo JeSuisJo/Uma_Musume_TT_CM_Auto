@@ -1,5 +1,3 @@
-"""Run Champions Meeting races until the reward screen appears."""
-
 import time
 
 from ... import screen

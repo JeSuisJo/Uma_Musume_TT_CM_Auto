@@ -1,5 +1,3 @@
-"""Pick a buying strategy from config, or dismiss the shop when off."""
-
 import time
 
 from ... import screen
@@ -9,12 +7,6 @@ from .mode import shop_mode
 
 
 def buy_sales():
-    """Buy per the configured mode; return True if a purchase flow ran.
-
-    ``"all"``/``"specific"`` open the shop, buy and go home, returning True.
-    ``"off"`` touches nothing and returns False, leaving the caller to dismiss
-    the shop prompt however it needs to.
-    """
     mode = shop_mode()
     if mode == "all":
         buy_all_sales()
@@ -26,16 +18,6 @@ def buy_sales():
 
 
 def handle_daily_sales():
-    """When the shop prompt is showing in a daily mode, buy or dismiss it.
-
-    Detects the shop itself: callers can invoke it unconditionally, and if no
-    shop prompt is on screen it just does nothing.
-
-    Returns True if a shop prompt was handled, which always leaves the game on
-    the home screen (both the buy flows and the dismiss branch tap "home"). In
-    that case the caller must NOT wait to be back on the race menu. Returns False
-    when no shop prompt was present, leaving the game where it was.
-    """
     if not screen.see("shop"):
         return False
 

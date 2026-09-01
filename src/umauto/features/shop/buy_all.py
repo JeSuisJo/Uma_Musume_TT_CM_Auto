@@ -1,12 +1,9 @@
-"""Buy every daily-sale item in one tap (the ``"all"`` mode)."""
-
 import time
 
 from ... import screen
 
 
 def buy_all_sales():
-    """Buy every daily-sale item, then go home."""
     screen.tap("shop")
     screen.wait("in_shop")
     print("In the shop")

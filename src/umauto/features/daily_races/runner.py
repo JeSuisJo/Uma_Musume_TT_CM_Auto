@@ -1,5 +1,3 @@
-"""Daily Races mode: run a single daily race for the configured reward."""
-
 import os
 
 from ...config import config

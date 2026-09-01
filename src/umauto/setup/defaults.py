@@ -1,14 +1,3 @@
-"""Default config values and the option lists offered by the wizard.
-
-This module must stay importable *before* config.json exists, so it depends on
-nothing else in the package. The champion and shop-item lists are duplicated
-from :mod:`umauto.features.daily_legends.champions` and
-:mod:`umauto.features.shop.shop_items`: the wizard runs before config.json
-exists and therefore cannot import the ``features`` package (which reads
-config.json at import time). Keep the three lists in sync.
-"""
-
-# Default values, also used as the fallback when a question is skipped.
 DEFAULTS = {
     "steam": False,
     "steam_window_title": "umamusume",
@@ -25,7 +14,6 @@ DEFAULTS = {
     "daily_legends_champion": "Special Week",
 }
 
-# Champions offered in the Daily Legends Race (display names).
 DAILY_CHAMPIONS = [
     "El Condor Pasa",
     "Special Week",
@@ -58,7 +46,6 @@ DAILY_CHAMPIONS = [
     "Oguri Cap",
 ]
 
-# Shop items offered in the "specific" daily-sale buying mode (display names).
 SHOP_ITEMS = [
     "Star Piece",
     "Alarm Clock",

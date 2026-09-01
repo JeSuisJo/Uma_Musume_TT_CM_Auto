@@ -1,15 +1,8 @@
-"""Full daily routine: Daily Races, then Daily Legends, then Team Trials.
-
-Each step starts with ``wait_from_home``, so it re-syncs from the home screen
-on its own even if the previous step left the game on another menu.
-"""
-
 from ...driver import StopScript
 from .. import daily_legends, daily_races, team_trials
 
 
 def _step(label, func):
-    """Run one daily step, skipping it (not the whole routine) if it stops."""
     print(f"\n>>> {label}")
     try:
         func()
