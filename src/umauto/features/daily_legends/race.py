@@ -2,6 +2,7 @@ import time
 
 from ... import screen
 from ...config import config
+from ..popups import dismiss_uma_outing
 from ..shop import handle_daily_sales
 
 
@@ -36,6 +37,7 @@ def run_race():
     screen.wait("dl_reward")
     screen.tap("dl_reward")
     time.sleep(2.5)
+    dismiss_uma_outing()
     if not handle_daily_sales():
         screen.wait_any("in_daily_legends", "daily_legends_enter")
         screen.tap("home")

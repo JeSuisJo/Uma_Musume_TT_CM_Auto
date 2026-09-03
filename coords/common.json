@@ -90,5 +90,17 @@
       "region": [505, 896, 595, 920],
       "img": "img/steam/daily_race_confirm_runner.png"
     }
+  },
+  "next_uma_outing": {
+    "adb": {
+      "tap": [369, 921],
+      "region": [369, 921, 429, 949],
+      "img": "img/android/next_uma_outing.png"
+    },
+    "steam": {
+      "tap": [690, 1034],
+      "region": [356, 911, 385, 946],
+      "img": "img/steam/next_uma_outing.png"
+    }
   }
 }

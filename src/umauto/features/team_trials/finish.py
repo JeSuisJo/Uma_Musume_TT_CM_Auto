@@ -3,7 +3,13 @@ import time
 from ... import screen
 from ..shop import buy_sales
 
-_POPUPS = ("highscore", "story_unlocked", "next_go_to_reward", "next_reward")
+_POPUPS = (
+    "highscore",
+    "story_unlocked",
+    "next_go_to_reward",
+    "next_reward",
+    "next_uma_outing",
+)
 
 
 def finish_run():
