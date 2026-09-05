@@ -4,6 +4,7 @@ from .. import screen
 
 
 def dismiss_uma_outing():
+    time.sleep(5)
     if not screen.see("next_uma_outing"):
         return False
 
