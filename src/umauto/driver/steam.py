@@ -5,11 +5,14 @@ import pygetwindow as gw
 import pywintypes
 import win32con
 import win32gui
-from PIL import ImageGrab
+from PIL import Image, ImageGrab
 
 from ..config import config
 from ..paths import resolve
 from .base import Driver
+
+REFERENCE_WIDTH = 1920
+REFERENCE_HEIGHT = 1080
 
 
 class SteamDriver(Driver):
@@ -27,11 +30,25 @@ class SteamDriver(Driver):
         return windows[0]
 
     def ensure_ready(self):
-        self._window()
+        self.client_rect()
 
-    def _offset(self):
-        win = self._window()
-        return win.left, win.top
+    def client_rect(self):
+        hwnd = self._window()._hWnd
+        _, _, width, height = win32gui.GetClientRect(hwnd)
+        if width <= 0 or height <= 0:
+            self.stop(
+                f"Game window '{self.window_title}' has no visible client area. "
+                "Restore it (it must not be minimized), then try again."
+            )
+        left, top = win32gui.ClientToScreen(hwnd, (0, 0))
+        return left, top, width, height
+
+    def _to_screen(self, x, y):
+        left, top, width, height = self.client_rect()
+        return (
+            left + round(x * width / REFERENCE_WIDTH),
+            top + round(y * height / REFERENCE_HEIGHT),
+        )
 
     def focus(self):
         win = self._window()
@@ -71,33 +88,42 @@ class SteamDriver(Driver):
         except pywintypes.error as exc:
             print(f"Warning: could not focus the game window ({exc}).")
 
+    def capture(self):
+        left, top, width, height = self.client_rect()
+        image = ImageGrab.grab(
+            bbox=(left, top, left + width, top + height), all_screens=True
+        )
+        if image.size != (REFERENCE_WIDTH, REFERENCE_HEIGHT):
+            image = image.resize(
+                (REFERENCE_WIDTH, REFERENCE_HEIGHT), Image.Resampling.LANCZOS
+            )
+        return image
+
     def _screenshot(self, dest="temp.png"):
         dest = resolve(dest)
-        win = self._window()
-        image = ImageGrab.grab(bbox=(win.left, win.top, win.right, win.bottom))
-        image.save(dest)
+        self.capture().save(dest)
         return dest
 
     def tap(self, x, y):
-        ox, oy = self._offset()
-        pyautogui.click(ox + x, oy + y)
+        pyautogui.click(*self._to_screen(x, y))
 
     def hold(self, x, y, ms=500):
-        ox, oy = self._offset()
-        pyautogui.mouseDown(ox + x, oy + y)
+        pyautogui.mouseDown(*self._to_screen(x, y))
         time.sleep(ms / 1000)
         pyautogui.mouseUp()
 
     def swipe(self, x1, y1, x2, y2, ms=300):
-        ox, oy = self._offset()
-        pyautogui.moveTo(ox + x1, oy + y1)
-        pyautogui.drag(x2 - x1, y2 - y1, duration=ms / 1000)
+        sx1, sy1 = self._to_screen(x1, y1)
+        sx2, sy2 = self._to_screen(x2, y2)
+        pyautogui.moveTo(sx1, sy1)
+        pyautogui.drag(sx2 - sx1, sy2 - sy1, duration=ms / 1000)
 
     def drag_hold(self, x1, y1, x2, y2, move_ms=300, hold_ms=800):
-        ox, oy = self._offset()
-        pyautogui.moveTo(ox + x1, oy + y1)
+        sx1, sy1 = self._to_screen(x1, y1)
+        sx2, sy2 = self._to_screen(x2, y2)
+        pyautogui.moveTo(sx1, sy1)
         pyautogui.mouseDown()
-        pyautogui.moveTo(ox + x2, oy + y2, duration=move_ms / 1000)
+        pyautogui.moveTo(sx2, sy2, duration=move_ms / 1000)
         time.sleep(hold_ms / 1000)
         pyautogui.mouseUp()
 

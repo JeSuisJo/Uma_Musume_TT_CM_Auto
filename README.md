@@ -34,10 +34,15 @@ Prefer the terminal? `python main.py` still works, see
 
 ### Emulator / Game Settings
 
-| Platform | Resolution  | Additional |
-| -------- | ----------- | ---------- |
-| ADB      | 1080 x 800  | 240 DPI    |
-| Steam    | 1920 x 1080 | Fullscreen |
+| Platform | Resolution  | Additional            |
+| -------- | ----------- | --------------------- |
+| ADB      | 1080 x 800  | 240 DPI               |
+| Steam    | 1920 x 1080 | Fullscreen or windowed |
+
+On Steam, only the game area matters, not the screen: 1920 x 1080 fullscreen and
+a 1920 x 1080 window on a larger screen (1440p, 4K) behave the same, title bar
+and borders excluded. Another window size is rescaled to 1920 x 1080 before
+detection, which works but is less reliable the further it gets from that size.
 
 ### Python Dependencies
 
@@ -140,7 +145,8 @@ How settings take effect:
 
 On Steam with _Keep on top_ enabled, the window floats over the game and
 snaps to a preset spot while a mode runs, then returns to its place afterwards,
-handy on a fullscreen game's letterbox bar. On ADB, the connected emulator is
+handy on the game's letterbox bar. The spot follows the game window, so it stays
+right whether the game is fullscreen or in a window. On ADB, the connected emulator is
 detected (and saved) automatically before each run.
 
 Prefer to run it without the `.bat`:

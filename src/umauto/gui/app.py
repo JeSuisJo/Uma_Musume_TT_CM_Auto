@@ -4,7 +4,22 @@ _PLACEMENT_PIXELS = {"x": 967, "y": 7, "width": 947, "height": 1026}
 
 
 def _placement():
-    return dict(_PLACEMENT_PIXELS)
+    from ..driver import driver
+    from ..driver.steam import REFERENCE_HEIGHT, REFERENCE_WIDTH
+
+    try:
+        left, top, width, height = driver.client_rect()
+    except Exception:
+        return dict(_PLACEMENT_PIXELS)
+
+    scale_x = width / REFERENCE_WIDTH
+    scale_y = height / REFERENCE_HEIGHT
+    return {
+        "x": left + round(_PLACEMENT_PIXELS["x"] * scale_x),
+        "y": top + round(_PLACEMENT_PIXELS["y"] * scale_y),
+        "width": round(_PLACEMENT_PIXELS["width"] * scale_x),
+        "height": round(_PLACEMENT_PIXELS["height"] * scale_y),
+    }
 
 
 def run():
