@@ -32,6 +32,11 @@ FIELDS = [
         "label": "Use a parfait before each Team Trials run",
     },
     {
+        "key": "use_carrot_jelly_TT",
+        "type": "bool",
+        "label": "Use Carrot Jelly Mini when Team Trials RP runs out",
+    },
+    {
         "key": "use_parfait_daily_legends",
         "type": "bool",
         "label": "Use a parfait before each Daily Legends race",

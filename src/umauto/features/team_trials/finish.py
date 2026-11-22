@@ -2,6 +2,7 @@ import time
 
 from ... import screen
 from ..shop import buy_sales
+from .refill import refill_rp
 
 _POPUPS = (
     "highscore",
@@ -40,6 +41,8 @@ def finish_run():
         if screen.see_any("in_selection", "in_selection_refresh"):
             return "again"
         if screen.see("no_rp"):
+            if refill_rp():
+                return "refilled"
             _no_rp_exit()
             return "no_rp"
         time.sleep(0.5)

@@ -6,6 +6,7 @@ DEFAULTS = {
     "daily_sales_mode": "all",
     "shop_items": [],
     "use_parfait_TT": False,
+    "use_carrot_jelly_TT": False,
     "use_parfait_daily_legends": False,
     "cm_extra_run": True,
     "make_your_own_team": False,
