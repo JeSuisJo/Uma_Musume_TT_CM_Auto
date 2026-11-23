@@ -13,6 +13,7 @@ dist/
 *.egg-info/
 .ruff_cache/
 .venv/
+tools/
 
 # Launcher shortcut
 Uma Auto.lnk
