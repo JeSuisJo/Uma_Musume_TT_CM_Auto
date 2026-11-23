@@ -5,6 +5,7 @@ from ... import screen
 from .difficulty import select_difficulty
 from .finish import finish_run
 from .launch import launch_trial
+from .refill import refill_rp
 from .run import run_trial
 from .setup import setup_trial
 
@@ -24,6 +25,9 @@ def run():
             screen.tap("tt_button")
             if launch_trial():
                 print("No more RP")
+                if refill_rp():
+                    need_launch = True
+                    continue
                 screen.tap("no_rp_close")
                 time.sleep(1)
                 screen.tap("no_rp_confirm")
@@ -37,6 +41,10 @@ def run():
         status = finish_run()
         if status == "no_rp":
             return
+        if status == "refilled":
+            need_launch = True
+            run_number += 1
+            continue
         if status == "home":
             need_launch = True
         run_number += 1
